@@ -1,0 +1,1 @@
+- If needed there will be notes on html and css, but probably it's going to focus on core concepts and more important things
