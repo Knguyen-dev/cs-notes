@@ -1,0 +1,17 @@
+{
+  "semi": true,
+  "overrides": [
+    {
+      "files": ".ts",
+      "options": {
+        "semi": false
+      }
+    },
+    {
+      "files": "legacy/*",
+      "options": {
+        "semi": false
+      }
+    }
+  ]
+}
