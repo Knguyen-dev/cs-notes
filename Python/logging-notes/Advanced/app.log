@@ -1,0 +1,7 @@
+2023-09-25 10:55:09,140:__main__:Hey we're doing some debugging
+2023-09-25 11:01:25,392:__main__:Tried to divide by zero
+Traceback (most recent call last):
+  File "C:\Users\theno\OneDrive\Desktop\Sdev 265\Python-Logging-notes\Advanced\app.py", line 33, in divide
+    result = x/y
+             ~^~
+ZeroDivisionError: division by zero
