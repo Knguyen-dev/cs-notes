@@ -40,6 +40,7 @@ Notes on how to go about using eslint and prettier
    download the eslint vscode extension as well.
 5. Add 'lint' to our scripts to run eslint on the command line. Then do
    'npm run lint' and it'll show you any errors, warnings, etc. that eslint found
+6. One last thing, in 'index.js' we show how to disable eslint for certain lines of code and errors
 
 -   How to use both ('using-both'):
 
