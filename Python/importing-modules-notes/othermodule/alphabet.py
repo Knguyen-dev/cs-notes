@@ -1,0 +1,2 @@
+def alphabet():
+    return "abc"
