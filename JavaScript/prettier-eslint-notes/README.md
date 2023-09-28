@@ -47,7 +47,7 @@ Notes on how to go about using eslint and prettier
 1. Initialize package.json,
 2. Install eslint and prettier as save dev
 3. "npm init @eslint/config" initialize eslint;
-4. "npm install --save-dev eslint-config-pretter"; Turns off all eslint configs for things
+4. "npm install --save-dev eslint-config-prettier"; Turns off all eslint configs for things
    that prettier already handles. Then add 'prettier' to the 'extends' list in '.eslintrc' file
    as the last element
 5. However, some settings in your prettier settings ('.prettierrc') may conflict with
