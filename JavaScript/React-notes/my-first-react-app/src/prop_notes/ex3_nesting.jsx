@@ -28,10 +28,18 @@ used for displaying sections of content.
 */
 
 import { Avatar } from "./ex1_with_props"
+import PropTypes from "prop-types"
 
 // Card component
 function Card({ children }) {
 	return <div className="card">{children}</div>
+}
+
+// This is prop-validation, which you'll see fully explained in ex4
+// Just know that we mdae it so children has to be a component and its required to pass a component in
+// to make a Card component
+Card.propTypes = {
+	children: PropTypes.element.isRequired,
 }
 
 // Profile component

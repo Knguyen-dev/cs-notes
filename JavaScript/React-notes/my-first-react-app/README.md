@@ -6,7 +6,7 @@
 
 *   How to create components
 
--   function components: Just javascript functions. Make one in "Greeting.jsx", which is a functional component that returns jsx. NOTE: React components must be capitalized or they won't work as expected, so here we capitalized the function Greeting() because it's now a react component. Then you can literally use it like it's html and insert it in.
+-   function components: Just javascript functions. Make one in "Greeting.jsx", which is a functional component that returns jsx. NOTE: React components must be capitalized or they won't work as expected, so here we capitalized the function Greeting() because it's now a react component. Then you can literally use it like it's html and insert it in. Remember at the core of your components is just markup, so viewing them as special packages of markup makes sense
 
 # What is JSX
 
@@ -31,3 +31,7 @@
 -   Credit: https://www.youtube.com/watch?v=cx0S8JyiVxc
 
 # How to render multiple elements or conditionally render elements in JSX
+
+-   Credits:
+    1. Conditional Rendering: https://react.dev/learn/conditional-rendering
+    2. Rendering multiple elements: https://react.dev/learn/rendering-lists
