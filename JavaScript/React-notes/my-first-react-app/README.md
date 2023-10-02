@@ -35,3 +35,8 @@
 -   Credits:
     1. Conditional Rendering: https://react.dev/learn/conditional-rendering
     2. Rendering multiple elements: https://react.dev/learn/rendering-lists
+
+# States in React
+
+-   Outside of react, it could be a state of rest, drinking coffee, or you're currently exercising. Data to describe what's hapening to something.
+    In programming it's the current snapshot of your program or at part of it.

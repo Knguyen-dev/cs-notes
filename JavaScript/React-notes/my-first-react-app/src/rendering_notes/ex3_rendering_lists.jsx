@@ -46,7 +46,8 @@ function App() {
 	to DOM.
 
 - How to make a key?: 
-	1. Rather than generating keys on the fly, include keys in your data. 
+	1. Rather than generating keys on the fly, include keys in your data. So if you have some data in a list, have each one 
+	have an 'id' attribute or something similar.
 	2. If you're using a database use the key from the database. If it's locally persisted data, an incrementing counter works. 
 	3. You can use packages such as uuid when creating items as well if needed
 	- Rules of keys: Keys are UNIQUE and IMMUTABLE.
