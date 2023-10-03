@@ -51,6 +51,12 @@ function App() {
 	2. If you're using a database use the key from the database. If it's locally persisted data, an incrementing counter works. 
 	3. You can use packages such as uuid when creating items as well if needed
 	- Rules of keys: Keys are UNIQUE and IMMUTABLE.
+
+
+- credits: 
+	1. https://react.dev/learn/rendering-lists
+	2. https://www.theodinproject.com/lessons/node-path-react-new-rendering-techniques
+
 */
 
 import PropTypes from "prop-types"

@@ -40,3 +40,5 @@
 
 -   Outside of react, it could be a state of rest, drinking coffee, or you're currently exercising. Data to describe what's hapening to something.
     In programming it's the current snapshot of your program or at part of it.
+
+1. States trigger component to be re-rendered (recreated), and then they'll be displayed on screen.

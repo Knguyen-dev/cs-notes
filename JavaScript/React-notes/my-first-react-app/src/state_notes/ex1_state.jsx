@@ -38,6 +38,11 @@
 
 - Pitfalls: Hooks start with the 'use' keyword, and only call them at the top level of your components, or eventually your own hooks. You
 	can't use them inside loops, conditions, or other nested functions.
+
+
+- credit:
+	1. https://react.dev/learn/state-a-components-memory
+	2. https://www.theodinproject.com/lessons/node-path-react-new-introduction-to-state
 */
 
 import { useState } from "react"

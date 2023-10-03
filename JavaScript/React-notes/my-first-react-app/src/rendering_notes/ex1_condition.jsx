@@ -12,6 +12,10 @@
 + Conditionally assigning/saving JSX to a variable. You can reassign variables defined with let and we can assign those 
 	variables with the values of jsx. Look at how we can easily assign JSX to variable 'itemContent'. This is one 
 	solution to making our code more maintainable, and its one of the more flexible solutions compared to even ternary or using AND.
+
+-   Credits: https://react.dev/learn/conditional-rendering
+
+
 */
 
 import PropTypes from "prop-types"
