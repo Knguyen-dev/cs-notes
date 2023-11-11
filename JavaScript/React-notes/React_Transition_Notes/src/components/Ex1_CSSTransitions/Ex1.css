@@ -1,0 +1,72 @@
+/* 
++ Remember these classes just represent the stages of the transition
+
+- When exiting, our paragraph should be visible, but when we exit
+    our paragraph should be invisible. Use opacity
+
+1. At beginning of our exit transition, paragraph will start off as visible. So
+    put opacity to 1. 
+2. During our exit, it should slowly become opacity: 0. To do this
+    use transition: opacity. which is the transitions we want. For 
+    the duration of our transition, put the same value as we did 
+    for the CSSTransition component.
+
+    NOTE: At this point, when we enter the exit state, our paragraph
+        text changes to 'Exit', and then starts to slowly fade. However,
+        at the end of the transition, it will go back to opacity: 1
+        because we haven't styled myclass-exit-done yet. Let's 
+        do that right now.
+3. For 'myclass-exit-done' assign styles that should be 
+    kept after the transition is over.
+
+- When entering, the paragraph element should fade in.
+    1. For enter, start with opacity 0
+    2. for enter-active, during the transition it turns to visible
+        so opacity 1.
+    3. Then enter-done, after the transition we want to keep 
+        the values we want, so opacity 1.
+
+*/
+
+/* === Enter Transition === */
+.myclass-enter {
+    opacity: 0;
+}
+.myclass-enter-active {
+    opacity: 1;
+    transition: opacity 1000ms;
+}
+.myclass-enter-done {
+    opacity: 1;
+}
+
+/* === Exit Transition === */
+.myclass-exit {
+    opacity: 1;
+}
+.myclass-exit-active {
+    opacity: 0;
+    transition: opacity 1000ms;
+}
+.myclass-exit-done {
+    opacity: 0;
+}
+
+/* 
+=== Appear Transition === 
+- For this, we kind of want to copy what we did for 'entering', so we 
+    want to fade in the paragraph element.
+    
+NOTE: The good thing is it works similar, once the appear transition is done,
+    the 'myclass-appear-done' is added, but also the 'myclass-enter-done' is also 
+    added. Since the 'appear-done' was going to be opacity 1, we don't need it as
+    myclass-enter-done fixes the job for us.
+*/
+
+.myclass-appear {
+    opacity: 0;
+}
+.myclass-appear-active {
+    opacity: 1;
+    transition: opacity 1000ms;
+}

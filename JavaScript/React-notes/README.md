@@ -36,3 +36,10 @@
 
 2. Components Tab: Can help you find what component is rendering what element of the page. On the left panel it shows you the "React component tree", and
    by hovering over a component, it'll show you what its rendering on the page. On the right panel it shows you where that code ran from.
+
+-   Should learn:
+    1. Context API
+    2. Custom Hooks
+    3. React Router
+    4. memoization
+       etc.
