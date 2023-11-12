@@ -13,9 +13,6 @@
 4. Now you can import your svgs files as "react components".
    Do 'import MySvgIcon from "./iconPath?react" to import
    it. It used to be 'ReactComponent' but now it's this.
-
 5. Now we can use svgs as react components, but really they're
    still svg tags on the inside, it's just that this way we didn't
    have to do as much work.
-
-Timestamp: 07:26

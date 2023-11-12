@@ -53,11 +53,12 @@ icon-button: Defines css variable that's 50% of navbar size.
     filter: brightness(1.3);
 }
 
-/* Stylings for the SVGs
-
+/* 
+Stylings for the SVGs
 - Fill their colors and set a fixed width and height 
-
 */
-.icon-button svg {
+.navbar svg {
     fill: var(--text-color);
+    width: 20px;
+    height: 20px;
 }
