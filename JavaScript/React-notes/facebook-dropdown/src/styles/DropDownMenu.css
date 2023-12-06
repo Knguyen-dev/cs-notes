@@ -1,0 +1,100 @@
+/*
+- Styling for dropdown to make it look like facebook's. We 
+    make it positioned absolute. Since the parent isn't position
+    relative, it bases it's position on the window itself.
+
+- We do overflow hidden so that it hides any child elements 
+    that overlap the container, which'll happen a lot since
+    we're going to be sliding a lot of things through the drop-down
+
+- Our drop down is just a rectangle, we want to do transitions
+    on the content
+
+*/
+.drop-down {
+    position: absolute;
+    top: 58px;
+    width: 300px;
+    transform: translateX(-40%);
+    background-color: var(--bg);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    overflow: hidden;
+    transition: height var(--speed) ease;
+}
+.menu {
+    width: 100%;
+}
+
+.menu-item {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    border-radius: var(--border-radius);
+    transition: background var(--speed);
+    padding: 0.5rem;
+}
+.icon-left {
+    margin-right: 0.5rem;
+}
+
+.menu-item:hover {
+    background-color: #525357;
+}
+
+/* We want the right icon in the row to be 
+all the way to the right. With flexbox, you can 
+set the left margin of the last item to auto, and this 
+will push it to the right*/
+
+.icon-right {
+    margin-left: auto;
+}
+
+/* 
+- Setting up the transitions for the primary menu.
+    We want our main menu to slide in from left to right,
+    so initially have it on the left, and make it go to the right.
+    Then when user clicks away from the main menu, it goes 
+    back to the left.
+
+- The content is in 'drop-down'. So all translations are relative
+    to drop-down, and it's overflow hidden so user won't see 
+    these items
+
+- Seems like we don't need anything for the done classes, as 
+    when things are done, there is only one menu being placed
+    in the thing, meaning it's already in position when it's done. 
+*/
+
+.menu-primary-enter {
+    position: absolute;
+    transform: translateX(-110%);
+}
+.menu-primary-enter-active {
+    transform: translateX(0%);
+    transition: all var(--speed) ease;
+}
+.menu-primary-exit {
+    position: absolute;
+}
+.menu-primary-exit-active {
+    transform: translateX(-110%);
+    transition: all var(--speed) ease;
+}
+
+/* Transitions for secondary menu: We want this one 
+    to left from right to left. */
+.menu-secondary-enter {
+    transform: translateX(110%);
+}
+.menu-secondary-enter-active {
+    transform: translateX(0%);
+    transition: all var(--speed) ease;
+}
+
+.menu-secondary-exit-active {
+    transform: translateX(110%);
+    transition: all var(--speed) ease;
+}

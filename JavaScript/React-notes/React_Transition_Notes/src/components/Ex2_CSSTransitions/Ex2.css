@@ -1,0 +1,50 @@
+.alert-container {
+    display: flex;
+    margin: 8px auto;
+    justify-content: center;
+    column-gap: 8px;
+}
+
+/* Transitions for the alertBtn */
+.alertBtn-enter {
+    opacity: 0;
+}
+.alertBtn-enter-active {
+    opacity: 1;
+    transition: opacity 1000ms;
+}
+.alertBtn-enter-done {
+    opacity: 1;
+}
+.alertBtn-exit {
+    opacity: 1;
+}
+.alertBtn-exit-active {
+    opacity: 0;
+    transition: opacity 1000ms;
+}
+.alertBtn-exit-done {
+    opacity: 0;
+}
+
+/* Transitions for the alert itself */
+.alert-container-enter {
+    opacity: 0;
+}
+.alert-container-enter-active {
+    opacity: 1;
+    transition: opacity 1000ms;
+}
+.alert-container-enter-done {
+    opacity: 1;
+}
+.alert-container-exit {
+    opacity: 1;
+}
+.alert-container-exit-active {
+    opacity: 0;
+    transition: opacity 1000ms;
+}
+.alert-container-exit-done {
+    opacity: 0;
+}

@@ -1,0 +1,45 @@
+.todo-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.8em;
+}
+
+.todo-item {
+    /* background-color: aliceblue; */
+    display: flex;
+    align-items: center;
+    column-gap: 1.5em;
+}
+
+/* Fading Transitions for todo-item */
+
+.fade-appear {
+    opacity: 0;
+}
+.fade-appear-active {
+    opacity: 1;
+    transition: opacity 500ms;
+}
+
+.fade-enter {
+    opacity: 0;
+}
+.fade-enter-active {
+    opacity: 1;
+    transition: opacity 500ms;
+}
+.fade-enter-done {
+    opacity: 1;
+}
+.fade-exit {
+    opacity: 1;
+}
+.fade-exit-active {
+    opacity: 0;
+    transition: opacity 500ms;
+}
+.fade-exit-done {
+    opacity: 0;
+}
