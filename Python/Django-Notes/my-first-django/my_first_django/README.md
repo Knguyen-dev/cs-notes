@@ -11,12 +11,41 @@
 5. Manually select the python interpreter (python.exe) in your virtual environment to fix path errors
 6. python manage.py runserver; Runs django app, like liveserver
 
+# Migrations:
+
+-   Database migrations commands allow us to commits or changes to the database our project is using.
+    On running our first migration command, the Django app will create a database for us
+    1. python manage.py makemigrations; detect changes to database models and creates .py files
+       that have code to apply those changes you made to them to the actual database.
+    2. python manage.py migrate; Applies changes to the database, so reads those migration.py files and runs them.
+
+# Databases:
+
+-   Django has its own ORM. So we can interact with the database using object oriented programming, and
+    to do this, we represent the objects in our tables as classes or 'models'. Besides this django allows us to use
+    different databases without changing our code, so you could have an sqlite database for testing, and a postgres
+    database for production, and the code to query both of those could be the same.
+
+1.  Define your models in blog/models.py.
+2.  After making changes to your models. Do 'python manage.py makemigrations' to create the files that can change your database
+    accordingly. Then do 'python manage.py migrate' to run those files and apply those changes to your database.
+
+# Admin Page:
+
+-   Place where you can keep track and manage data on your site. It allows us to do a lot of backend work
+    very easily.
+-   Create an admin user so you can login:
+    1. python manage.py createsuperuser (remember you need to have a database or run 'python manage.py migrate' which makes one)
+    2. You'll be prompted an email and password, so here I put "knguyen44", "knguyensky@gmail.com", and "password".
+       Go to admin route on your site, and you'll be able to login now.
+
 # Project Structure
 
 1. manage.py: Allows us to run console commands
 2. settings.py: Where we change different settings and configurations of the site.
 3. urls.py: Sets up mapping of certain urls for our user
 4. wsgi.py: How our py web app and server communication.
+5. asgi.py: For asynchronous web apps and servers to communicate with each toher.
 
 # Apps:
 
