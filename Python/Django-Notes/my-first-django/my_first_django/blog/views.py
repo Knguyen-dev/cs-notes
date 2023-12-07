@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from .models import Post # import Post so we can get posts from the database
+
 '''
 Views: These will be the functions that render markup, render page content, or run 
     when a user goes on a specific url route in our website. Will always return an 
@@ -22,27 +23,11 @@ Views: These will be the functions that render markup, render page content, or r
 
 '''
 
-posts = [
-    {
-        "author": "CoreyMs",
-        "title": "Blog Post 1",
-        'content': 'Blog Post Content 1',
-        "date_posted": 'August 27th, 2018',
-    },
-    {
-        "author": "Jane Doe",
-        "title": "Blog Post 2",
-        'content': 'Blog Post Content 2',
-        "date_posted": 'August 30th, 2018',
-    },
-]
-
-
 
 # Create your views here.
 def home(request):
     context = {
-        "posts": posts,
+        "posts": Post.objects.all(),
     }
     return render(request, "blog/home.html", context)
 

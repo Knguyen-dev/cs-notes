@@ -10,14 +10,18 @@
 4. django-admin startproject my_first_django
 5. Manually select the python interpreter (python.exe) in your virtual environment to fix path errors
 6. python manage.py runserver; Runs django app, like liveserver
+7. python manage.py shell; Runs the python django shell, there you can test out messing with databases and models. Then exit() will exit out of the shell.
 
 # Migrations:
 
 -   Database migrations commands allow us to commits or changes to the database our project is using.
-    On running our first migration command, the Django app will create a database for us
+    On running our first migration command, the Django app will create a database for us. The useful
+    thing about migrations, is that we can make easily changes to our database even when there's also data
+    in it.
     1. python manage.py makemigrations; detect changes to database models and creates .py files
        that have code to apply those changes you made to them to the actual database.
     2. python manage.py migrate; Applies changes to the database, so reads those migration.py files and runs them.
+    3. python manage.py appName migrationNum; Prints the sql that'd be applied to the database
 
 # Databases:
 
@@ -26,9 +30,12 @@
     different databases without changing our code, so you could have an sqlite database for testing, and a postgres
     database for production, and the code to query both of those could be the same.
 
-1.  Define your models in blog/models.py.
-2.  After making changes to your models. Do 'python manage.py makemigrations' to create the files that can change your database
-    accordingly. Then do 'python manage.py migrate' to run those files and apply those changes to your database.
+    1.  Define your models in blog/models.py.
+    2.  After making changes to your models. Do 'python manage.py makemigrations' to create the files that can change your database accordingly. Then do 'python manage.py migrate' to run those files and apply those changes to your database.
+    3.  Run the python shell which is where you'll be able to test out and mess with database items
+    4.  Add model to admin page. Go to blog/admin.py and
+        register your models so that they show up and are
+        interactable on the admin page.
 
 # Admin Page:
 

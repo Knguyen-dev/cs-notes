@@ -47,9 +47,17 @@ class Post(models.Model):
         Create the relationship by tracking the corresponding user of that Post with a foreign key that links User from "User" table. So 'on delete' of 
         that user, all posts related to that user are deleted as well.
 
+    NOTE: When you define a ForeignKey relationship between models, Django
+    will also create the reverse relationship. Meaning that yes Post can reference and access a User 
+    object, but also django creates modelname_set, which allows user to access posts 
+    linked to it.
+
 
     '''
     title = models.CharField(max_length=100)
     content = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title

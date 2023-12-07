@@ -1,20 +1,25 @@
 {% extends "blog/base.html" %}
 
 {% comment %} 
++ How to use variables in j
     1. Don't need anything to access stuff defined by keys in 'context'
     2. Need double curly braces to access other variables
 
     NOTE: How when accessing objects, we aren't 
         strictly using python syntax. Django lets us do post.title 
         instead of bracket notation.
-{% endcomment %}
 
-{% comment %} 
 + Inheriting the base template
 1. Put extends statement, make sure it's the first tag in the file
 2. Put markup for hte page inside the content block
-{% endcomment %}
 
++ Manipulating dates in django docs: Simply use '|date "date_formatting_string"'
+
+
+https://docs.djangoproject.com/en/2.0/ref/templates/builtins/#date
+
+{% endcomment %}
+ 
 
 {% block content %}
     <h1>Welcome to home page!</h1>
@@ -23,7 +28,9 @@
             <div class="media-body">
                 <div class="article-metadata">
                 <a class="mr-2" href="#">{{ post.author }}</a>
-                <small class="text-muted">{{ post.date_posted }}</small>
+
+                
+                <small class="text-muted">{{ post.date_posted |date:"F d, Y" }}</small>
                 </div>
                 <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
                 <p class="article-content">{{ post.content }}</p>
