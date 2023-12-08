@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="style.css" />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+    </head>
+    <body>
+        <!-- 
+        
+        row-cols-x: Makes it so your row only supports x columns. So 
+            if we use more than x columns, we'll wrap the extra columns to
+            the next row.
+        
+        1. On lg and above, row supports 4 columns. Then for
+            other screens, it will default to 2 columns per row.
+
+         -->
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h1>Ex1: Customizing rows</h1>
+                </div>
+            </div>
+            <div class="row row-col-lg-4 row-cols-2">
+                <div class="col"><div class="box"></div></div>
+                <div class="col"><div class="box"></div></div>
+                <div class="col"><div class="box"></div></div>
+                <div class="col"><div class="box"></div></div>
+            </div>
+        </div>
+
+        <!-- 
+
+            gx-x: horizontal gap
+            gy-x: vertical gap
+            g-x: Gives gap in both directions
+
+            1. Row supports 2 columns before wrapping. For lg and above 
+            screens the vertical gap is 2, but all others will
+            have a vertical gap of 2.
+
+            NOTE: You can nest rows inside of rows as much as you
+                want. However, always follow the container->row->col formula.
+                Every direct child of container must be a 'row' and every
+                direct child of 'row' must be a 'col'. This is so that
+                spacing is correct.
+         -->
+        <div class="container">
+            <div class="row">
+                <div class="col"><h1>Ex2: Adding spacing to rows</h1></div>
+            </div>
+            <div class="row row-cols-2 gy-4 gy-lg-2">
+                <div class="col"><div class="box"></div></div>
+                <div class="col"><div class="box"></div></div>
+                <div class="col"><div class="box"></div></div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col"><div class="box"></div></div>
+                        <div class="col"><div class="box"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

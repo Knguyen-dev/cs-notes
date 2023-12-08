@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="style.css" />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+    </head>
+    <body>
+        <div class="container-md">
+            <h1>Ex.1 Medium Container</h1>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure
+                tenetur illo molestiae quod ullam corporis dolores fugiat
+                dolorem obcaecati? Nulla veniam eum assumenda quis dignissimos
+                neque dolore fugit sed nam!
+            </p>
+        </div>
+
+        <!-- 
+
+            - row & columns: Rows use flexbox which is why the columns are 
+            always evenly spaced. We do "col-x" to make a column
+            span x columns. For example, doing 'col-6' makes a div
+            span 6 columns, whilst the take up the remaining space.
+
+            NOTE: 
+            1. Even doing 'col-10' and you have 3 other columns. Bootstrap
+                won't add additional columns to evenly distribute to the others.
+                The other columns will just cleanly and evenly span whatever's left.
+            2. If you have columns 8 and 5, then since it goes over 12 column limit, 
+                the latter column is going to be pushed to the next flexbox row. So 
+                remmeber to count your columns to know what's happening
+         -->
+
+        <div class="container">
+            <h2>Ex.2 Spanning Columns</h2>
+
+            <div class="row">
+                <!-- 
+                    1. Spans 6 columns
+                    2. Takes whatever space is left after other columns since not specified
+                    3. Takes 3 columns
+                    4. Takes only minimum amount of space required to fit the content
+                    NOTE: With this, the column layout will be the same on all screens.
+                 -->
+                <div class="col-6">
+                    <div class="box"></div>
+                </div>
+                <div class="col">
+                    <div class="box"></div>
+                </div>
+                <div class="col-3">
+                    <div class="box"></div>
+                </div>
+                <div class="col-auto">
+                    <div class="box">textor</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 
+            Ex2: Doing "col-lg-4" would make it so on lg and above, 
+                it only spans 4 columns, and for screens smaller. Note
+                that in this case if you specified 'col-size-x', on
+                screens that aren't covered it will defaults to taking 100% width 
+                so all 12 columns. So to avoid that, you'll want to make sure 
+                you're sizing things to cover all other screen sizes.
+
+         -->
+
+        <div class="container">
+            <h2>Ex.3 Changing column layout on different sizes</h2>
+            <!-- 
+                1. On extra-large screens and above 2 columns. On lg it takes 4 columns. for all
+                    other screens that are smaller it takes 8.
+                2. Then we just have a column that spans 4 in all cases.
+
+                NOTE: Here we're able to change how columns span in our 
+                    grid layout based on the size of the screen.
+             -->
+            <div class="row">
+                <div class="col-xl-2 col-lg-4 col-8">
+                    <div class="box"></div>
+                </div>
+                <div class="col-4">
+                    <div class="box"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <h2>Ex.4 Offsetting columns</h2>
+            <!-- 
+                - offset-x: Makes it seem like there's an x column space in 
+                    to the left of a column. This actually does use up
+                    x columns in the row, but it's an easy way to push
+                    columns over if you need.
+                1. Takes 4 columns and has one-column space taken 
+                2. Takes up 4 columns but has a 3-columned space taken.
+                    In total, all twelve columns are taken.
+                
+                note: Of course you can indicate a size as well, with 
+                    offset-size-x when you want column spaces to appear 
+                    on certain screen sizes.
+             -->
+            <div class="row">
+                <div class="col-4 offset-1">
+                    <div class="box"></div>
+                </div>
+                <div class="col-4 offset-3">
+                    <div class="box"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
