@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="style.css" />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+    </head>
+    <body>
+        <!-- 
+            - Floating Label: 
+            1. Label needs to come after input element
+            2. Input element needs to have a placeholder value for this to work
+
+
+
+
+            - Form validation: We override default form validation. Regardless of the form's result, we 
+                add 'was-validated' class to it. When this class is added, bootstrap will look at the input elements
+                and add stylistic classes to indicate whether input was valid or not. So essentially, when the form
+                fails the first time, this class will be added, and so on every input change bootstrap will track
+                whether the input is valid or not, and style the input element accordingly.
+
+            NOTE: 
+            
+            1. Generally we add the class after the first time is submitted, because if we add the class by 
+                default, it's going to show we have bad input when we just started and haven't inputted anything
+         -->
+        <div class="container">
+            <form novalidate>
+                <div class="form-floating">
+                    <input
+                        type="email"
+                        id="email"
+                        class="form-control"
+                        placeholder="Enter email"
+                        required
+                    />
+                    <label for="email" class="form-label">Email</label>
+
+                    <!-- We can have error messages too. Note these have to come underneath -->
+                    <div class="invalid-feedback">Invalid email</div>
+                    <div class="valid-feedback">Correct email</div>
+                </div>
+                <button>Submit</button>
+            </form>
+        </div>
+
+        <script>
+            const form = document.querySelector("form")
+            form.addEventListener("submit", (e) => {
+                if (!form.checkValidity()) {
+                    e.preventDefault()
+                }
+
+                form.classList.add("was-validated")
+            })
+        </script>
+    </body>
+</html>

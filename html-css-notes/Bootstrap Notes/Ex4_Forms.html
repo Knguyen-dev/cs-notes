@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="style.css" />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+    </head>
+    <body>
+        <div class="container">
+            <!-- 
+                'form-label': Class used for styling a form label
+                'form-control-xx': Class used for styling input-related elements.
+                    You may enter the size in order to control the size of the 
+                    form control element
+
+
+             -->
+            <h2>Example 1: Adding form styles</h2>
+            <form>
+                <div class="mb-3">
+                    <label for="ex1-email" class="form-label"
+                        >Regular input</label
+                    >
+                    <input type="email" id="ex1-email" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <h2>Different input sizings</h2>
+                    <input
+                        type="text"
+                        class="form-control form-control-sm"
+                        placeholder=".form-control-sm"
+                    />
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder=".form-control"
+                    />
+                    <input
+                        class="form-control form-control-lg"
+                        type="text"
+                        placeholder=".form-control-lg"
+                    />
+                </div>
+
+                <!-- Styling textarea, rows means number of lines of text before scrolling -->
+                <div class="mb-3">
+                    <label for="" class="form-label">Text area</label>
+                    <textarea class="form-control" rows="4"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Disabled input</label>
+                    <input type="email" class="form-control" disabled />
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label"
+                        >A readonly input</label
+                    >
+                    <input
+                        type="email"
+                        class="form-control"
+                        value="someEmail@gmail.com"
+                        readonly
+                    />
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label"
+                        >Makes your input look like a regular text
+                        element</label
+                    >
+                    <input
+                        type="email"
+                        class="form-control form-control-plaintext"
+                        value="someEmail@gmail.com"
+                        readonly
+                    />
+                </div>
+
+                <div class="mb-3">
+                    <label for="fileInput">Single file input</label>
+                    <input class="form-control" type="file" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="fileInput">multiple file input</label>
+                    <input class="form-control" type="file" multiple />
+                </div>
+
+                <div class="mb-3">
+                    <label for="color-picker">Color Picker</label>
+                    <input
+                        id="color-picker"
+                        type="color"
+                        class="form-control form-control-color"
+                    />
+                </div>
+
+                <div class="mb-3">
+                    <label for="customRange1" class="form-label"
+                        >Example Range
+                    </label>
+                    <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="5"
+                        class="form-range"
+                    />
+                </div>
+
+                <div class="mb-3">
+                    <label for="selectExample">Select element</label>
+                    <select class="form-select">
+                        <option>One</option>
+                        <option>Two</option>
+                    </select>
+                </div>
+
+                <!-- With check boxes, each checkbox needs to be wrapped around a form-check -->
+
+                <div class="mb-5">
+                    <h2>Example: Checkboxes</h2>
+                    <div class="form-check">
+                        <input
+                            type="checkbox"
+                            id="check_1"
+                            class="form-check-input"
+                        />
+                        <label for="check_1" class="form-check-label"
+                            >Default checkbox</label
+                        >
+                    </div>
+
+                    <div class="form-check">
+                        <input
+                            type="checkbox"
+                            id="check_2"
+                            class="form-check-input"
+                            checked
+                        />
+                        <label for="check_2" class="form-check-label"
+                            >Checked checkbox</label
+                        >
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <h2>Radio buttons</h2>
+                    <div class="form-check">
+                        <input
+                            type="radio"
+                            class="form-check-input"
+                            id="radio_1"
+                            name="radio_group"
+                        />
+                        <label for="radio_1" class="form-check-label"
+                            >Default radio</label
+                        >
+                    </div>
+                    <div class="form-check">
+                        <input
+                            type="radio"
+                            class="form-check-input"
+                            id="radio_2"
+                            name="radio_group"
+                            checked
+                        />
+                        <label for="radio_2" class="form-check-label"
+                            >Checked radio</label
+                        >
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <h2>Checkboxes as switches in Bootstrap</h2>
+
+                    <div class="form-check form-switch form-check-inline">
+                        <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="switch_1"
+                        />
+                        <label for="switch_1" class="form-check-label"
+                            >Switch 1</label
+                        >
+                    </div>
+                    <div class="form-check form-switch form-check-inline">
+                        <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="switch_2"
+                        />
+                        <label for="switch_2" class="form-check-label"
+                            >Switch 2</label
+                        >
+                    </div>
+                </div>
+
+                <button>Submit</button>
+            </form>
+        </div>
+    </body>
+</html>

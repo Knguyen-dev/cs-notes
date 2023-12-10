@@ -20,6 +20,11 @@ body::before {
     font-size: 2rem;
 }
 
+/* Add in the transition for the floating label */
+.form-floating label {
+    transition: all ease-in-out 0.1s;
+}
+
 @media (min-width: 576px) {
     body::before {
         content: "SM";

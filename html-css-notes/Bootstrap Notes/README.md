@@ -6,9 +6,9 @@
 
 -   Intellisense but for css, and it allows autocompletion of class names and ids, so it's really convenient.
 
-# Setting up boostrap:
+# Setting up bootstrap:
 
-1. Include primary boostrap cdn links to your target html file
+1. Include primary bootstrap cdn links to your target html file
 2. Now we have access to bootstrap. You should see that bootstrap has already applied default stylings.
 
 # Boostrap grid system:
@@ -28,3 +28,13 @@
 # Credits:
 
 1. https://www.youtube.com/watch?v=Jyvffr3aCp0
+
+# Setting up sass for bootstrap
+
+1. npm install bootstrap; installing bootstrap
+2. npm install node-sass --save-dev; sass compiler that converts sass into css for browser to understand
+3. In node_modules/bootstrap, all the compiled css is in dist folder. All
+   bootstrap related JavaScript code is in js, and all Sass files are in scss folder.
+4. Create a 'custom.scss' since we want to customize the sass styles we get from bootstrap, and
+   we aren't going to do that by changing the core scss files.
+5. Create script to compile scss in package.json
