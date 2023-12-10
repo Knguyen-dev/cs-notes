@@ -17,24 +17,7 @@
 
 -   row: Rows are actually using flexbox, which is why columns are evenly spaced. Grid uses a 12-column system where items share those 12 columns. Of course you can affect the amount of columns a singular column spans.
 
-# Boostrap Containers:
-
--   Containers in bootstrap will change their size automatically at different screen width breakpoints to make things more responsive.
-
-1. class "container": For extra small screens, the container takes the entire width of the screen (fluid), but for larger screens, it'll just take a set amount instead. This is good enough for most use cases.
-2. For example, "container-md" is a medium container. For sizes medium and up, it'll have a set width and snap accordingly to size changes. However, for sizes smaller than medium, it'll become fluid and take the full width. Remember this pattern.
-3. 'container-fluid': Will always take up 100% of the width, hence the name.
-
 # Credits:
 
-1. https://www.youtube.com/watch?v=Jyvffr3aCp0
-
-# Setting up sass for bootstrap
-
-1. npm install bootstrap; installing bootstrap
-2. npm install node-sass --save-dev; sass compiler that converts sass into css for browser to understand
-3. In node_modules/bootstrap, all the compiled css is in dist folder. All
-   bootstrap related JavaScript code is in js, and all Sass files are in scss folder.
-4. Create a 'custom.scss' since we want to customize the sass styles we get from bootstrap, and
-   we aren't going to do that by changing the core scss files.
-5. Create script to compile scss in package.json
+1. Web Dev Simplified: https://www.youtube.com/watch?v=Jyvffr3aCp0
+2. NetNinja: https://www.youtube.com/watch?v=yCCIztB-S_k&list=PL4cUxeGkcC9joIM91nLzd_qaH_AimmdAR&index=8
