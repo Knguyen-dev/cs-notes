@@ -21,10 +21,10 @@ body::before {
 }
 
 /* Add in the transition for the floating label */
-.form-floating label,
+/* .form-floating label,
 .btn {
     transition: all ease-in-out 0.2s;
-}
+} */
 
 @media (min-width: 576px) {
     body::before {
