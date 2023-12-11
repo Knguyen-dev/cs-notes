@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dropdowns</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+    </head>
+    <body>
+        <!-- 
+            + Dropdowns are achieved by toggle the "data-bs-toggle='dropdown'"
+            They are different from 'collapse' as dropdown doesn't need 'data-bs-target' 
+            but it seems to target the nearest element with class 'dropdown-menu'
+
+         -->
+        <div class="container-md">
+            <h2>Example 1: Regular Dropdown</h2>
+            <div class="dropdown">
+                <button
+                    class="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                >
+                    Dropdown button
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#" class="dropdown-item">First</a></li>
+                    <li><a href="#" class="dropdown-item">Second</a></li>
+                    <li><a href="#" class="dropdown-item">Third</a></li>
+                </ul>
+            </div>
+
+            <!-- A that can act as a regular button, but also show a drop-down.
+            This is achieved during btn-group -->
+            <h2>Example 2: Split button</h2>
+            <div class="btn-group">
+                <button type="button" class="btn btn-danger">Action</button>
+                <button
+                    type="button"
+                    class="btn btn-danger dropdown-toggle dropdown-toggle-split"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                >
+                    <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li>
+                        <a class="dropdown-item" href="#">Another action</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#"
+                            >Something else here</a
+                        >
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                        <a class="dropdown-item" href="#">Separated link</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>

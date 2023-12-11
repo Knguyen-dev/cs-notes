@@ -19,13 +19,13 @@
 
 # Main Takeaway
 
--   Bootstrap provides you with the templates and foundational styles to get the job done, but if you don't like things such as colors or how something looks, you are
-    encouraged to change and tinker with it to personalize it to your needs.
-    You may not use everything that bootstrap offers such as the navbar, or even
-    something important like the grid-system, but it's important to know that
-    you can take something you like and try to customize it yourself.
+-   Bootstrap provides the components, but it makes it very easy to change stuff around.
+    As well as this, these notes aren't a comprehensive guide on the components, so the best
+    solution would be reading the documentation when you really want to do something with a
+    component. The docs are comprehensive and surprisingly easy to read.
 
 # Credits:
 
 1. Web Dev Simplified: https://www.youtube.com/watch?v=Jyvffr3aCp0
 2. NetNinja: https://www.youtube.com/watch?v=yCCIztB-S_k&list=PL4cUxeGkcC9joIM91nLzd_qaH_AimmdAR&index=8
+3. Bootstrap Documentation: https://getbootstrap.com/docs/5.2/components/accordion/
