@@ -47,3 +47,7 @@ body::before {
         content: "XXL";
     }
 }
+
+.content-hidden {
+    display: none;
+}

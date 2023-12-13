@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Modal</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="../style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <h1>Example 1: Regular modal</h1>
+            <!-- Button trigger modal -->
+            <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+            >
+                Launch demo modal
+            </button>
+
+            <!-- 
+            - Example Modal:
+
+            'data-bs-backdrop': By default if you click outside of the modal it will close.
+                Setting this to 'static' makes it so that doesn't happen. 
+
+            'data-bs-keyboard': 'false', makes it so you can't use esc key to exit out of modal. 
+                Typically used with data-bs-backdrop: 'static' though.
+
+
+            'modal-dialog-scrollable': Makes it so your modal is vertically scrollable. 
+                You'll set a max-height on the 'modal-content', and when content can't 
+                be fit in that height, it becomes scrollable
+            
+            
+            'modal-dialog-centered': Makes modal pop up vertically centerd on the screen.
+                By default modals appear near the top of the screen, but this makes it appear 
+                in the center.
+            
+            'fade': Gives that fade in and out animation when animations are enabled.
+            'tabindex': -1 means the user can't navigate to modal using the keyboard
+            
+            -->
+            <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+            >
+                <!-- Where all of the text content goes -->
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Header with close button -->
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                Modal title
+                            </h1>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+
+                        <!-- Body -->
+                        <div class="modal-body">
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Cumque autem, atque ut iure natus eos, nostrum
+                            ex quae possimus alias fugiat obcaecati esse. Ipsa,
+                            minima.
+                        </div>
+
+                        <!-- Footer with save and close buttons -->
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Close
+                            </button>
+                            <button type="button" class="btn btn-primary">
+                                Save changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="mt-5">Example 2: More customized modal</h2>
+            <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#customizedModal"
+            >
+                Launch demo modal
+            </button>
+            <div
+                class="modal fade"
+                id="customizedModal"
+                tabindex="-1"
+                aria-labelledby="customizedModalLabel"
+                aria-hidden="true"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+            >
+                <!-- Where all of the text content goes -->
+                <div
+                    class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+                >
+                    <div class="modal-content" style="max-height: 300px">
+                        <!-- Header with close button -->
+                        <div class="modal-header">
+                            <h1
+                                class="modal-title fs-5"
+                                id="customizedModalLabel"
+                            >
+                                My modal title
+                            </h1>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+
+                        <!-- Body -->
+                        <div class="modal-body">
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Esse aliquid facilis velit sit veniam, sequi
+                            voluptates, repudiandae tempora nihil corrupti
+                            consequuntur, perferendis excepturi voluptatem
+                            recusandae molestiae alias suscipit odit enim dolore
+                            eum dolorum praesentium temporibus. Numquam fugiat
+                            dolorem suscipit dignissimos, minus voluptate
+                            obcaecati dolor ipsam eum commodi. Quos, nobis!
+                            Architecto aperiam, beatae nostrum explicabo ab
+                            dolor laboriosam consequatur dolore neque aliquam
+                            necessitatibus illo exercitationem consectetur
+                            minima perferendis consequuntur maxime excepturi
+                            commodi minus! Corporis odio consequatur rerum,
+                            quibusdam nihil corrupti dolores dolore labore magni
+                            sit vero doloremque eveniet officia dolorum non
+                            iusto incidunt soluta necessitatibus reiciendis et
+                            hic pariatur provident. Illo.
+                        </div>
+
+                        <!-- Footer with save and close buttons -->
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Close
+                            </button>
+                            <button type="button" class="btn btn-primary">
+                                Save changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>

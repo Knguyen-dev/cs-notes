@@ -4,12 +4,17 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Net Ninja Pro - the Book</title>
+
+        <!-- Our compiled css file -->
+        <link rel="stylesheet" href="css/main.css">
+
+        <!-- Boostrap icons -->
         <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css"
         />
+
+        <!-- Custom css for seeing the screen size -->
         <link rel="stylesheet" href="style.css" />
         <style>
             section {
@@ -37,10 +42,11 @@
 
         <nav class="navbar navbar-expand-md navbar-light">
             <div class="container-xxl">
-                <!-- Title of site -->
+                <!-- Title of site; use bootstrap icon-->
                 <a href="#intro" class="navbar-brand">
-                    <span class="fw-bold text-secondary"
-                        >Net Ninja Pro - The Book</span
+                    <span class="fw-bold text-secondary">
+                        <i class="bi bi-book-half"></i>
+                        Net Ninja Pro - The Book</span
                     >
                 </a>
 
@@ -98,6 +104,9 @@
 
         3. At medium size take 5 columns and show an image. Else at 
             small size we don't show the image. Also center the text
+
+        4. As a result, on medium and higher, both columns share the row evenly, whilst on
+            smaller screens, they both take 100% columns, resulting in them being on different 'rows' and stacking.
         -->
         <section id="intro">
             <div class="container-lg">
@@ -116,6 +125,12 @@
                         <a href="#pricing" class="btn btn-secondary btn-lg"
                             >Buy Now</a
                         >
+
+                        <!-- Open sidebar / offcanvas -->
+                        <a href="#sidebar" class="d-block mt-3" data-bs-toggle="offcanvas" role="button" aria-controls="sidebar">Explore other books</a>
+
+
+
                     </div>
                     <div class="col-md-5 text-center d-none d-md-block">
                         <img
@@ -382,12 +397,11 @@
             </div>
         </section>
 
-        <!-- reviews list -->
-
-        <section id="reviews" class="bg-light">
+        <!-- reviews list; with star icons to represent customer reviews-->
+        <section id="reviews" class="bg-altlight">
             <div class="container-lg">
                 <div class="text-center">
-                    <h2>Book Reviews</h2>
+                    <h2><i class="bi bi-stars text-altdark"></i>Book Reviews</h2>
                     <p class="lead">
                         What my students have said about the book...
                     </p>
@@ -397,6 +411,13 @@
                     <div class="col-lg-8">
                         <div class="list-group">
                             <div class="list-group-item py-3">
+                                <div class="pb-2">
+                                    <i class="bi bi-star-fill text-altdark"></i>
+                                    <i class="bi bi-star-fill text-altdark"></i>
+                                    <i class="bi bi-star-fill text-altdark"></i>
+                                    <i class="bi bi-star-fill text-altdark"></i>
+                                    <i class="bi bi-star-fill text-altdark"></i>
+                                </div>
                                 <h5 class="mb-1">
                                     A must buy for everyone aspiring web dev
                                 </h5>
@@ -408,6 +429,13 @@
                                 <small>Review by Mario</small>
                             </div>
                             <div class="list-group-item py-3">
+                                <div class="pb-2">
+                                    <i class="bi bi-star-fill text-altdark"></i>
+                                    <i class="bi bi-star-fill text-altdark"></i>
+                                    <i class="bi bi-star-fill text-altdark"></i>
+                                    <i class="bi bi-star-fill text-altdark"></i>
+                                    <i class="bi bi-star-half text-altdark"></i>
+                                </div>
                                 <h5 class="mb-1">
                                     A must buy for everyone aspiring web dev
                                 </h5>
@@ -424,14 +452,209 @@
             </div>
         </section>
 
-        <!-- contact form -->
+        <!-- contact form: 
+        row: There's only one form, but we still put it in a row so that it's in 
+            our grid system. As a result, we can later adjust how big our form is (the amount of cols it spans)
+            based on the screen-size. Make sure column containing form is always horizontally centered.
+            On large screens form is going to be 6 columns, but on medium and smaller
+            we want to make it full width. 
+        -->
+        <section id="contact">
+            <div class="container-lg">
+                <div class="text-center">
+                    <h2>Get in Touch</h2>
+                    <p class="lead">
+                        Questions to ask? Fill out the form to contact us
+                        directly!
+                    </p>
+                </div>
 
-        <!-- get updates / modal trigger -->
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <form id="query-form" novalidate>
+                            <!-- Normally you use 'invalid-feedback', but here we make your own -->
+                            <div
+                                class="text-center content-hidden"
+                                id="query-form-feedback"
+                            >
+                                <h5 class="text-danger">
+                                    Invalid form submission
+                                </h5>
+                            </div>
 
+                            <!-- Using input groups with labels and icons -->
+                            <label for="email" class="form-label"
+                                >Email Address:</label
+                            >
+                            <div class="input-group mb-4">
+                                <span class="input-group-text">
+                                    <i class="bi bi-envelope-fill"></i>
+                                </span>
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    id="email"
+                                    placeholder="e.g. mario@example.com"
+                                    required
+                                />
+
+                                <div class="input-group-text">
+                                    <i
+                                        class="bi bi-question-circle text-muted"
+                                    ></i>                                    
+                                </div>
+                            </div>
+
+                            <label for="name" class="form-label">Name:</label>
+                            <div class="input-group mb-4">
+                                <span class="input-group-text">
+                                    <i class="bi bi-person-fill"></i>
+                                </span>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="name"
+                                    placeholder="e.g. Mario"
+                                    required
+                                />
+                                <div class="input-group-text">
+                                        <i
+                                            class="bi bi-question-circle text-muted"
+                                        ></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <label for="subject" class="form-label"
+                                >What is your question about?</label
+                            >
+
+                            <div class="input-group mb-4">
+                                <span class="input-group-text">
+                                    <i class="bi bi-chat-right-dots-fill"></i>
+                                </span>
+                                <select id="subject" class="form-select">
+                                    <option value="pricing" selected>
+                                        Pricing query
+                                    </option>
+                                    <option value="pricing">
+                                        Content query
+                                    </option>
+                                    <option value="pricing">Other query</option>
+                                </select>
+                            </div>
+
+                            <!-- Floating label
+                            1. Put label and input inside a 'form-floating' container
+                            2. Ensure the label is underneath the form control. Note that 
+                                you don't need 'form-label' anymore as once it's inside a 'form-floating'
+                                it's seen as a 'floating-label' by bootstrap.
+
+                            -->
+                            <div class="form-floating my-4">
+                                <textarea
+                                    id="query"
+                                    class="form-control"
+                                    style="height: 140px"
+                                    required
+                                ></textarea>
+                                <label for="query">Your query...</label>
+                            </div>
+
+                            <div class="mb-4 text-center">
+                                <button type="submit" class="btn btn-secondary">
+                                    Submit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 
+        + modal trigger  
+        1. column is full screen on smaller screens, but on medium and larger it's only 8
+            columns. We also make sure it's centered in the row
+        2. Create button for triggering a modal.
+    --> 
+        <section class="bg-ligt">
+            <div class="container">
+                <div class="text-center">
+                    <h2>Stay in the loop</h2>
+                    <p class="lead">Lorem ipsum dolor sit amet.</p>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-8 text-center">
+                        <p class="text-muted my-4">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias, est. Autem non quia vitae qui.</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Register for updates</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal itself
+        1. modal-dialogue: the white bubble or section with all of the modal's content
+        2. 'aria-labelledby': Looks for element with id 'modal-title' to know that that element 
+            is the title of the modal.
+        3. Close button: With 'btn-close' class it becomes a cross that exits the modal. But 
+            remember, just put 'data-bs-dismiss' on any button for it to be able to close the modal
+        -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Get the latest updates</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat pariatur ullam harum iure qui. Minima.</p>
+                    <label for="modal-email" class="form-label">Your email address:</label>
+                    <input type="email" placeholder="e.g. mario@example.com" id="modal-email" class="form-control">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 
+            + offcanvas:
+            'offcanvas-start': Offcanvas comes from the left side.
+        -->
+
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebar-label">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="sidebar-label">My Other Books</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maxime error, blanditiis repellat odit iusto earum!</p>
+
+                <!-- Drop down -->
+                <div class="dropdown mt-3">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="book-dropdown" data-bs-toggle="dropdown">
+                        Choose a book title
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="book-dropdown">
+                        <li><a href="#" class="dropdown-item">Become a React Superhero</a></li>
+                        <li><a href="#" class="dropdown-item">Conquering Vue.js</a></li>
+                        <li><a href="#" class="dropdown-item">Leveling up your Next.js</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Bootstrap javascript cdn link -->
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"
         ></script>
+
+        <script src="app.js"></script>
     </body>
 </html>

@@ -1,0 +1,36 @@
+/*
+
++ Override our bootstrap variables: 
+*/
+
+$primary: #c29938;
+$light: #fbf5e5;
+
+/*
++ Add a new theme
+
+1. Import functions above variables, since variables needs stuff in 'functions.
+2. Define your own map of themes with new themes we want to add.
+3. Update theme-colors to be a map of both the old theem colors and 2 
+    custom ones we defined.
+
+4. As a result, bootstrap will create the corresponding styling classes, such as "bg-altlight",
+    "btn-altlight", etc. 
+
+*/
+
+@import "../node_modules/bootstrap/scss/_functions";
+@import "../node_modules/bootstrap/scss/_variables";
+
+$custom-theme-colors: (
+    "altlight": #f2ebfa,
+    "altdark": #522192,
+);
+
+$theme-colors: map-merge($custom-theme-colors, $theme-colors);
+
+/*
++ Do all of these above the import statement, so that the rest of the bootstrap code uses your overwritten values.
+*/
+// import bootstrap
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
