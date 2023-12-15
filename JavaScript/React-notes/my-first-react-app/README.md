@@ -19,6 +19,9 @@
 8. Include the setup file in vite config file. Make all imports from Vitest global, so you don't need to import something such as 'expect' in each file manually.
 9. npm install @testing-library/user-event --save-dev;
 
+# Running tests
+1. npm run test; runs all tests
+2. npm run test someTest.test.jsx; runs an individual test file
 
 - @test-library/react: Gives us access to functions such as render()
 - @testing-library/jest-dom: Gives us matchers for messing with DOM such as 'toBeInTheDocument'
