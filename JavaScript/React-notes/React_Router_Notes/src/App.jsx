@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /*
 + Modern Way of React Router 
 
@@ -12,16 +13,22 @@ import {
 	RouterProvider,
 } from "react-router-dom";
 
+import { useState } from "react";
+
+// Private Route Component
+import PrivateRoute from "./components/PrivateRoute";
+
 // pages
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Faq from "./pages/help/Faq";
-import Contact from "./pages/help/Contact";
+import Contact, { contactAction } from "./pages/help/Contact";
 import NotFound from "./pages/NotFound";
 import Careers, { careersLoader } from "./pages/careers/Careers";
 import CareerDetails, {
 	careerDetailsLoader,
 } from "./pages/careers/CareerDetails";
+import CareersError from "./pages/careers/CareersError";
 
 // layouts
 import RootLayout from "./layouts/RootLayout";
@@ -95,39 +102,62 @@ import CareersLayout from "./layouts/CareersLayout";
 	2. As a result, when the url types in a path that doesn't
 		match any of the above that you've 
 
+
+- Route using a loader so that the component associated with it gets fetched data 
+- Error element inheritance: Since we want <CareersError/> to be our markup that shows up
+	for both the index and career details route, we can define our errorElement in the parent 
+	route, rather defining our error element twice for the child routes. 
+
+1. Now when an error is thrown in any of the child routes, the error element 
+	in the parent route is activated, preventing the component associated with the child
+	route from being rendered, and rendering that error element in its place.
+2. This works because the child routes don't have any error elements, allowing 
+	for inheritance to happen. However, if the child routes did have error elements,
+	the child route's error element would take priority.
+
+NOTE: Since we are putting the errorElement on the CareersLayout route, it should be noted 
+	that when an error is thrown, the "CareersError" will be shown and "CareersLayout" will not 
+	be shown. Just like how when we had a errorElement on a child route, when an error is thrown 
+	the element associated with that child route will not be shown, and the errorElement will be 
+	the one that's shown instead.
 */
-const myRouter = createBrowserRouter(
-	createRoutesFromElements(
-		<Route path="/" element={<RootLayout />}>
-			{/* Example of index route or "/" */}
-			<Route index element={<Home />} />
-			<Route path="about" element={<About />} />
-
-			{/* An example of nested routes, Note that  */}
-			<Route path="help" element={<HelpLayout />}>
-				<Route path="faq" element={<Faq />} />
-				<Route path="contact" element={<Contact />} />
-			</Route>
-
-			<Route path="careers" element={<CareersLayout />}>
-				{/* Route using a loader so that the component associated with it gets fetched data */}
-				<Route index element={<Careers />} loader={careersLoader} />
-
-				{/* Route using route parameter */}
-				<Route
-					path=":id"
-					element={<CareerDetails />}
-					loader={careerDetailsLoader}
-				/>
-			</Route>
-
-			{/* Catch all custom 404 page route */}
-			<Route path="*" element={<NotFound />} />
-		</Route>
-	)
-);
 
 function App() {
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+	const myRouter = createBrowserRouter(
+		createRoutesFromElements(
+			<Route path="/" element={<RootLayout />}>
+				{/* Example of index route or "/" */}
+				<Route index element={<Home />} />
+				<Route path="about" element={<About />} />
+
+				<Route path="help" element={<HelpLayout />}>
+					<Route path="faq" element={<Faq />} />
+					<Route path="contact" element={<Contact />} action={contactAction} />
+				</Route>
+
+				<Route
+					path="careers"
+					element={<CareersLayout />}
+					errorElement={<CareersError />}
+				>
+					<Route index element={<Careers />} loader={careersLoader} />
+
+					{/* Route using route parameter; dynamic routes */}
+					<Route
+						path=":id"
+						element={<CareerDetails />}
+						loader={careerDetailsLoader}
+					/>
+				</Route>
+
+				{/* Catch all custom 404 page route */}
+				<Route path="*" element={<NotFound />} />
+			</Route>
+		)
+	);
+
 	return <RouterProvider router={myRouter} />;
 }
 export default App;

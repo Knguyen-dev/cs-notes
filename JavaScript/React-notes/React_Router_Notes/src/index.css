@@ -157,3 +157,28 @@ form label span {
 }
 
 /* breadcrumbs */
+.breadcrumbs {
+	max-width: 1200px;
+	margin: 20px auto;
+}
+
+/* Make every element inside of the breadcrumbs sit next to each other */
+.breadcrumbs > * {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+/* Each breadcrumb has a chevron to the left */
+.breadcrumbs .crumb:after {
+	content: ">";
+	margin-left: 10px;
+}
+/* Don't show chevron for last crumb */
+.breadcrumbs .crumb:last-child:after {
+	display: none;
+}
+
+/* Coloring links */
+.breadcrumbs .crumb a {
+	color: #ddd;
+}

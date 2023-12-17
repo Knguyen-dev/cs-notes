@@ -19,11 +19,24 @@
  
 */
 
-import { useLoaderData, Link } from "react-router-dom";
+import { useLoaderData, Link, useLocation } from "react-router-dom";
 export default function Careers() {
 	const careers = useLoaderData();
+
+	/*
+	+ Using state to pass data between components
+	1. Using NavLinks or Navigation, define state={someValue}
+	2. Now for the route in that navlink, the component associated with that route will be able to 
+		access that state value using useLocation.
+
+	3. As a result, we're successfully able to pass data from one route to another essentially.
+	4. NOTE: This is just for examples.
+	*/
+	const location = useLocation();
+
 	return (
 		<div className="careers">
+			{location.state}
 			{careers.map((careerObj) => (
 				<Link to={careerObj.id.toString()} key={careerObj.id}>
 					<p>{careerObj.title}</p>
@@ -48,10 +61,26 @@ export default function Careers() {
 5. To access that data in our component, use react-router's hook 
   useLoaderData(), which will resolve the promise and return your data
 
+
++ Error elements again.
+1. The first throw is to throw our error into the catch block. This isn't necessary
+	for showing error elements, but I did it so that we can have a custom console.error
+2. The important thing is that you throw the error element out of the function
+	so that react router can get a hold of it.
+
+
 - NOTE: Remember async functions return a promise that resolve to the return value
 */
 // eslint-disable-next-line react-refresh/only-export-components
 export const careersLoader = async () => {
-	const response = await fetch("http://localhost:4000/careers");
-	return response.json();
+	try {
+		const response = await fetch("http://localhost:4000/careers");
+		if (!response.ok) {
+			throw new Error("Error fetching data for list of careers!");
+		}
+		return response.json();
+	} catch (error) {
+		console.error("Fetch Error: ", error);
+		throw error;
+	}
 };

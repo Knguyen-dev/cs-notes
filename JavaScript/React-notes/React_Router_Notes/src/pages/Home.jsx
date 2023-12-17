@@ -5,8 +5,8 @@ export default function Home() {
 			<p>
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis,
 				recusandae dignissimos quidem quasi beatae voluptatibus itaque non
-				molestias. At eveniet dolor pariatur, recusandae quae repellat consequatur
-				illo ea nisi dolore?
+				molestias. At eveniet dolor pariatur, recusandae quae repellat
+				consequatur illo ea nisi dolore?
 			</p>
 			<p>
 				Lorem ipsum dolor sit amet consectetur, adipisicing elit. Odio ducimus

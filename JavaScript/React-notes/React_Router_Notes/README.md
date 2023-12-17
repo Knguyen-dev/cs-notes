@@ -7,6 +7,19 @@
   for a new page, so that in the end we are still able to switch page content but still rely on a
   single html page.
 
+# Client-Side Routing:
+
+- A type of routing where JavaScript is in control of handling the routes. Generally, in many
+  MPAs (multi-page applications) clicking a link to go to a new html page would reload the browser.
+  However client-side routing makes it so this doesn't happen as we never leave the page we're on.
+  JavaScript intercepts the GET requests from getting to a server, and handles the changing of content.
+
+# Protected Routes:
+
+-
+
+BOOK MARK: Let's do an example for protected routes for our last thing
+
 # Starting Setup:
 
 1. npm install vitest --save-dev; installs Vite's testing library
@@ -34,18 +47,51 @@
 - Parent Route: A Path has other paths nested inside of it. These
   paths contain components we refer to as "Layouts", which lay foundational markup that will be shown on nested routes, and will likely be important for the nested routes.
 
-# Error Page:
+# Error Page (Catch All Routes and Error Elements):
 
 - Default error page: React-Router-Dom provides a default error page when users try to go to a non-existent route.
 - Custom Error Page:
+
   1. CatchAllRoute: Placed at the bottom of your tree, with its parent being the route for the root layout of your application. Typically used for an error page.
+
+  2. Error Elements: When an error is thrown, typically in a loader, we can set it up so the route will show
+     some markup that we define as our error element or error page. In our example we use this to create a
+     more specific error page or component for the careers section of our site, so career section related errors.
+
+# useLocation:
+
+- React-router-dom hook that gives us information about where the user is currently at.
+  This is especially useful for creating things such as breadcrumbs, which will track
+  and show the location of our user in a link-hierarchy.
 
 # Loaders:
 
 - A way we can load data into a component before it's loaded by a route. For example, if you have a page that uses fetched data in the component, when the user goes on that route, we call the loader function to fetch that data for that component, allowing us so that on render, the component already has the fetched data for its markup.
+  NOTE: React-router will wait until loader finishes executing before
+  rendering the page.
 
-NOTE: React-router will wait until loader finishes executing before
-rendering the page.
+# Navigate Component:
+
+- Redirects users based on certain conditions such as whether or not a
+  user is logged in. So using some kind of global state for an authentication check, if a user was not
+  logged in, we can return a navigate component to redirect a user from any given page. This helps
+  protect the front end pages.
+
+- NOTE: If you want to protect any data from unauthorized users, you'd need to do that on the server side.
+  Using the navigate component to redirect unauthorized users to something like a login/registration page,
+  is just adding a little icing on the cake for a better UX. Any real protection is done on the backend.
+
+# redirect Component:
+
+- Redirects users to a different route. You'd mainly use these in loaders or action functions
+  since in those you're dealing with data related logic.
+
+# Forms and Actions
+
+- Typically we'd have form fields attached to event handlers or states to track their values. React-router's form
+  will track those values for us, and then on submit, it bundles all of those values in a request object and send
+  that object to an 'action' function that we make ourselves. That action function gets access to that form data, and
+  this way of doing it tries to make working with forms a little bit easier in react.
 
 # Route Parameters:
 
@@ -85,3 +131,4 @@ concurrently or the json-server in production.
 - Credits:
 
 1. Web Dev Simplified: https://www.youtube.com/watch?v=Ul3y1LXxzdU
+2. Net Ninja: https://www.youtube.com/watch?v=OMQ2QARHPo0&list=PL4cUxeGkcC9iVKmtNuCeIswnQ97in2GGf&index=1;

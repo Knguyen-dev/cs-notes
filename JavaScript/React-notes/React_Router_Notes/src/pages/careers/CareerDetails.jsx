@@ -29,7 +29,7 @@ useParams(): Will return an object of parameters defined on route and their valu
 
 */
 
-import { useLoaderData, redirect } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 
 export default function CareerDetails() {
 	const career = useLoaderData();
@@ -55,19 +55,24 @@ export default function CareerDetails() {
 
 - Issue: Now that we've set up route parameters for career id, users 
   may try to go to a route that has an undefined id such as "career/200". 
-- Solution: Use redirects to redirect them.
+- Solution: Use redirects or ErrorElements.
 
 + Redirects: You can return or throw responses from loaders, you can also 
   use redirect to redirect the user to another route. It's recommended to 
   use 'redirect' over 'useNavigate' when in 'loaders' and 'actions'. Here
   it's better as we are responding to data being fetched. 
 
-1. As a result, when fetch fails, we return a redirect call and 
-  we redirect to careers/career-not-found, which is not a defined route. 
-2. As a result we are actually redirecting to the 'page not found' catch all route 
-  we created, so when users try to go to an undefined career, they'll be redirected
-  to our custom 404 page.
++ Error Elements: However in this case, we'll just be using error elements to 
+	deal with our error.
 
+1. Set up loader to throw an error with an error message. 
+2. Set up our template 'CareersError' which is the error component that's going to 
+	be shown when error is thrown from Careers details
+3. Set up the route to have errorElement, and assign it to the CareersError component because that
+	what we want to show when an error happens on this route.
+4. As a result, when an error is thrown while loading the <CareerDetails/> route, instead of 
+	rendering CareerDetails, it will render the error element (CareersError) in its place.
+5. Then the error we threw, will be accessed in CareersError via (useRouteError())
 
 + Review on http and requests: Typically doing a request "somepage/products/2" 
   the by default is recognized as a resource with id of 2, so you don't have 
@@ -81,14 +86,12 @@ export const careerDetailsLoader = async ({ params }) => {
 	try {
 		const { id } = params;
 		const response = await fetch("http://localhost:4000/careers/" + id);
-
 		if (!response.ok) {
-			throw new Error("Failed fetching career data!");
+			throw new Error("Failed fetching career data for specified career!");
 		}
 		return response.json();
 	} catch (error) {
 		console.error("Fetch Error:", error);
-
-		return redirect("career-not-found");
+		throw error;
 	}
 };
