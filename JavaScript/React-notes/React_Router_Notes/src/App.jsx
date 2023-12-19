@@ -13,11 +13,6 @@ import {
 	RouterProvider,
 } from "react-router-dom";
 
-import { useState } from "react";
-
-// Private Route Component
-import PrivateRoute from "./components/PrivateRoute";
-
 // pages
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -123,8 +118,6 @@ NOTE: Since we are putting the errorElement on the CareersLayout route, it shoul
 */
 
 function App() {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
-
 	const myRouter = createBrowserRouter(
 		createRoutesFromElements(
 			<Route path="/" element={<RootLayout />}>

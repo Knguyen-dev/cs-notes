@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { Navigate } from "react-router-dom";
-
 /*
 + Navigate component:
 1. Here we simulate having a user and logging out.
@@ -21,18 +18,16 @@ NOTE: This is just a simple example as you notice we can still go to click back 
 
 */
 
-import { useOutletContext } from "react-router-dom";
+// import { useOutletContext } from "react-router-dom";
 
 export default function About() {
-	const [user, setUser] = useState("Mario");
+	// const outletData = useOutletContext();
 
-	const outletData = useOutletContext();
+	// console.log(outletData.x);
 
-	console.log(outletData.x);
-
-	if (!user) {
-		return <Navigate to="/" replace={true} />;
-	}
+	// if (!user) {
+	// 	return <Navigate to="/" replace={true} />;
+	// }
 
 	return (
 		<div className="about">
@@ -49,7 +44,6 @@ export default function About() {
 				Ducimus eos cum sed hic nesciunt temporibus provident officia ab
 				debitis.
 			</p>
-			<button onClick={() => setUser(null)}>Logout</button>
 		</div>
 	);
 }

@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #bc4123;
+    --secondary: #2b3452;
+    --border-radius: 6px;
+}
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: "Poppins";
+    background: var(--secondary);
+    color: #fff;
+}
+
+a {
+    color: inherit;
+}
+p {
+    margin: 20px 0;
+}
+button {
+    border: 0;
+    padding: 8px;
+    border-radius: 4px;
+    color: white;
+    background: var(--primary);
+    cursor: pointer;
+}
+
+/* 
+***** Nav Styles *****
+*/
+header {
+    margin-bottom: 1.2em;
+}
+/* Makes all nav elements sit on far right */
+header nav {
+    display: flex;
+    gap: 16px;
+    justify-content: end;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 
+- Allows h1 to sit on the far left, whilst everything else in the nav 
+    is justified to the far right due to flexbox
+ */
+header nav h1 {
+    margin-right: auto;
+    border-bottom: 3px solid var(--primary);
+}
+
+header nav a {
+    text-decoration: none;
+    padding: 4px 8px;
+    border-radius: var(--border-radius);
+}
+
+/* Active links have special color */
+header nav a.active {
+    background: var(--primary);
+}
+
+/* page content */
+main {
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+nav {
+    display: flex;
+    gap: 1em;
+}
