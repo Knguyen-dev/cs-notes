@@ -17,6 +17,7 @@
 import { ThemeProvider } from "styled-components";
 import { Container } from "./components/styles/Container.styled";
 import Header from "./components/Header";
+import GlobalStyles from "./components/styles/Global";
 
 const theme = {
   bg_colors: {
@@ -28,13 +29,13 @@ const theme = {
 
 function App() {
   return (
-    <ThemeProvider>
-      <div className="App">
+    <ThemeProvider theme={theme}>
+      <GlobalStyles>
         <Header />
         <Container>
-          <h2>Stuff</h2>
+          <h1>Hello World</h1>
         </Container>
-      </div>
+      </GlobalStyles>
     </ThemeProvider>
   );
 }

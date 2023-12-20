@@ -1,4 +1,5 @@
 import { StyleHeader } from "./styles/Header.styled";
+import { Container } from "./styles/Container.styled";
 /*
 - Passing 'bg' prop to StyleHeader
     <StyleHeader bg="#ebfbff">
@@ -8,7 +9,7 @@ import { StyleHeader } from "./styles/Header.styled";
 export default function Header() {
   return (
     <StyleHeader>
-      <h1>Hubble</h1>
+      <Container></Container>
     </StyleHeader>
   );
 }
