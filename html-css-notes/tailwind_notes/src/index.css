@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
++ Creating our own custom class in tailwind
+1. Use layer directive to extend components
+2. For the custom class you want to make in css, define the css class rule, and then here we can use tailwind classes.
+3. Of course you can probably make .sidebar-icon a regular css rule, but doing it this way just allows us to access the 
+  presets defined in tailwind, that's all.
+
++ Animations, hovering, transition:
+1. 'transition-all' gives the default transition, but you can insert 'duration-300' or 'ease-linear' 
+  to customize your stuff.
+
+ 
+*/
+@layer components {
+	.sidebar-icon {
+		@apply relative 
+    flex 
+    items-center 
+    justify-center
+    h-12 
+    w-12 
+    m-2 
+    mb-2 
+    mx-auto 
+    shadow-lg
+  bg-gray-800
+  text-green-600
+    transition-all
+  hover:text-white 
+    rounded-3xl 
+    hover:rounded-xl;
+	}
+	/*
+  - min-w-max: Make it so it's minimum width is the max size the content it could take while being in container. So
+    if the content realistically is text that takes up 30% of the screen, it takes that 30% whilst leaving the rest.
+  - origin-left: When we make it appear or disappear, it comes from the left side of the span.
+
+  + Hover and groups in tailwind: 
+  - We want to make it so whe nwe hover on the parent, 'the sidebar icon' it makes tool tip appear with hover. 
+    We'll use tailwind css groups, which is a clever technique to apply styles to a child when its parent changes.
+    Though groups don't work with @apply so you have to set the classes in the components 
+  */
+
+	.sidebar-tooltip {
+		@apply absolute w-auto p-2 m-2 min-w-max left-14
+    rounded-md shadow-md text-white bg-gray-900 text-xs
+    transition-all duration-100 scale-0 origin-left;
+	}
+}
+
+:root {
+	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+	/* color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424; */
+
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+
+	-moz-osx-font-smoothing: grayscale;
+}
