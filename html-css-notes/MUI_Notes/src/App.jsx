@@ -16,6 +16,14 @@ import Hosting from "./pages/Hosting/Hosting";
 import MachineLearning from "./pages/MachineLearning/MachineLearning";
 import Storage from "./pages/Storage/Storage";
 
+/*
++ Themes in Mui
+
+1. Import theme provider and wrap it around the root of the project.
+*/
+import { ThemeProvider } from "@mui/material";
+import { dashBoardTheme } from "./pages/dashBoardTheme";
+
 const appRouter = createBrowserRouter(
 	createRoutesFromElements(
 		<Route path="/" element={<AppLayout />}>
@@ -30,7 +38,11 @@ const appRouter = createBrowserRouter(
 );
 
 function App() {
-	return <RouterProvider router={appRouter} />;
+	return (
+		<ThemeProvider theme={dashBoardTheme}>
+			<RouterProvider router={appRouter} />
+		</ThemeProvider>
+	);
 }
 
 export default App;

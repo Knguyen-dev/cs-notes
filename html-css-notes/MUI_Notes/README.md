@@ -16,6 +16,16 @@
 3. npm install @mui/icons-material; install for us to use icons
 2. Install roboto font and material icons. You can do this via the cdns.
 
+# Extra packages: 
+1. React Hook Form: Enables easy form validation and management using React hooks.
+  So here you can manage form state and validation without complex state management
+  or additional libraries.
+2. Yup: JavaScript schema validation library used for form validation. Define a 
+  schema for your data and validate stuff. Simple and powerful API for validation
+  rules in your form fields
+NOTE: Though we are mostly focusing on getting the hang of Mui libraries
+
+
 # Credits:
 
 1. Net Ninja: https://www.youtube.com/watch?v=0KEpWHtG10M&list=PL4cUxeGkcC9gjxLvV4VEkZ6H6H4yWuS58

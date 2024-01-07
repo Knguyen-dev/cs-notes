@@ -30,7 +30,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
 // On click for each nav item, we redirect them to the associated route
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // Constants and styles
 import { mainNavbarItems } from "./const/navbarItems";
