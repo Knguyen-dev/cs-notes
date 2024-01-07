@@ -26,7 +26,7 @@ BOOK MARK: Let's do an example for protected routes for our last thing
 2. Add "test":"vitest" as script.
 3. npm install jsdom --save-dev; install to enable html in vitest
 4. In vite config file do test:{environment: "jsdom"}
-5. npm install @testing-library/react @test-library/jest-dom --save-dev; install react testing library
+5. npm install @testing-library/react @testing-library/jest-dom --save-dev; install react testing library
 6. npm install @testing-library/user-event --save-dev
 7. Set up a test folder with a setup.js file for testing
 8. npm install web-vitals --save-dev; allows you to see perforamnce and metrics for your web app
