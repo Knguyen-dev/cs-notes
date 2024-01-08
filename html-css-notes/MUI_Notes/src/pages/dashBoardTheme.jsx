@@ -20,10 +20,35 @@ NOTE: Sx props take priority over theme props, which makes sense, but
 
 import { createTheme } from "@mui/material/styles";
 
+//
+const rootElement = document.getElementById("root");
+
 // Theme style override: For overriding css styles
 export const dashBoardTheme = createTheme({
 	components: {
 		// Name of the component
+
+		// This section is for integrating with tailwindcss
+		MuiPopover: {
+			defaultProps: {
+				container: rootElement,
+			},
+		},
+		MuiPopper: {
+			defaultProps: {
+				container: rootElement,
+			},
+		},
+		MuiDialog: {
+			defaultProps: {
+				container: rootElement,
+			},
+		},
+		MuiModal: {
+			defaultProps: {
+				container: rootElement,
+			},
+		},
 
 		// Targetting mui icons
 		MuiSvgIcon: {
