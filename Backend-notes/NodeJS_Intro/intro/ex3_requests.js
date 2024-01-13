@@ -4,6 +4,10 @@
 + Performing a GET request: There are many ways to do a get requests.
   The simplest way is to do it is to use an external library such as Axios. However
   you could do this built in, using no third party libraries.
+
+NOTE: You can require "https" for making requests, but in order to create a server
+  it seems we require "http".
+
 */
 
 const axios = require("axios");

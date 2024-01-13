@@ -70,12 +70,33 @@ const server = http.createServer((request, response) => {
     redirect them to the '/about' page.
   4. End the response.
 
+  + Summary: This way of working with switch and request url is fine, but as 
+    our website gets more complex with database logic, different types of requests, etc.
+    it's going to be insanely difficult. Here a third-party package/framework, Express lets
+    us handle this more easily and gives us a better development experience. This 
+    is the type of stuff that basically happens under the hood that we let express deal
+    with.
+
   + Dirname and relative paths:
   - When using relative paths, like "./views/", the period refers to the current working directory.
     This would be fine if you run the script from the inside "src", as your current directory
     would be 'src'. However running it one directory up will lead to 'parent/views/' which 
     isn't correct. By using __dirname, we get the absolute path of the current script's 
-    directory, ensuring a consistent path to our views.
+    directory, ensuring a consistent path to our views. This idea of "current working directory" (CWD)
+    is more common with server-side programming. 
+    
+    1. When using relative paths in your front-end code,
+    such as "import '../somepath'", it is relative to the file's position in the project structure
+    rather than where you're running your code. Front end tools/tech (webpack, ES6 module stystem) handle things 
+    with relative paths and allow us to resolve relative paths based on a file's location rather than 
+    the idea of current working directory.
+    
+    2. In server-side Node.js, where we're running scripts
+    from the command line, CWD is more prominent. When using relative paths,
+    they will be resolved based on the CWD.
+
+
+
 
   */
 
