@@ -30,22 +30,28 @@
   "id": ObjectId("ai4je9cj")
   }
 
-# Vocabulary
 
-1. Connection String: Special MongoDB url to connect us to a MongoDB cluster. Allowing us to connect to an online database and mess with it.
+# MongoDB Drivers: 
+- A lot of the time we interact with MongoDB from our code, in a NodeJS
+  app, or a python app. We need to install a driver in order for our code
+  to correctly work with MongoDB. For us we're using NodeJS for our example application.
 
-# Database user info
 
-- Here's the username and password to access the cluster easily
-  my_first_user : 8eBt7graaeuHxWIc
+# Project set up
+1. npm init -y; initalize a node project for us
+2. npm install express; Installing express
+3. npm install nodemon; install for hot reloading, don't have to stop and start the server everytime when file changes.
+4. npm install mongodb@6.3; installs MongoDB driver for NodeJS.
+5. Create 'app.js' as its going to be our entry point for our project or api.
+  This is where most of our code is going to go.
 
-For connecting to online via shell: mongosh "mongodb+srv://my-first-cluster.aqyb9om.mongodb.net/" --apiVersion 1 --username my_first_user
 
-For compass : mongodb+srv://my_first_user:8eBt7graaeuHxWIc@my-first-cluster.aqyb9om.mongodb.net/
+
 
 # Credits:
 
 1. Net Ninja: https://www.youtube.com/watch?v=ExcRbA7fy_A&list=PL4cUxeGkcC9h77dJ-QJlwGlZlTd4ecZOA
 2. MongoDB University: https://learn.mongodb.com/learning-paths/introduction-to-mongodb
+3. MongoDB Node Driver Installation: https://www.mongodb.com/docs/drivers/node/current/quick-start/download-and-install/#std-label-node-quick-start-download-and-install
 
 - NOTE: These notes will take from a combination of sources.

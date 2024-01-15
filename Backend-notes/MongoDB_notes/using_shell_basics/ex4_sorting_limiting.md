@@ -8,6 +8,12 @@
 
 3. db.books.find.sort({
   title: 1
-})
+}); Sort the books we get back alphabetically
+
+
+4. db.books.find.sort({
+  title:1
+  }).limit(3); Sorts in alphabetical order and limits the amount we get to only 3 documents
+
 
 - NOTE: When sorting, 1 means sort in ascending order so as we go down, our values will get bigger. If -1, descending order, so your larger values will start at the top.
