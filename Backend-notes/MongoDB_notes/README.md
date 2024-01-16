@@ -41,9 +41,29 @@
 1. npm init -y; initalize a node project for us
 2. npm install express; Installing express
 3. npm install nodemon; install for hot reloading, don't have to stop and start the server everytime when file changes.
-4. npm install mongodb@6.3; installs MongoDB driver for NodeJS.
+4. npm install mongodb; installs MongoDB driver for NodeJS.
 5. Create 'app.js' as its going to be our entry point for our project or api.
   This is where most of our code is going to go.
+
+# POSTMAN
+- Allows us to simulate requests to an api and the response 
+  we get back. More importantly, we'd be able to do 
+  POST, DELETE, and UPDATE requests which are difficult 
+  to do in the browser without some front-end javascript. So
+  POSTMAN is able to help us out and let us focus on the MongoDB.
+  You can either download it or use their web app, but choose the desktop one so that you can test stuff on localhost.
+1. Postman: https://www.postman.com/downloads/
+2. Create a new collection, here we create a collection solely for 
+  our requests related to the MongoDB notes api we're making.
+3. Create a new request, make sure to save it. Then hit 'Send' to 
+simulate making the api call at that endpoint. In the body
+you should see your data. Note if your express server isn't running
+then it won't be able to do the request. 
+4. Now we don't have to even use the browser to test our bookstore api application. We can just use Postman and see the results of our fetch requests and database queries in Postman desktop app. However most importantly, this gives us an easy way to do other HTTP requests.
+
+- NOTE: To make a POST request and add data, we went to the body tab, and 
+  selected raw json as the data format we're sending. There we added the data
+  of the book we wanted to add to the database.
 
 
 
@@ -53,5 +73,6 @@
 1. Net Ninja: https://www.youtube.com/watch?v=ExcRbA7fy_A&list=PL4cUxeGkcC9h77dJ-QJlwGlZlTd4ecZOA
 2. MongoDB University: https://learn.mongodb.com/learning-paths/introduction-to-mongodb
 3. MongoDB Node Driver Installation: https://www.mongodb.com/docs/drivers/node/current/quick-start/download-and-install/#std-label-node-quick-start-download-and-install
-
+4. MongoDB NodeJS Docs: https://www.mongodb.com/docs/drivers/node/current/fundamentals/crud/write-operations/insert/
+5. MongoDB into NodeJS Tutorial: https://www.youtube.com/watch?v=fbYExfeFsI0&t=243s
 - NOTE: These notes will take from a combination of sources.
