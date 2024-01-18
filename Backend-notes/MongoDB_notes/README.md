@@ -45,6 +45,15 @@
 5. Create 'app.js' as its going to be our entry point for our project or api.
   This is where most of our code is going to go.
 
+# Database or API Pagination:
+- The idea of responding back with 20 or so items per page, and 
+  giving the option for the user to get the next page of items.
+  Usually given by a 'next' property with a page number parameter 
+  incremented or decremented. 
+
+
+
+
 # POSTMAN
 - Allows us to simulate requests to an api and the response 
   we get back. More importantly, we'd be able to do 
@@ -66,6 +75,15 @@ then it won't be able to do the request.
   of the book we wanted to add to the database.
 
 
+# PUT vs PATCH:
+- They're both about updating existing records in a database
+  but have slight differences.
+1. PUT: Update or create a resource at a specific URI. When sending PUT
+  you send the entire data, including unchanged fields. They're 'idempotent'
+  meaning, if you send multiple of the same one, it's the same effect as sending one.
+2. PATCH: Designed for partially updating a resource, so just changing some fields and
+  leaving others unchanged. Good for when you want to modify something, but not send
+  the entire data-structure with all unchanged fields in the request. 
 
 
 # Credits:
@@ -76,3 +94,8 @@ then it won't be able to do the request.
 4. MongoDB NodeJS Docs: https://www.mongodb.com/docs/drivers/node/current/fundamentals/crud/write-operations/insert/
 5. MongoDB into NodeJS Tutorial: https://www.youtube.com/watch?v=fbYExfeFsI0&t=243s
 - NOTE: These notes will take from a combination of sources.
+
+
+
+BOOK MARK: Still want to learn indexes and database transactions, and aggregation
+  from MongoDB university.

@@ -64,14 +64,53 @@ NOTE: In the shell you notice we didn't need to do toArray or forEach to
   iterates over the first 20 documents for us when we use the find method. 
   Then we could use 'it' to iterate the next 20. So when working in JavaScript
   we work with the cursor.
+
+
++ Pagination:
+1. We assume our page number parameter is called 'p', so we 
+  get that query parameter from the request object. The user will
+  enter something like "/books?p=3" for page index 3.
+
+2. Our conditional means, page = request.query.p if p exists, else 
+  we assign it to zero. This allows us to set the page index to 0 if 
+  the user doesn't pass in a page number in their api request.
+
+  NOTE: Common logical OR short-circuit pattern in programming. If left side is truthy, return the left side.
+  Else if left side is falsey, then just return the right side.
+
+3. We skip books if necessary. Let's say we start at page 0, if the user was on page 1,
+  we would skip the first 3 books as those books are reserved for the zeroth page.
+  Since the first page is 0, if page=0, do page*booksPerPage which is 0, we skip zero
+  books if we're on the zeroth page. If page = 1, we do page*booksPerPage to know we 
+  skip 3 documents if we were on page=1. Basically just multiply page*booksPerPage to 
+  know the amount of books we have to skip.
+
+
+4. MongoDB has a skip method to tell us how many documents to skip from the start.
+  So use .skip(numDocs). So let's say page=3, we'd skip the first 9 books, pages 
+  worth of books (0, 1, and 2), and then we get the next page's worth of books (page index 3).
+5. We want to limit the max amount of books we get back to what we decided as the page size.
+  So here we limit our query to a maximum of 3 books.
+
+NOTE: If we go to a page such as 12, or a boundary where there are no books, MongoDB
+  will just send back an empty array to indicate that no books were found.
+
 */
 
 app.get("/books", (request, response) => {
+	// Current page
+	const page = request.query.p || 0;
+
+	// Documents per page, we'll set it to small since we don't have many books
+	const booksPerPage = 3;
+
 	let books = [];
 
 	db.collection("newBooks")
 		.find()
 		.sort({ author: 1 })
+		.skip(page * booksPerPage)
+		.limit(booksPerPage)
 		// Note that forEach is asynchronous because we're also dealing with batches of documents when iterating
 		.forEach((book) => books.push(book))
 		.then(() => {
@@ -123,7 +162,9 @@ app.get("/books", (request, response) => {
 
 
 
-+ Handling case where ID for document wasn't found.
++ Handling case where ID for document wasn't found. By default if 
+  the id is valid, but MongoDB can't find a document with that ID in your 
+  collection, it will return null to indicate nothing was found.
 
 */
 app.get("/books/:id", (request, response) => {
@@ -146,7 +187,7 @@ app.get("/books/:id", (request, response) => {
 });
 
 /*
-+ Making a post request: 
++ Making a post request route: 
 - So with a POST request, we're sending in data that we want to save to a database
   and we put that data in the body of a request.
 1. Sending a post request to '/books' route
@@ -170,4 +211,84 @@ app.post("/books", (request, response) => {
 		.catch((error) => {
 			response.status(500).json({ error: "Could not create a new document" });
 		});
+});
+
+/*
++ Making a delete request route:
+1. Let the route parameter be the id of the book.
+2. Get the route parameter with the request object and 
+  check if it's valid before trying to do any database 
+  shenanigans.
+3. The rest is similar logic. Query database to delete 
+  document using the object id to find it. On success
+  we send the result object back, else we send our error object
+  saying we couldn't delete it.
+4. If the id for the request isn't valid, meaning they entered
+  in a bad id for the route, then we throw back an error object for the 
+  json
+5. Finally we have an endpoint where we can send our delete requests
+  for deleting documents, books in this case, from our bookstore's database
+
+NOTE: Similar to the GET request, you don't need to mess with the body of 
+  the request here unlike our POST request. You just need to send a http
+  DELETE request to the route with the target book's ID.
+*/
+app.delete("/books/:id", (request, response) => {
+	if (ObjectId.isValid(request.params.id)) {
+		db.collection("newBooks")
+			.deleteOne({
+				_id: new ObjectId(request.params.id),
+			})
+			.then((result) => {
+				response.status(200).json(result);
+			})
+			.catch((error) => {
+				response.status(500).json({ error: "Could not delete document" });
+			});
+	} else {
+		response.status(500).json({ error: "Not a valid doc id" });
+	}
+});
+
+/*
++ Making a PATCH request route so users can update specific fields
+  in an existing document
+1. With a PATCH request, we are going to have the new fields in 
+  the body of the request. So extract that json from the request.
+  It could update one or two fields, or all of the fields. As little
+  or as many as we want.
+2. Using $set operator, we update the corresponding fields that were
+  listed in our request. This works exactly like we practiced in example 9
+  where we updated documents, as we update the fields that are specified and 
+  leave the rest alone. 
+
+*/
+
+app.patch("/books/:id", (request, response) => {
+	const updates = request.body;
+	/*
+  - updates look like this:
+  updates = {
+    "title": "new value",
+    "rating": "new rating",
+    ...
+  }
+  */
+	if (ObjectId.isValid(request.params.id)) {
+		db.collection("newBooks")
+			.updateOne(
+				{
+					_id: new ObjectId(request.params.id),
+				},
+				{ $set: updates }
+			)
+			.then((result) => {
+				response.status(200).json(result);
+			})
+			.catch((error) => {
+				response.status(500).json({ error: "Could not update document" });
+			});
+	} else {
+		response.status(500).json({ error: "Not a valid doc id" });
+	}
 });
