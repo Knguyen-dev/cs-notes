@@ -44,8 +44,43 @@
 3. npm install; install all dependencies from that package.json
 4. npm run start; script to start the application, listed in your package.json
 
-- BOOK MARK: Starting off with traversy medias and web dev simplified's
-  basic tutorials to make ensure we got the foundations.
+# Databases in Express
+
+- Express apps can use any database supported by node. However
+  the important thing is usually how we interact with the database.
+
+1. Using the database's native query language, such as SQL for SQL databases.
+   Offers the best performance, as ORM/ODM's are slower since the objects have
+   to be translated to database format, which may not use the most efficient
+   queries.
+2. Using an Object Relational Mapper (ORM), or Object Document Mapper (ODM) for
+   relational and non-relational databases respectfully. This method allows us to
+   think of the records as JavaScript objects, and it's pretty good in the sense
+   that not everyone could be familiar with the database's query language, but anyone
+   can understand object oriented programming, and apply that in order to work with
+   the database. Often results in lower dev and maintenance costs, so unless everyone
+   is very familiar with the query language or performance is critically important,
+   it's recommended to try and use an ORM/ODM.
+
+# Types of ORM/ODMS:
+
+- For our notes though, we're going to be using Mongoose. With
+  Mongoose, you don't need to understand MongoDB
+
+1. Mongoose: Most popular ODM, and it's used MongoDB.
+2. GraphQL: Primarily a query language for restful APIs, however it also has
+   features for reading data from databases.
+3. Node ORM2: ORM for NodeJS. Supports MySQL, SQLite, and Progress.
+4. Waterline: ORM that works with Redis, MySQL, LDAP, MongoDB, and Postgres.
+
+# Sections:
+
+1. Express Intro: Primer to learning express. There's a lot of code here that you'll get familiar with, but you
+   probably won't be able to follow 100%. That's fine just look at the code so that later you'll think "Hey I've seen this before!"
+2. my-first-express: An introductory express project that gives us the notes on how to do things correctly.
+3. MongoDB_notes: Technically this is also a very good start to learning Express and databases. It's a lot more throughout
+   and organized.
+4. express-locallibrary-tutorial: Advanced express project that's going to tackle all of the concepts
 
 # Credits:
 
@@ -53,3 +88,7 @@
 2. Web Dev Simplified (Crash Course Express): https://www.youtube.com/watch?v=SccSCuHhOw0
 3. Web Dev Simplified (Middleware Tutorial): https://www.youtube.com/watch?v=lY6icfhap2o
 4. Web Dev Simplified (Mongoose Crash Course): https://youtu.be/DZBGEVgL2eE?feature=shared
+
+# Bookmark:
+
+- Starting part 3 of the mdn tutorial. I still want
