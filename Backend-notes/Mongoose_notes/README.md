@@ -23,6 +23,15 @@
   to multiple databases in the same application you'd probably store them as variables and use separate connection
   strings.
 
+# File structure rules:
+
+- It's recommended that each schema and also model being exported
+  be stored in separate files. So for 'Users' collection, create
+  the user schema and export the user model, do that in one file.
+  Then for let's say the 'Post' collection, create the post schema,
+  and export the post collection, done all in that its separate
+  Post.js file.
+
 # Project Setup:
 
 1. npm init -y
@@ -30,8 +39,6 @@
 3. npm install --save-dev nodemon
 
 # Credits:
-
-- BOOK MARK: timestamp 03:36
 
 1. Web Dev Simplified: https://www.youtube.com/watch?v=DZBGEVgL2eE
 2. Mongoose Docs: https://mongoosejs.com/docs/guides.html

@@ -1,11 +1,37 @@
 
+# Routes:
+- We'll create 'controller' modules, which will just be 
+  our callback fucntiosn for our routes for our four models.
+
+
+- catalog/ — The home/index page.
+
+- catalog/<objects>/ — The list of all books, bookinstances, genres, or authors (e.g. /catalog/books/, /catalog/genres/, etc.)
+
+- catalog/<object>/<id> — The detail page for a specific book, bookinstance, genre, or author with the given _id field value (e.g. /catalog/book/584493c1f4887f06c0e67d37).
+
+- catalog/<object>/create — The form to create a new book, bookinstance, genre, or author (e.g. /catalog/book/create).
+
+- catalog/<object>/<id>/update — The form to update a specific book, bookinstance, genre, or author with the given _id field value (e.g. /catalog/book/584493c1f4887f06c0e67d37/update).
+
+- catalog/<object>/<id>/delete — The form to delete a specific book, bookinstance, genre, author with the given _id field value (e.g. /catalog/book/584493c1f4887f06c0e67d37/delete).
+
+
+
+
 # Packages:
 1. cookie-parser: Used to parse cookie header and populate 
   request.cookies. Just gives us an easy way to access cookie information.
 2. debug: Debugging utility tool.
+3. npm install ejs
+4. npm install express
 3. morgan: An HTTP request logger middleware package.
 4. http-error: Creates HTTP errors when we need them. Good
   for express error handling.
+5. npm install mongodb
+6. npm install mongoose
+7. npm install nodemon
+8. npm install express-async-handler
 
 
 # Files:

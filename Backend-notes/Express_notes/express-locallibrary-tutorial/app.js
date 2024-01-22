@@ -12,6 +12,17 @@ const usersRouter = require("./routes/users");
 // Create express app
 const app = express();
 
+// Set up mongoose connection with atlas database
+const mongoose = require("mongoose");
+async function main() {
+	await mongoose.connect(process.env.uri);
+}
+try {
+	main();
+} catch (e) {
+	console.log(e);
+}
+
 /*
 + View Engine Setup:
 1. Sets the 'views' config option. Specifies where the application

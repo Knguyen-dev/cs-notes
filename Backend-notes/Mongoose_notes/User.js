@@ -110,9 +110,28 @@ const userSchema = new mongoose.Schema({
 	},
 
 	/*
+  
   1. indicates it's going to be an object id
   2. The object id references a 'User' model so a document from your User
     collection.
+
+  - As a result: 
+  1. myUser.bestFriend = ObjectId(some object id); sets the object id 
+  2. myUser.populate("bestFriend"); now 'bestFriend' field will be populated with other user 
+    object that's associated with the objectId you put.
+
+    Before calling populate:
+    bestFriend: Object id( some object id )
+
+    After calling populate:
+    bestFriend: {
+      _id: new Object id,
+      name: some name
+      age: 25
+      ... etc ...
+    }
+
+
   
   */
 	bestFriend: {
