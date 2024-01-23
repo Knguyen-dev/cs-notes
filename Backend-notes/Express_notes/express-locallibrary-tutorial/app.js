@@ -4,10 +4,12 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const ejsLayouts = require("express-ejs-layouts");
 
 // Importing our routers
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
+const catalogRouter = require("./routes/catalog");
 
 // Create express app
 const app = express();
@@ -33,7 +35,7 @@ try {
 2. Sets up view engine as ejs as well.
 */
 app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
+app.set("view engine", "pug");
 
 /*
 + Set up application's middleware stack.
@@ -44,6 +46,7 @@ app.set("view engine", "ejs");
 4. Parses incoming cookies from request header and allows us to access
   them in req.cookies.
 5. Serve all static assets from public directory
+6. Allow ejs to use layouts
 */
 app.use(logger("dev"));
 app.use(express.json());
@@ -57,10 +60,15 @@ app.use(express.static(path.join(__dirname, "public")));
 2. Prefix with "/users" to indicate its the user's section. So all routes 
   inside usersRouter will be accessed with "/users" prefixed to them such
   as "/users/1" or "/users/some_route"
+3. Add the catalog router to our middleware stack. Prepend the '/catalog'
+  route prefix, so all routes in the catalogRouter will be prefixed 
+  with '/catalog'. So to access a list of books, before you'd do '/books', but
+  now you'd do '/catalog/books'
 */
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/catalog", catalogRouter);
 
 /*
 + Catch HTTP 404 and forward to error handler

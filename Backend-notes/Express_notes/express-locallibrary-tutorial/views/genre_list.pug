@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1=locals.title 
+  if locals.genre_list.length 
+    ul 
+      each genre in locals.genre_list 
+        li
+          a(href=genre.url) #{genre.name}
+          

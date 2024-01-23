@@ -1,20 +1,107 @@
+# Local Library
+- Local Library is a project tutorial on mdn that's designed to take 
+  you through all of the main things that you need to know about express.
+  I'm following through and taking notes on it, so that I can not only
+  learn more about Express and familiarize myself with it, but also have 
+  this as a reference in the future.
+
+
+
+
+# Luxon: 
+- A modern and popular library for parsing, validating, and 
+  working with dates. We'll use this to format our dates as by default, when
+  we display our dates from our object models we get "Mon Apr 10 2020 15:49:58 GMT+1100 (Eastern Standard Time)" or something similar. We'll use luxon to format
+  this as Apr 10th, 2020.
+1. npm install luxon
+
+# Working with forms in Express:
+- We use forms to collect user info. Then we use html forms to 
+  send data via a POST request. Then we take that form info and ultimately
+  save that to our database. Often we use our GET request route for displaying 
+  the form to the user on a certain page, and then the POST request for 
+  handling the processing of form data. 
+
+- Form handling process:
+1. Display default form the first time it's requested. It could be blank or 
+  pre-populated with initial values (e.g. updating a record)
+2. Receive data from user, usually in POST request.
+3. Validate and sanitize the data. Validating is checking if fields are 
+  appropriate, whilst sanitization removes/replaces characters that may be 
+  used to send malicious content to the server.
+4. If any data is invalid, re-render the form, with error messages
+5. If all data is valid, save the data to the database. Then you'd send 
+  a notification email, etc.
+6. Then once all that's done we redirect the user to another page.
+
+- Packages:
+1. npm install express-validator; module for performing validation/sanitization
+
+
+# express-validator and server-side validation:
+- We're returned variables 'body' and 'validationResult'. The validation
+  and sanitization chains are middleware that should be passed to 
+  our express route handler. When the middleware runs, each is run in 
+  the order specified.
+1. body: Here we can specify fields that we want to check, and then
+  the error message we'll display if those fields are incorrect. Here
+  we'll do things such as .trim() and .escape() to sanitize our input.
+
+2. validationResult(req): Runs a validation check, making errors available 
+  in a validation result object. This is similar to how we handle forms 
+  in front-end react.
+
+
+# form design: 
+- To simplify the project. Our form will be limited to this:
+1. Create an object using objects that already exist, so users will have to
+  create any required AUthor or Genre instances before making any Book objects.
+2. Delete an object if it isn't reference by other objects. So you won't be able
+  to delete a book until all associated BookInstances have been deleted.
+
+- Book mark: Currently working on learning about express-validator and 
+  working with forms.
+
+
+https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/Date_formatting_using_moment
+
 
 # Routes:
 - We'll create 'controller' modules, which will just be 
-  our callback fucntiosn for our routes for our four models.
+  our callback fucntions for our routes for our four models.
 
 
-- catalog/ — The home/index page.
 
-- catalog/<objects>/ — The list of all books, bookinstances, genres, or authors (e.g. /catalog/books/, /catalog/genres/, etc.)
+# Templating with pug:
+- Another popular choice for templating. We'll
+  use it for right now, as we'll focus on more important
+  backend stuff. We will deal with the intricacies of templating later.
 
-- catalog/<object>/<id> — The detail page for a specific book, bookinstance, genre, or author with the given _id field value (e.g. /catalog/book/584493c1f4887f06c0e67d37).
 
-- catalog/<object>/create — The form to create a new book, bookinstance, genre, or author (e.g. /catalog/book/create).
+# Templating with ejs:
+- For templating, ejs doesn't provide a builtin way for 
+  layouts, so we need to install 'express-ejs-layouts' and
+  use it as middleware. 
+1. Partials: We call these your 'components'. They're
+  called partials, because they are simply a 
+- Html escaping: The process of converting certain characters 
+  into their HTML tag/entity equivalents to display them on the web.
 
-- catalog/<object>/<id>/update — The form to update a specific book, bookinstance, genre, or author with the given _id field value (e.g. /catalog/book/584493c1f4887f06c0e67d37/update).
+<%= ... %> is for outtputing HTML-escaped output.
 
-- catalog/<object>/<id>/delete — The form to delete a specific book, bookinstance, genre, author with the given _id field value (e.g. /catalog/book/584493c1f4887f06c0e67d37/delete).
+const userInput = '<script>alert("Hello, I am an XSS attack!");</script>';
+<p><%= userInput %></p>
+
+That would convert the '<' and '>' to their html escaped output turning
+them into html entities:
+<p>&lt;script&gt;alert("Hello, I am an XSS attack!");&lt;/script&gt;</p>
+
+
+<%- ... %> is for outputting raw unescaped HTML.
+The output would be: <p><script>alert("Hello, I am an XSS attack!");</script></p>
+
+- Takeaway: Use <%- your_html_markup %> when you want to render html markup.
+  If you're rendering text or user generated content, use <%= %> to prevent users inserting scripts.
 
 
 
@@ -24,6 +111,7 @@
   request.cookies. Just gives us an easy way to access cookie information.
 2. debug: Debugging utility tool.
 3. npm install ejs
+4. npm install express-ejs-layouts;
 4. npm install express
 3. morgan: An HTTP request logger middleware package.
 4. http-error: Creates HTTP errors when we need them. Good
@@ -63,7 +151,10 @@
 cd "onedrive/desktop/Sdev 265/CS-Programming-Notes/Backend-notes/Express_notes/express-locallibrary-tutorial"
 
 
-
+- book mark: 
+1. Validating the object id would be cool.
+2. Probably learning more about how the error handling works would be nice 
+3. Finally, switching to ejs, or Embedded JavaScript would be good.
 
 # Killing ports:
 - Sometimes we may have left a server running. 

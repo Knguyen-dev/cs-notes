@@ -31,6 +31,18 @@ const bookSchema = new mongoose.Schema({
 });
 
 /*
+- Virtual url property we created
+- NOTE about url: If your current URL is 'http://ocalhost:3000/catalog/books' and 
+yo uhave an anchor tag with href="/catalog/book/my_book_id", the browser 
+creates the full url by taking the base url and relative path of the href.
+This results in 'http://localhost:3000/catalog/book/my_book_id', as the 
+browser intelligently resolves the relative path.
+*/
+bookSchema.virtual("url").get(function () {
+	return `/catalog/book/${this._id}`;
+});
+
+/*
 + Export our "Book" model, and when we use it it'll create a 'books' collection.
   We'll use the string 'Book' to reference the book model and its collection in
   other schemas 

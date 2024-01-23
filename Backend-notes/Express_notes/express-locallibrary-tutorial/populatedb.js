@@ -55,14 +55,14 @@ async function authorCreate(index, first_name, family_name, d_birth, d_death) {
 	console.log(`Added author: ${first_name} ${family_name}`);
 }
 
-async function bookCreate(index, title, summary, isbn, author, genre) {
+async function bookCreate(index, title, summary, isbn, author, genres) {
 	const bookdetail = {
 		title: title,
 		summary: summary,
 		author: author,
 		isbn: isbn,
 	};
-	if (genre != false) bookdetail.genre = genre;
+	if (genres != false) bookdetail.genres = genres;
 
 	const book = new Book(bookdetail);
 	await book.save();

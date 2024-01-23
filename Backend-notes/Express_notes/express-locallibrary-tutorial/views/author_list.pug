@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1= locals.title
+
+  if locals.author_list.length
+    ul
+      each author in locals.author_list
+        li
+          a(href=author.url) #{author.name}
+          if author.formatted_lifespan
+            |  (#{author.formatted_lifespan})
+  else
+    p There are no authors.
