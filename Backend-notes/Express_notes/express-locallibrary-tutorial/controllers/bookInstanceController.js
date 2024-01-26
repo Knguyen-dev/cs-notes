@@ -1,5 +1,7 @@
 const BookInstance = require("../models/bookinstance");
 const asyncHandler = require("express-async-handler");
+const { body, validationResult } = require("express-validator");
+const Book = require("../models/book");
 
 /*
 + Display list of all BookInstances:
@@ -43,15 +45,76 @@ exports.bookinstance_detail = asyncHandler(async (req, res, next) => {
 	});
 });
 
-// Display BookInstance create form on GET.
+/*
++ Display BookInstance create form on GET:
+1. Fetch all books, but only their 'title' field, and sort them by their titles in ascending order.
+2. Render the bookinstance_form template file
+
+*/
 exports.bookinstance_create_get = asyncHandler(async (req, res, next) => {
-	res.send("NOT IMPLEMENTED: BookInstance create GET");
+	const allBooks = await Book.find({}, "title").sort({ title: 1 });
+	res.render("bookinstance_form", {
+		title: "Create BookInstance",
+		book_list: allBooks,
+	});
 });
 
-// Handle BookInstance create on POST.
-exports.bookinstance_create_post = asyncHandler(async (req, res, next) => {
-	res.send("NOT IMPLEMENTED: BookInstance create POST");
-});
+/*
++ Handle BookInstance create on POST.
+1. Obviously santiize the data. So .optional makes validation optional
+  for falsy values, meaning if the field is empty or evaluates to false, 
+  it's considered valid. However, if there is a value, then it moves past 
+  .optional(), and continues with the validation and move to .isISO6801(). 
+  If it's in the right format, then .toDate() is used to convert the 
+  string into a JavaScript date object, which is accepted in our schema.
+
+
+  - NOTE: Remember that input type date will return date string in 
+    ISO8601 format.
+
+
+*/
+exports.bookinstance_create_post = [
+	body("book", "Book must be specified").trim().isLength({ min: 1 }).escape(),
+	body("imprint", "Imprint must be specified")
+		.trim()
+		.isLength({ min: 1 })
+		.escape(),
+	body("status").escape(),
+	body("due_back", "Invalid date")
+		.optional({ values: "falsy" })
+		.isISO8601()
+		.toDate(),
+
+	asyncHandler(async (req, res, next) => {
+		// Clean and sanitize data
+		const errors = validationResult(req);
+
+		// Create book instance with that cleaned data
+		const bookInstance = new BookInstance({
+			book: req.body.book,
+			imprint: req.body.imprint,
+			status: req.body.status,
+			due_back: req.body.due_back,
+		});
+
+		if (!errors.isEmpty()) {
+			const allBooks = await Book.find({}, "title").sort({ title: 1 });
+			res.render("bookinstance_form", {
+				title: "Create BookInstance",
+				book_list: allBooks,
+				selected_book: bookInstance.book._id,
+				errors: errors.array(),
+				bookinstance: bookInstance,
+			});
+		} else {
+			// Else the form data is valid so save the book instance and redirect
+			// the user to its url
+			await bookInstance.save();
+			res.redirect(bookInstance.url);
+		}
+	}),
+];
 
 // Display BookInstance delete form on GET.
 exports.bookinstance_delete_get = asyncHandler(async (req, res, next) => {

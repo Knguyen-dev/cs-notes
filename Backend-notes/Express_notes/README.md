@@ -88,7 +88,3 @@
 2. Web Dev Simplified (Crash Course Express): https://www.youtube.com/watch?v=SccSCuHhOw0
 3. Web Dev Simplified (Middleware Tutorial): https://www.youtube.com/watch?v=lY6icfhap2o
 4. Web Dev Simplified (Mongoose Crash Course): https://youtu.be/DZBGEVgL2eE?feature=shared
-
-# Bookmark:
-
-- Starting part 3 of the mdn tutorial. I still want

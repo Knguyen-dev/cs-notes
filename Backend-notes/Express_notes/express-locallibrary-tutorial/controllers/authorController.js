@@ -2,6 +2,7 @@ const Author = require("../models/author");
 const Book = require("../models/book");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
+const mongoose = require("mongoose");
 
 /*
 + Let's make the callback functions that our route handlers will use.
@@ -40,6 +41,13 @@ exports.author_list = asyncHandler(async (req, res, next) => {
   we're querying for.
 */
 exports.author_detail = asyncHandler(async (req, res, next) => {
+	// Checks whether the Id is even a valid id in the first place
+	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+		const err = new Error("Page Not Found: Invalid Id for Author");
+		err.status = 400; // bad request
+		return next(err);
+	}
+
 	const [author, allBooksByAuthor] = await Promise.all([
 		Author.findById(req.params.id),
 		Book.find(
@@ -51,7 +59,7 @@ exports.author_detail = asyncHandler(async (req, res, next) => {
 	]);
 
 	if (author === null) {
-		// No results.
+		// No results with said id. They
 		const err = new Error("Author not found");
 		err.status = 404;
 		return next(err);
@@ -140,13 +148,50 @@ exports.author_create_post = [
 	}),
 ];
 
-// Display Author delete form on GET.
+/*
++ Display Author delete form on GET: The gimmic here is that the 
+  user has to delete all books associated with an author before actually deleting said author 
+  from the database.
+
+*/
 exports.author_delete_get = asyncHandler(async (req, res, next) => {
-	res.send("NOT IMPLEMENTED: Author delete GET");
+	const [author, allBooksByAuthor] = await Promise.all([
+		Author.findById(req.params.id),
+		Book.find({ author: req.params.id }, "title summary"),
+	]);
+
+	// If there wasn't an author for that ID
+	if (author === null) {
+		res.redirect("/catalog/authors");
+	}
+
+	res.render("author_delete", {
+		title: "Delete Author",
+		author: author,
+		author_books: allBooksByAuthor,
+	});
 });
 
-// Handle Author delete on POST.
 exports.author_delete_post = asyncHandler(async (req, res, next) => {
+	const [author, allBooksByAuthor] = await Promise.all([
+		Author.findById(req.params.id),
+		Book.find({ author: req.params.id }, "title summary"),
+	]);
+
+	// If the author has books, render our page again becasue they didn't delete all of the books
+	if (allBooksByAuthor.length > 0) {
+		res.render("author_delete", {
+			title: "Delete Author",
+			author: author,
+			author_books: allBooksByAuthor,
+		});
+	} else {
+		// Else author has no books, so just delete them and redirect to the list
+		// of authors.
+		await Author.findByIdAndDelete(req.body.author_id);
+		res.redirect("/catalog/authors");
+	}
+
 	res.send("NOT IMPLEMENTED: Author delete POST");
 });
 

@@ -87,4 +87,15 @@ bookInstanceSchema.virtual("due_back_formatted").get(function () {
 	return DateTime.fromJSDate(this.due_back).toLocaleString(DateTime.DATE_MED);
 });
 
+/*
++ Virtual due back date:
+
+1. Convert from a js date object to luxon. Then convert luxon date object
+  into an ISO 8601 date string. This allows us to work with input type date elements now.
+
+*/
+bookInstanceSchema.virtual("due_back_yyyy_mm_dd").get(function () {
+	return DateTime.fromJSDate(this.due_back).toISODate();
+});
+
 module.exports = mongoose.model("BookInstance", bookInstanceSchema);
