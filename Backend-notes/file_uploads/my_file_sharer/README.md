@@ -6,6 +6,14 @@
   to a page where you have to enter the password first in order to download the file. If password
   is incorrect we tell the user, else we prompt the user to download a file.
 
+# Takeaways:
+- Good takeaways from this is how or when to use multer, which is when we have 
+  forms where we need to upload files. It's good express routing review, and mongodb/mongoose
+  review as well. Also it's good introducing things such as dotenv, which lets our script access
+  an environment file without us having to actually add it in our npm scripts! Also 
+  good at basic intro to hashing passwords
+
+
 # Project setup:
 
 - Express for route handling. Mongoose for working with our mongodb database.

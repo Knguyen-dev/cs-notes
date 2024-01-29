@@ -8,6 +8,13 @@
 </head>
 <body>
 
+  <% if (locals.fileLink != null) {%>
+    <div style="margin-bottom: 1rem;">
+      Your file is uploaded
+    </div>
+    <a href="<%= locals.fileLink %>"><%= locals.fileLink %></a>
+  <% } %>
+
 
   <!-- 
     + Form that uploads files: Most forms contain only text, and very
@@ -17,10 +24,6 @@
       essentially on the web, we don't send the entire file at once, but rather 
       in chunks/pieces.
     2. Now we'll use the multer library to handle obtaining our form information.
-
-
-
-
    -->
   <form action="/upload" method="POST" enctype="multipart/form-data">
     <label for="file">File</label>
