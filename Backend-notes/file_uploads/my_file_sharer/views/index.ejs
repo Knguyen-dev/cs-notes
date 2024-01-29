@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+
+  <!-- 
+    + Form that uploads files: Most forms contain only text, and very
+      few forms actual contain files, so we have to indicate that our form
+      contains file information.
+    1. Define enctype="multipart/form-data", the reason it's multi-part is 
+      essentially on the web, we don't send the entire file at once, but rather 
+      in chunks/pieces.
+    2. Now we'll use the multer library to handle obtaining our form information.
+
+
+
+
+   -->
+  <form action="/upload" method="POST" enctype="multipart/form-data">
+    <label for="file">File</label>
+    <input type="file" name="file" id="file" required />
+
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" />
+
+    <button type="submit">Share</button>
+  </form>
+</body>
+</html>
