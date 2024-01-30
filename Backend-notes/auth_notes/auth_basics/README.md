@@ -4,16 +4,27 @@
   applications. We're going to take notes on authentication and how
   to do it in express.
 
-# passportJS package
+# Authentication choices:
+- There are many authentication options, in nodeJS and programming in general. From least to most complex:
 
-- Package for user authentication.
+1. Sessions
+2. JSON Web Tokens (JWT)
+3. OAuth: An authentication protocol. Separates authentication and authorization. 'Authentication' is verifying who the user is, whilst authorization is who has access to what resources. What a particular user has authorization to access. Are they only able to do GET requests, or are they also able to edit things? This is used more by big companies.
+4. Custom authentication implementation methods.
+
+
+
+
+
+
+
+# passportJS:
+- Authentication middleware for Node.js. Uses various different strategies or methods for authentication, from logging in with username and password, to authentication with Google. Allows us developers to create 'strategies' to customize our authentication.
+
+
 
 # bcrypt:
-
-- A simple library that helps hash passwords. This was explained in the file sharing
-  project ,but we want to hash passwords so that even if a person has access to the database,
-  they won't be able to see the real passwords of the people recorded in the database, just
-  the hashes of their passwords.
+- A simple library that helps hash passwords. This was explained in the file sharing project, but we want to hash passwords so that even if a person has access to the database, they won't be able to see the real passwords of the people recorded in the database, just the hashes of their passwords.
 
 # Terms:
 
