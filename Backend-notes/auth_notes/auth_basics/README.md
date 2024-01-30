@@ -1,8 +1,8 @@
 # Authentication basics and notes
-
 - The foundations to having users login and logout of our
   applications. We're going to take notes on authentication and how
-  to do it in express.
+  to do it in express. Here we're using passportJS to build a 
+  basic login system with username and password.
 
 # Authentication choices:
 - There are many authentication options, in nodeJS and programming in general. From least to most complex:
@@ -11,12 +11,6 @@
 2. JSON Web Tokens (JWT)
 3. OAuth: An authentication protocol. Separates authentication and authorization. 'Authentication' is verifying who the user is, whilst authorization is who has access to what resources. What a particular user has authorization to access. Are they only able to do GET requests, or are they also able to edit things? This is used more by big companies.
 4. Custom authentication implementation methods.
-
-
-
-
-
-
 
 # passportJS:
 - Authentication middleware for Node.js. Uses various different strategies or methods for authentication, from logging in with username and password, to authentication with Google. Allows us developers to create 'strategies' to customize our authentication.
