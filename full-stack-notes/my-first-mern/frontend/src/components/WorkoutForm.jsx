@@ -1,11 +1,19 @@
 import { useState } from "react";
+import { WORKOUT_ACTIONS } from "../contexts/WorkoutsContext";
+import useWorkoutsContext from "../hooks/useWorkoutsContext";
 
 export default function WorkoutForm() {
 	const [title, setTitle] = useState("");
 	const [load, setLoad] = useState("");
 	const [reps, setReps] = useState("");
-
 	const [error, setError] = useState(null);
+	const { dispatch } = useWorkoutsContext();
+
+	/*
+  - Get the dispatch function only. We're going to make it so
+    workouts are added to our context when form is submitted successfully, 
+    and we don't need the workouts value here.
+  */
 
 	/*
   + Handle form submission: Remember, we handle our form submission in react, rather than just let 
@@ -47,10 +55,22 @@ export default function WorkoutForm() {
 			if (!response.ok) {
 				setError(json.error);
 			} else {
+				/*
+        - On successful save to the database:
+        1. Clear the form fields and reset error to null since it was successful
+        2. Update the array of workouts in our context provider, which will append
+          the newly created workout to the end of our array. As a result
+          we'll be able to keep our UI, perfectly in-sync with our database. 
+          Remember that json is actually just the newly created document, in json form, with its
+          object id!
+        */
 				setTitle("");
 				setLoad("");
 				setReps("");
 				setError(null);
+
+				dispatch;
+				({ type: WORKOUT_ACTIONS.CREATE_WORKOUT, payload: json });
 			}
 		} catch (err) {
 			setError("Something went wrong. Please try again later!");

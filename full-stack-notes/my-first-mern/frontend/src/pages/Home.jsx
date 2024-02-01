@@ -40,13 +40,16 @@
 
 */
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
+import { WORKOUT_ACTIONS } from "../contexts/WorkoutsContext";
 import WorkoutDetails from "../components/WorkoutDetails";
 import WorkoutForm from "../components/WorkoutForm";
+import useWorkoutsContext from "../hooks/useWorkoutsContext";
 
 export default function Home() {
-	const [workouts, setWorkouts] = useState(null);
+	// Destructure our object and gain the workouts array and dispatch function
+	const { workouts, dispatch } = useWorkoutsContext();
 
 	/*
   + Fetches an array of workouts:
@@ -76,7 +79,12 @@ export default function Home() {
 			const response = await fetch("http://localhost:3000/api/workouts");
 			const json = await response.json();
 			if (response.ok) {
-				setWorkouts(json);
+				/*
+        - Set the state of the workotus with our dispatch function. Here 
+          we just set the workouts and assign the payload as the 
+          json, which will be an array of workout objects.
+        */
+				dispatch({ type: WORKOUT_ACTIONS.SET_WORKOUTS, payload: json });
 			}
 		};
 		fetchWorkouts();
