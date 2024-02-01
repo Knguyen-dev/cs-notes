@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { WORKOUT_ACTIONS } from "../contexts/WorkoutsContext";
 import useWorkoutsContext from "../hooks/useWorkoutsContext";
 
 export default function WorkoutForm() {
@@ -8,6 +7,11 @@ export default function WorkoutForm() {
 	const [reps, setReps] = useState("");
 	const [error, setError] = useState(null);
 	const { dispatch } = useWorkoutsContext();
+
+	/*
+  + Here's just a simple way to handle errors when the fields are empty.
+  */
+	const [emptyFields, setEmptyFields] = useState([]);
 
 	/*
   - Get the dispatch function only. We're going to make it so
@@ -54,6 +58,7 @@ export default function WorkoutForm() {
 
 			if (!response.ok) {
 				setError(json.error);
+				setEmptyFields(json.emptyFields);
 			} else {
 				/*
         - On successful save to the database:
@@ -68,9 +73,8 @@ export default function WorkoutForm() {
 				setLoad("");
 				setReps("");
 				setError(null);
-
-				dispatch;
-				({ type: WORKOUT_ACTIONS.CREATE_WORKOUT, payload: json });
+				setEmptyFields([]);
+				dispatch({ type: "CREATE_WORKOUT", payload: json });
 			}
 		} catch (err) {
 			setError("Something went wrong. Please try again later!");
@@ -89,6 +93,7 @@ export default function WorkoutForm() {
 				id="title"
 				onChange={(e) => setTitle(e.target.value)}
 				value={title}
+				className={emptyFields.includes("title") ? "error" : ""}
 			/>
 
 			<label htmlFor="load">Exercise Load:</label>
@@ -98,6 +103,7 @@ export default function WorkoutForm() {
 				id="load"
 				onChange={(e) => setLoad(e.target.value)}
 				value={load}
+				className={emptyFields.includes("load") ? "error" : ""}
 			/>
 
 			<label htmlFor="reps">Exercise reps:</label>
@@ -107,6 +113,7 @@ export default function WorkoutForm() {
 				id="reps"
 				onChange={(e) => setReps(e.target.value)}
 				value={reps}
+				className={emptyFields.includes("reps") ? "error" : ""}
 			/>
 
 			<button type="submit">Submit</button>

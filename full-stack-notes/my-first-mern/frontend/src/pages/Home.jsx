@@ -42,7 +42,6 @@
 
 import { useEffect } from "react";
 
-import { WORKOUT_ACTIONS } from "../contexts/WorkoutsContext";
 import WorkoutDetails from "../components/WorkoutDetails";
 import WorkoutForm from "../components/WorkoutForm";
 import useWorkoutsContext from "../hooks/useWorkoutsContext";
@@ -80,15 +79,17 @@ export default function Home() {
 			const json = await response.json();
 			if (response.ok) {
 				/*
-        - Set the state of the workotus with our dispatch function. Here 
+        - Set the state of the workouts with our dispatch function. Here 
           we just set the workouts and assign the payload as the 
           json, which will be an array of workout objects.
         */
-				dispatch({ type: WORKOUT_ACTIONS.SET_WORKOUTS, payload: json });
+				dispatch({ type: "SET_WORKOUTS", payload: json });
 			}
 		};
 		fetchWorkouts();
-	}, []);
+		// So whenever dispatch function changes, we re-run the useeffect function, however
+		// The dispatch function isn't going to change, so this is doesn't really change anything
+	}, [dispatch]);
 
 	return (
 		<div className="home">

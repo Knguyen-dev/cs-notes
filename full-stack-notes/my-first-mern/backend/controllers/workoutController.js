@@ -36,6 +36,11 @@ const mongoose = require("mongoose");
 // Get all workouts
 const getWorkouts = async (req, res) => {
 	try {
+		/*
+    - NOTE: Remember for the find function, when nothing was found it just
+      returns an empty array.
+    
+    */
 		const workouts = await Workout.find().sort({ createdAt: -1 });
 		res.status(200).json(workouts);
 	} catch (err) {
@@ -72,6 +77,34 @@ const getWorkout = async (req, res) => {
 */
 const createWorkout = async (req, res) => {
 	const { title, load, reps } = req.body;
+
+	/*
+  + Custom error messages: Depending on which fields are empty, we 
+  can choose to send back custom error messages. Here's a simple way 
+  to do it.
+
+
+  - NOTE: Mongoose also allows you to have custom error messages, but 
+    you'd probably use express validator to check datatypes and schema 
+    conditions to help with your error messages and send them 
+    back to the user honestly.
+  */
+	let emptyFields = [];
+	if (!title) {
+		emptyFields.push("title");
+	}
+	if (!load) {
+		emptyFields.push("load");
+	}
+	if (!reps) {
+		emptyFields.push("reps");
+	}
+	if (emptyFields.length > 0) {
+		return res
+			.status(400)
+			.json({ error: "Please fill in all fields", emptyFields });
+	}
+
 	try {
 		// Creates and saves workout to database
 		const workout = await Workout.create({
@@ -79,6 +112,7 @@ const createWorkout = async (req, res) => {
 			load,
 			reps,
 		});
+
 		res.status(200).json(workout);
 	} catch (err) {
 		res.status(500).json({ error: err.message });
