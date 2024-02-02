@@ -6,6 +6,9 @@ import {
 } from "react-router-dom";
 
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+
 import AppLayout from "./layouts/AppLayout";
 
 function App() {
@@ -13,6 +16,9 @@ function App() {
 		createRoutesFromElements(
 			<Route path="/" element={<AppLayout />}>
 				<Route index element={<Home />} />
+
+				<Route path="/login" element={<Login />} />
+				<Route path="/signup" element={<Signup />} />
 			</Route>
 		)
 	);

@@ -28,9 +28,7 @@
 
 - Deciding what kind of persistent memory that we're going to
   store the user's session data in. So this is usually going to
-  be a database. Basically setting up a session store means
-  that we're connecting our database to the express-session
-  middleware. So with an in-memory session store, your app will create
+  be a database. So with an in-memory session store, your app will create
   a session for a user with that sessionID, however once that server
   is terminated, that session and its data stored on the server is gone.
   So even if the user has the cookie with the sessionID, it's not
