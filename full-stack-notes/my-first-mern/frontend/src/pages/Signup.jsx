@@ -8,12 +8,13 @@ import useSignup from "../hooks/useSignup";
 export default function Signup() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+
 	const { signup, error, isLoading } = useSignup();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		// Attempt to sign up
+		// Attempt to sign up with user's email and plaintext passwrod
 		await signup(email, password);
 	};
 
@@ -39,9 +40,12 @@ export default function Signup() {
 				value={password}
 			/>
 
+			{/* Disable the button whilst the request for signing up the user is happening */}
 			<button disabled={isLoading} type="submit">
 				Sign up
 			</button>
+
+			{/* Output an error is there's one */}
 			{error && <div className="error">{error}</div>}
 		</form>
 	);

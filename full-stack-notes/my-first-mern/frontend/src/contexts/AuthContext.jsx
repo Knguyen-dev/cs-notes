@@ -1,5 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useReducer } from "react";
+import PropTypes from "prop-types";
+
+import { useEffect } from "react";
 
 export const AuthContext = createContext();
 
@@ -26,6 +29,26 @@ export const AuthContextProvider = ({ children }) => {
 		user: null,
 	});
 
+	useEffect(() => {
+		/*
+    1. Get the 'user' key from local storage. Remember when it's in local storage it's a json
+      string, so we need to parse/convert it into a javascript object.
+    2. Now we don't know if we actually got something, check to see whether or not 
+      the user had an object with the {email, token} in local storage. 
+      If so, log them in, else don't.
+      
+    - By doing this we can make it so even if the user leaves or closes the 
+      browser, then the next time they come in they're already authenticated. 
+      Allowing our front end react application to remember our login state.
+      And we didn't even need to check with the server because we're working with JWTs.
+    */
+		const user = JSON.parse(localStorage.getItem("user"));
+
+		if (user) {
+			dispatch({ type: "LOGIN", payload: user });
+		}
+	}, []);
+
 	// Good for keeping track of the state in the browser
 	console.log("AuthContext state: ", state);
 
@@ -42,4 +65,8 @@ export const AuthContextProvider = ({ children }) => {
 			{children}
 		</AuthContext.Provider>
 	);
+};
+
+AuthContextProvider.propTypes = {
+	children: PropTypes.element,
 };

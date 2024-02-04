@@ -2,8 +2,7 @@
 + We want a custom hook that we can use on the Signup and Login form.
   This just modularizes the code and enforces code separation. 
   The plan is to sign up, get a response back, and then ultimately
-  update the AuthContext state value. As a result, our react application
-  can track when the user is authenticated or not.
+  update the AuthContext state value. 
 
 */
 
@@ -17,22 +16,19 @@ export default function useSignup() {
 
 	const signup = async (email, password) => {
 		/*
-    - Starting a new request, so indicate that it's loading
-      and also clear any previous errors since it's a new request,
-      we don't know whether it's going to succeed or not!
-    */
-		setIsLoading(true);
-		setError(null);
+    + Given an email and password, register the user in our database and 
+      authenticate them.
 
-		/*
     + Make a POST request to our signup endpoint.
     - If it's successful it would send us back the email the user just signed
       up with, and a JWT token.
       1. We want to set the json {user's email, JWT} in localStorage, in their 
         browser. As a result, even if they close their browser, they'll still be authenticated
-        if they come back. 
+        if they come back. So if they refresh, the global state will be null, unless we go ahead
+        and check for and get a jwt token from the user's local storage.
       2. Update our AuthContext state value! In this case we're sending in an 
         object with {email, JWT}, which will represent our user in our context provider.
+        By doing this we log the user in when they actually sign in.
 
     - Else, on failure it would send back an error message, which are defined
       in the "User" model's signup method, or it could be one of mongoose's errors.
@@ -46,7 +42,8 @@ export default function useSignup() {
       our data and sends back some stuff. While here we're trying to catch any
       connectivity or network errors that try to prevent us from connecting in the first place.
     */
-
+		setIsLoading(true);
+		setError(null);
 		try {
 			const response = await fetch("http://localhost:3000/api/user/signup", {
 				method: "POST",
