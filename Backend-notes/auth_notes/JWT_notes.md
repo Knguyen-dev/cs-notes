@@ -17,11 +17,14 @@
 1. User logs in and server creates a JWT, encoding or serializing it with a secret
    key value. Then the server gives that JWT to the client.
 2. Now client sends a request, the request comes with that JWT. The server checks
-   the JWT signature. If it's good, the server gets the user with the associated JWT
-   and logs them in.
+   if the JWT is valid. It takes the token's header, payload, and our secret key and
+   then hashes them together with the same algorithm used in token generation to create
+   the final hash, the signature. We compare our recomputed signature to the one in
+   the JWT that was provided. If they match, that means the JWT's data wasn't changed
+   or tampered with and it's valid.
 
 - NOTE: The difference is that with a JWT, nothing is stored on the server, and all
-  information about the user is stored on the JWT.
+  information about the user is stored on the JWT. Again the JWT will contain enough data to identify the user.
 
 # Anatomy:
 
@@ -73,34 +76,6 @@
   In applications that are driven via APIs and microservices you could use the JWT to authenticate
   the client with those various microservices.
 
-# Access and refresh tokens:
-
-- Access and refresh tokens are two types of JWTs used
-  in authentication system:
-
-1. Access tokens: Short lived tokens used by the client to show that they're
-   authorized or authenticated for some rseources. They have a limited life
-   span, so they're valid for a limited amount of time such as 1 minute. This increases
-   security which we'll talk about later.
-2. Refresh tokens: Long lived tokens that are used to 'refresh' or obtain a new token
-   once our current access token expires. Helps so that our user doesn't need to login again.
-   These are usually stored on the database and the client.
-
-- How it can work:
-
-1. Login, good now the server gives the client an access and a refresh token.
-2. Client includes access token in headers of subsequent requests. If valid token and not
-   expired, the user is authenticatefd and given access to whatever resources they wanted.
-3. In the event of access token expiration, the client uses their refresh token. They'll
-   send a request containing the expired jwt and refresh token to the auth api endpoint.
-   The server checks the validity of the expired token and the refresh token, and
-   then gives the client a new access token and new refresh token.
-
-- Why?: Continuous login, if access token is taken, it's only valid for a very short amount of time
-  so attackers can't do much, etc.
-
 # Credits:
 
 1. Web Dev Simplified: https://www.youtube.com/watch?v=7Q17ubqLfaM
-2. Access and Refresh tokens: https://www.youtube.com/watch?v=-Z57Ss_uiuc
-3. More on access and refresh tokens:

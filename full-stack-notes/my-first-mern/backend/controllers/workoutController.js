@@ -39,9 +39,20 @@ const getWorkouts = async (req, res) => {
 		/*
     - NOTE: Remember for the find function, when nothing was found it just
       returns an empty array.
+      
+    - With auth: 
+    1. So filter out and find only the workout documents related
+      to the user that's making teh request. So here find all workouts 
+      that were created by the user.
+
     
+    
+
     */
-		const workouts = await Workout.find().sort({ createdAt: -1 });
+
+		const workouts = await Workout.find({ user_id: req.user }).sort({
+			createdAt: -1,
+		});
 		res.status(200).json(workouts);
 	} catch (err) {
 		res.status(500).json({ error: err.message });
@@ -111,6 +122,11 @@ const createWorkout = async (req, res) => {
 			title,
 			load,
 			reps,
+
+			// Assign the id of the user making the request
+			// NOTE: Remember that in our middleware, we assign req.user to the id value of the user we found
+			// Realistically we should have named it req.user_id, but here we are.
+			user_id: req.user,
 		});
 
 		res.status(200).json(workout);

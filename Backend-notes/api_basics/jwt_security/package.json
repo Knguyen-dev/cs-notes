@@ -4,7 +4,10 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev": "nodemon server"
+		"dev": "nodemon server",
+		"dev2": "nodemon server2",
+		"auth": "nodemon authServer",
+		"start": "concurrently \"npm run dev2\" \"npm run auth\""
 	},
 	"keywords": [],
 	"author": "",
@@ -14,6 +17,7 @@
 		"jsonwebtoken": "^9.0.2"
 	},
 	"devDependencies": {
+		"concurrently": "^8.2.2",
 		"dotenv": "^16.4.1",
 		"nodemon": "^3.0.3"
 	}

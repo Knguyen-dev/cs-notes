@@ -52,4 +52,4 @@
 
 1. 'knguyen44@ivytech.edu' with password "Password_123"
 
-- BOOK MARK: On video 14, which is protecting API routes.
+- BOOK MARK: On part 15

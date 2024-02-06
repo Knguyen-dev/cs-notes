@@ -1,8 +1,10 @@
 import PropTypes from "prop-types";
 import useWorkoutsContext from "../hooks/useWorkoutsContext";
+import useAuthContext from "../hooks/useAuthContext";
 
 export default function WorkoutDetails({ workout }) {
 	const { dispatch } = useWorkoutsContext();
+	const { user } = useAuthContext();
 
 	/*
   + Handling deleting a workout:
@@ -13,12 +15,22 @@ export default function WorkoutDetails({ workout }) {
 
   3. We delete the workout in the database, and we will also delete the workout 
     from our global state value, so that the database and context remain in sync!
+
+  + With Auth: Only let the user be able to delete workouts when 
+    they are logged in. 
   */
 	const handleClick = async () => {
+		if (!user) {
+			return;
+		}
+
 		const response = await fetch(
 			"http://localhost:3000/api/workouts/" + workout._id,
 			{
 				method: "DELETE",
+				headers: {
+					Authorization: `Bearer ${user.token}`,
+				},
 			}
 		);
 		const json = await response.json();

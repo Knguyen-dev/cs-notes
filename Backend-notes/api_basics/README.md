@@ -33,7 +33,7 @@
 
 1. 400 Bad Request: Client side input failed our serverside validation
 2. 401 Unauthorized: User isn't authorized to access resource. Usually when user isn't authenticated.
-3. 403 Forbidden: They're authenticated, but they're just not allwoed to access a resource.
+3. 403 Forbidden: They're authenticated, but they're just not allowed to access a resource.
 4. 404 Not Found: Resource wasn't found
 5. 500 Internal server error: A generic server error. Probably shouldn't use it too much since it doesn't
    really provide much information.
@@ -74,7 +74,7 @@
   our API paths. For example "/v1/employees" and "/v2/employees" both get a list of employees but are
   different API versions!
 
+# Credits:
 
-  # Credits:
-
-  1. Rest API design: https://stackoverflow.blog/2020/03/02/best-practices-for-rest-api-design
+1. Rest API design: https://stackoverflow.blog/2020/03/02/best-practices-for-rest-api-design
+2. Implementing JWT and Protecting API Routes: https://www.youtube.com/watch?v=mbsmsi7l3r4

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useWorkoutsContext from "../hooks/useWorkoutsContext";
+import useAuthContext from "../hooks/useAuthContext";
 
 export default function WorkoutForm() {
 	const [title, setTitle] = useState("");
@@ -7,6 +8,7 @@ export default function WorkoutForm() {
 	const [reps, setReps] = useState("");
 	const [error, setError] = useState(null);
 	const { dispatch } = useWorkoutsContext();
+	const { user } = useAuthContext();
 
 	/*
   + Here's just a simple way to handle errors when the fields are empty.
@@ -40,10 +42,21 @@ export default function WorkoutForm() {
   - Error messages: We purposely left out 'required' to see the error messages for our server
     side validation. However these error messages such as "Workout validation failed: load: Path 'load is required'"
     doesn't make sense to users. 
+
+  + With auth: Again we must define the authorization header with the bearer token.
+    We must remember to only allow this request to happen when the user is defined, 
+    which means the user is logged in and they that jwt token that makes them authorized 
+    to do these requests.
   */
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const workout = { title, load, reps }; // current workout
+
+		// If not logged in, stop function early and set error telling user to log in.
+		if (!user) {
+			setError("You must be logged in!");
+			return;
+		}
 
 		try {
 			const response = await fetch("http://localhost:3000/api/workouts", {
@@ -51,6 +64,7 @@ export default function WorkoutForm() {
 				body: JSON.stringify(workout),
 				headers: {
 					"Content-Type": "application/json",
+					Authorization: `Bearer ${user.token}`,
 				},
 			});
 
