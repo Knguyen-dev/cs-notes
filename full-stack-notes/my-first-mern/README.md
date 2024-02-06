@@ -47,9 +47,3 @@
 
 1. Mern Stack Intro Playlist: https://youtu.be/98BzS5Oz5E4?feature=shared
 2. Mern Auth Playlist: https://youtu.be/WsRBmwNkv3Q?feature=shared
-
-# Test users
-
-1. 'knguyen44@ivytech.edu' with password "Password_123"
-
-- BOOK MARK: On part 15
