@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const workoutsRouter = require("./routes/workouts");
+const userRouter = require("./routes/user");
 const app = express();
 
 /*
@@ -32,10 +33,12 @@ app.use((req, res, next) => {
 + Create our routes.
 - Workout routes: Since our express app is an api, we should prefix the routes 
   with something to indicate that.
-
+- User routes: Just the routes for handling user related information. Such 
+  as logging in, or signing up.
 
 */
 app.use("/api/workouts", workoutsRouter);
+app.use("/api/user", userRouter);
 
 // Connect to database and listen for requests
 mongoose

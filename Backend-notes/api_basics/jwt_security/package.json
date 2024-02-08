@@ -1,0 +1,24 @@
+{
+	"name": "jwt_security",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "nodemon server",
+		"dev2": "nodemon server2",
+		"auth": "nodemon authServer",
+		"start": "concurrently \"npm run dev2\" \"npm run auth\""
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"express": "^4.18.2",
+		"jsonwebtoken": "^9.0.2"
+	},
+	"devDependencies": {
+		"concurrently": "^8.2.2",
+		"dotenv": "^16.4.1",
+		"nodemon": "^3.0.3"
+	}
+}

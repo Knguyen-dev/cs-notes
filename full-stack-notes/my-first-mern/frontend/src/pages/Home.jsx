@@ -42,14 +42,16 @@
 
 import { useEffect } from "react";
 
-import { WORKOUT_ACTIONS } from "../contexts/WorkoutsContext";
 import WorkoutDetails from "../components/WorkoutDetails";
 import WorkoutForm from "../components/WorkoutForm";
 import useWorkoutsContext from "../hooks/useWorkoutsContext";
+import useAuthContext from "../hooks/useAuthContext";
 
 export default function Home() {
 	// Destructure our object and gain the workouts array and dispatch function
 	const { workouts, dispatch } = useWorkoutsContext();
+
+	const { user } = useAuthContext();
 
 	/*
   + Fetches an array of workouts:
@@ -73,22 +75,52 @@ export default function Home() {
     having to fetch from the database. Then of course when the user refreshes,
     the effect will populate the state with the most up to date data.
     Let's move on to our WorkoutContext file.
+
+  + With auth:
+  - We need to send the access token in the 'Authorization' header.
+    Remember the header's value is 'Bearer <access_token>'. Also 
+    remember that this request is only made if our user is defined, 
+    so that's why we did that conditional check with this effect before.
+
+
+
   */
 	useEffect(() => {
 		const fetchWorkouts = async () => {
-			const response = await fetch("http://localhost:3000/api/workouts");
+			const response = await fetch("http://localhost:3000/api/workouts", {
+				headers: {
+					Authorization: `Bearer ${user.token}`,
+				},
+			});
 			const json = await response.json();
 			if (response.ok) {
 				/*
-        - Set the state of the workotus with our dispatch function. Here 
+        - Set the state of the workouts with our dispatch function. Here 
           we just set the workouts and assign the payload as the 
           json, which will be an array of workout objects.
         */
-				dispatch({ type: WORKOUT_ACTIONS.SET_WORKOUTS, payload: json });
+				dispatch({ type: "SET_WORKOUTS", payload: json });
 			}
 		};
-		fetchWorkouts();
-	}, []);
+
+		/*
+    - if we have a value for the user, we know we have a jwt
+      token to get us authorized for the request. As a result 
+      if user is defined, then fetch the workouts.
+
+
+    - NOTE: This also it so that the effect is dependent on user. So if 
+      our user global state changes, this will run. So if you logout this 
+      re-runs and we aren't rendered any workouts.
+    
+    */
+		if (user) {
+			fetchWorkouts();
+		}
+
+		// So whenever dispatch function changes, we re-run the useeffect function, however
+		// The dispatch function isn't going to change, so this is doesn't really change anything
+	}, [dispatch, user]);
 
 	return (
 		<div className="home">

@@ -14,6 +14,12 @@ const workoutSchema = new mongoose.Schema(
 			type: Number,
 			required: true,
 		},
+
+		// Could also do the 'ref' way, but this keeps it simple
+		user_id: {
+			type: String,
+			required: true,
+		},
 	},
 	/*
   - with toJSON: So when we send our model objects over as json data, they
