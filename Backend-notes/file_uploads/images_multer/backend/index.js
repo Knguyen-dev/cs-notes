@@ -7,7 +7,9 @@ const multer = require("multer");
 const path = require("path");
 const User = require("./models/User");
 const app = express();
-app.use(cors()); // allows cross origin requests
+app.use(express.static("public"));
+
+// app.use(cors()); // allows cross origin requests
 app.use(express.json()); // lets us parse json from request body
 
 /*
@@ -17,7 +19,6 @@ request to http://localhost:3000/public/images/some_image.png
 would let us get that image from our front
 
 */
-app.use(express.static("public"));
 
 /*
 - Disk Storage: Remember we use multer for handling 
