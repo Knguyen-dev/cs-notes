@@ -1,14 +1,14 @@
 :root {
-    --ff-primary: Heebo, sans-serif;
-    --ff-secondary: Bungee, cursive;
-    --ff-accent: Bungee Shade, cursive;
+	--ff-primary: Heebo, sans-serif;
+	--ff-secondary: Bungee, cursive;
+	--ff-accent: Bungee Shade, cursive;
 }
 
 /* Box sizing rules */
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 /* Remove default margin */
@@ -22,44 +22,44 @@ figure,
 blockquote,
 dl,
 dd {
-    margin: 0;
+	margin: 0;
 }
 
 h1,
 h2,
 h3,
 h4 {
-    font-family: var(--ff-secondary);
+	font-family: var(--ff-secondary);
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
 ul[role="list"],
 ol[role="list"] {
-    list-style: none;
+	list-style: none;
 }
 
 /* Set core root defaults */
 html:focus-within {
-    scroll-behavior: smooth;
+	scroll-behavior: smooth;
 }
 
 /* Set core body defaults */
 body {
-    min-height: 100vh;
-    text-rendering: optimizeSpeed;
-    line-height: 1.5;
+	min-height: 100vh;
+	text-rendering: optimizeSpeed;
+	line-height: 1.5;
 }
 
 /* A elements that don't have a class get default styles */
 a:not([class]) {
-    text-decoration-skip-ink: auto;
+	text-decoration-skip-ink: auto;
 }
 
 /* Make images easier to work with */
 img,
 picture {
-    max-width: 100%;
-    display: block;
+	max-width: 100%;
+	display: block;
 }
 
 /* Inherit fonts for inputs and buttons */
@@ -67,116 +67,156 @@ input,
 button,
 textarea,
 select {
-    font: inherit;
+	font: inherit;
 }
 
 /* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
 @media (prefers-reduced-motion: reduce) {
-    html:focus-within {
-        scroll-behavior: auto;
-    }
+	html:focus-within {
+		scroll-behavior: auto;
+	}
 
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
 }
 
 body {
-    font-family: var(--ff-primary);
-    font-size: 1rem;
-    /* for demo purposes only */
-    padding: 2rem 0;
+	font-family: var(--ff-primary);
+	font-size: 1rem;
+	/* for demo purposes only */
+	padding: 2rem 0;
 }
 
 .container {
-    max-width: 100rem;
-    margin-inline: auto;
-    padding-inline: 2rem;
+	max-width: 100rem;
+	margin-inline: auto;
+	padding-inline: 2rem;
 }
 
+/*
+- utility class that places stuff on top of 
+  each other. This targets the direct children so 
+  that would be the image and card content.
+  This overlaps them.
+*/
 .stacked {
-    display: grid;
+	display: grid;
+}
+.stacked > * {
+	grid-column: 1/2;
+	grid-row: 1/2;
 }
 
-.stacked > * {
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
-}
+/*
+
+
+- repeat(auto-fit, minmax(15rem, 1fr)): Automatically it's just going to 
+  automatically fit the amount of columns for you depending on 
+  what sizes you give the columns. For minmax() we're defining
+  the minimum and maximum size of the columns, which the cards
+  will be placed in. We define a minimum size of 15rem, and 
+  at most 1fr (as big as they can). So essentially if the grid sees
+  a column that is below the minimum size, it will readjust the columns
+  so the extra cards are on the next rows.
+
+
+  
+  Minimum size is generally the one you'll change 
+  up depending on your layout, but you generally want it to be 
+  pretty small to get to those smaller screens.
+  
+  
+  
+- NOTE: There's also auto-fill, but 99% of the time you'll want auto-fit. 
+  Though the only limitation is that when you don't have that many items, 
+  like a row with like 3 items when the max is like 7, that row with 3 
+  items isn't going to be centered or anything. Not really an issue
+  when you have many items.
+
+
+
+*/
 
 .product-grid {
-    display: grid;
-    gap: 0.125rem;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
 }
+
+/*
++ Styling a card:
+
++ Content:
+- align-self: Card content stretches entire grid, so put it at bottom
+
++ Image
+- aspect-ratio: For aspect ratio to work, you 
+  need to set the width for the image. However 
+  to balance this and max things 'dynamic', set 
+  width to 100% of its container. Now the height will try to match 
+  that calculated width.
+- object-fit: cover; instead of stretching the image, it 
+  crops the images to fit the dimensions.
+*/
 
 .card {
-    aspect-ratio: 1 / 1.5;
-    /* border: 3px solid hotpink; */
+	/* Width is 1, then height is 1.5 the width */
+	aspect-ratio: 1 / 1.5;
 }
-
-.card__content {
-    background: white;
-    align-self: end;
-    margin: 0.5rem 0.5rem 2rem;
-    padding: 0.5rem;
-    box-shadow: 0 0.25rem 1rem rgb(0 0 0 / 0.1);
-}
-
 .card__title {
-    font-size: 1.25rem;
-    line-height: 1.1;
-    color: firebrick;
+	font-size: 1.25rem;
+	line-height: 1.1;
+	color: firebrick;
 }
 
 .card__price {
-    font-size: 1.75rem;
+	font-size: 1.75rem;
+}
+
+.card__content {
+	background: white;
+	align-self: end;
+	margin: 0.5rem 0.5rem 2rem;
+	padding: 0.5rem;
+	box-shadow: 0 0.25rem 1rem rgb(0 0 0 / 0.1);
 }
 
 .card__img {
-    width: 100%;
-    aspect-ratio: 1 / 1.25;
-    object-fit: cover;
+	width: 100%;
+	object-fit: cover;
+	aspect-ratio: 1;
 }
 
-@media (min-width: 60em) {
-    .card__img {
-        aspect-ratio: 1 / 1;
-    }
+/*
++ Styling the featured card:
+- Now we make our featured card span two columns. So even 
+  on smaller screens it will stay two columns, which kind of 
+  interferes with the autofix. So for screens above 40em, we 
+  activate our featured card, and below that we don't apply 
+  its styles so even the featured card looks like the rest of 
+  the cards. 
 
-    .card.featured {
-        grid-row: span 2;
-        grid-column: span 2;
-    }
+- aspect-ratio: Basically a basic number, that makes 
+  the image look nice with its aspect ratio.
 
-    .card.featured .card__img {
-        aspect-ratio: 1 / 1.25;
-    }
+- NOTE: For all purposes, make sure the featured card is the 
+  first child of the grid. 
+*/
 
-    .card.featured .card__title {
-        font-size: 1.75rem;
-    }
-}
-
-.main-title {
-    font-size: clamp(2rem, 5vw + 1rem, 5rem);
-    line-height: 1;
-    color: white;
-    background: linear-gradient(-45deg, blue, red);
-    padding: 0.125em 0.5em;
-    margin-bottom: 1em;
-
-    width: fit-content;
-}
-
-p.max-content {
-    width: max-content;
-}
-
-p.min-content {
-    width: min-content;
+@media (min-width: 40em) {
+	.card.featured {
+		grid-row: span 2;
+		grid-column: span 2;
+	}
+	.card.featured .card__image {
+		aspect-ratio: 1 / 1.25;
+	}
+	.card.featured .card__title {
+		font-size: 1.75rem;
+	}
 }
