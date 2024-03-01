@@ -67,7 +67,15 @@ app.set("view engine", "pug");
   accessing values of form fields in the request body.
 4. Parses incoming cookies from request header and allows us to access
   them in req.cookies.
-5. Serve all static assets from public directory
+5. Serve all static assets from "public" directory
+
+  - Don't do  "http://localhost:3000/public/index.html"; it's close but just 
+    omit the 'public' word and just do "http://localhost:3000/index.html".
+
+  
+
+
+
 6. Allow ejs to use layouts
 */
 app.use(logger("dev"));

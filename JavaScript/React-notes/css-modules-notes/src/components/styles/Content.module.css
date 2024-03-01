@@ -1,0 +1,23 @@
+/* 
+- Notice we're using the same .btn classname 
+as in Header.module.css. Normally with css files 
+our classnames would conflict. But with css modules
+we can simply apply our css classes/styles individaully
+and separately.
+
+- How does this work?
+- A: Two selectors can't be the same. That always
+  stays true. However, css modules will add random
+  characters and strings at the end of the class
+  selector so that it is unique/random and that duplicate 
+  selectors don't conflict with each other. As a result 
+  we have the same clas name, but they are only applied
+  to the elements we specified.
+
+*/
+.btn {
+	background-color: royalblue;
+	font-size: 2rem;
+	color: white;
+	border-radius: 50%;
+}

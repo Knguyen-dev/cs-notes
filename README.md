@@ -24,3 +24,4 @@ Notes about programming
 -   "fatal: A branch named 'gh-pages' already exists."; Getting this when deploying app?
     A: Manually delete the ".cache" directory located in path "node_modules/.cache/gh-pages".
     That is one good solution.
+

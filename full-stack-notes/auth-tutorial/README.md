@@ -5,4 +5,4 @@
   you care.
 
 # Credits:
-1. https://youtu.be/oUZjO00NkhY?feature=shared; start with this one and work your way up
+- Dave Gray Jwt playlist: https://youtu.be/oUZjO00NkhY?feature=shared; 
