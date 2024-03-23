@@ -1,0 +1,23 @@
+{
+	"name": "jest-notes",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "jest ./ex6_mocking_db",
+		"dev": "nodemon ./ex5_http/server"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"jest": "^29.7.0",
+		"nodemon": "^3.1.0",
+		"supertest": "^6.3.4"
+	},
+	"dependencies": {
+		"cors": "^2.8.5",
+		"express": "^4.19.1",
+		"mysql2": "^3.9.2"
+	}
+}
