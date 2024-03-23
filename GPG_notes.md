@@ -67,6 +67,14 @@
 6. gpg --export --armor <key_id>; get the public key block and copy all of it, including 'starting with' and 'ending block' text.
 7. Add new gpg key and put that block in. Now any commits you've signed with should show up as verified.
 
+## Common errors:
+- "gpg: can't connect to the keyboxd: IPC connect call failed;". Do the command below and then try committing again.
+  ```
+  gpgconf --kill gpg-agent
+  ```
+
+
+
 # Credits: 
 
 1. Installing gpg on windows 10: https://www.youtube.com/watch?v=y_E4uQZh_C4 
