@@ -68,11 +68,14 @@
 7. Add new gpg key and put that block in. Now any commits you've signed with should show up as verified.
 
 ## Common errors:
-- "gpg: can't connect to the keyboxd: IPC connect call failed;". Do the command below and then try committing again.
+1. "gpg: can't connect to the keyboxd: IPC connect call failed" - Do the command below and then try committing again.
   ```
   gpgconf --kill gpg-agent
   ```
-
+2. "gpg: error opening key DB: No Keybox daemon running" - Do the command below and then try to commit.
+```
+gpgconf --launch gpg-agent
+```
 
 
 # Credits: 
