@@ -27,6 +27,7 @@ Here's an example, let'ss say below was is a table called 'sales'. Let's say we 
 
 1. We would use group by to GROUP each row together by category. So we got a group where all rows have category A, and a group where all rows are category B. 
 2. Then we would use an aggregate function, meaning we'd do an operation on each time we got. So for each group, get the sum of the 'amount' values from all of the rows in each group.
+
 | category | amount |
 |----------|--------|
 | A        | 100    |
