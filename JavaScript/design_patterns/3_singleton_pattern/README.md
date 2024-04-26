@@ -9,6 +9,7 @@ We use the stored state, such as the loggedInUser, shopping cart, etc. in our pa
 app (aka 'master' or singleton), are just global variables essentially because you can use and access this data anywhere.
 This is one of the reasons that make the singleton design pattern controversial is because this is difficult to test
 since it requires you to create a singleton. As well as this, it may lead to tightly coupled code, as your other classes, may heavily rely on the singleton. 
+
 It can get hard to refactor or change the singleton since so many other things rely on it being a certain way.
 As well as this we could cause a race condition, where multiple places are accessing or updating your data, which 
 can lead to inaccurate reads and data being overwritten weirdly. For example a bank account of zero balance
@@ -16,5 +17,4 @@ operations to add $50 or take away $30, and they're executed at the same time. D
 happens first, things can be different. Is it add 50, then subtract 30 to get a total balance of 20 dollars. Or is it 
 subtract 30 first, and get an error, then after we add $50.
 
-So yeah, some even say that we should never use singleton pattern in our applications ever. However within this tutorial
-we will show that sometimes a singleton could be a good or even the perfect solution to a problem.
+So yeah, some even say that we should never use singleton pattern in our applications ever. However within this tutorial we will show that sometimes a singleton could be a good or even the perfect solution to a problem. However in general, be careful when using this.
