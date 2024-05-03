@@ -1,0 +1,93 @@
+/*
++ Line Clamp: Allows us to dictate the amount of lines. Then we need to define properties webkix box and the box orientation, and then overflow hidden.
+  So we when we define 'line-clamp: 2', our 'card__preview-text' can only have a maximum of 2 lines of text. Any more than that, it will be cutoff by ellipses.
+
+
++ What is WebKit:
+WebKit is a 'layout' engine primarily designed for rendering web pages, and it's used by several browsers suc has Safari and older versions of Chrome. The prefix can be put on specific properties, and their values are recognized
+by the WebKit-based browsers. Doing '-webkit' prefix by itself supports browsers for Safari and older versions of Chrome. To ensure our css code works on a wider range of browsers we need to include the prefixes for other browsers
+
+*/
+
+.card__preview-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* other styling */
+:root {
+    /* Colors */
+    --gray-8: #888888;
+
+    /* Sizes */
+    --size-2: 1rem;
+    --size-3: 1.5rem;
+    --size-5: 2.5rem;
+    --size-fluid-2: 2rem;
+
+    /* Font sizes */
+    --font-size-fluid-3: 2.5rem;
+
+    /* Shadows */
+    --shadow-3: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    /* Line height */
+    --font-lineheight-4: 1.6;
+
+    /* Maximum width */
+    --max-width: 60rem;
+
+    /* Gaps */
+    --gap-fluid-2: 2rem;
+}
+
+body {
+    line-height: var(--font-lineheight-4);
+    padding-block-end: 5rem;
+}
+
+section {
+    padding-block: var(--size-fluid-2);
+}
+
+.page-title {
+    font-size: var(--font-size-fluid-3);
+}
+
+.wrapper {
+    inline-size: min(100% - 2rem, 60rem);
+    margin-inline: auto;
+}
+
+.even-columns {
+    display: grid;
+    gap: var(--size-fluid-2);
+
+    @media (min-width: 40em) {
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+    }
+}
+
+.card {
+    --card-padding: var(--size-3);
+    background: var(--gray-8);
+    padding-bottom: var(--card-padding);
+    border-radius: var(--size-2);
+    box-shadow: var(--shadow-3);
+    overflow: hidden;
+}
+
+.card > *:not(img:first-child) {
+    margin-inline: var(--card-padding);
+}
+
+.card > *:not(:first-child) {
+    margin-block-start: var(--size-5);
+}
+
+.card__title {
+    font-size: var(--font-size-5);
+}
