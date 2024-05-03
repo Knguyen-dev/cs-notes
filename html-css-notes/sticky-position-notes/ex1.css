@@ -1,0 +1,78 @@
+/*
+- How to do
+1. Do position sticky, and then dictate the position such as "top: 0'
+
+- NOTE: As soon as the top of the 'main-nav', touches the top (top: 0) of the viewport
+S then it will become position fixed. As we scroll back up it 
+  becomes position relative again.
+
+  Again as soon as the top of the element is 0 pixels away from the top of the viewport, it becomes
+  position: fixed, top: 0. However once it goes back to its original resting place, it goes back
+  into a noraml flow.
+
+*/
+
+.main-nav {
+    position: sticky;
+    top: 0;
+}
+
+/* Background Styles Only */
+
+@import url("https://fonts.googleapis.com/css?family=Raleway");
+
+* {
+    font-family: Raleway;
+}
+
+body {
+    background-color: #dfdfdf;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+html {
+    height: 300%;
+}
+
+.content {
+    padding: 10px;
+}
+
+.header-large {
+    color: #00ff6c;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    background-image: url("https://source.unsplash.com/g5Uh7nP60FA");
+    display: flex;
+    align-items: flex-start;
+}
+
+.main-nav {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    background-color: rgb(51, 51, 51);
+    padding: 5px;
+    color: #00ff6c;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+}
+
+.list-content {
+    padding: 10px 20px;
+}
+
+.list-header {
+    background-color: #333;
+    color: #00ff6c;
+    padding: 10px;
+    font-weight: bold;
+}
