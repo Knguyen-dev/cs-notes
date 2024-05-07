@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <!-- We still define 'src' since some browsers aren't compatible with srcset, so the 1600x400 acts as a fallback  -->
+
+        <!-- Now note that since width: 100vw, those 400w, 800w, etc. are dependent on the viewport's width. To
+            modify this we use the sizes  -->
+        <!-- '1600w' indicates that particular image is 1600px wide -->
+        <img
+            style="width: 50vw"
+            src="https://placehold.co/1600x400/png"
+            sizes="50vw"
+            srcset="
+                https://placehold.co/400x100/png   400w,
+                https://placehold.co/800x200/png   800w,
+                https://placehold.co/1600x400/png 1600w
+            "
+        />
+
+        <picture>
+            <!-- On screens 200px and below, show the 200x200 image. -->
+            <source
+                media="(max-width: 200px)"
+                srcset="https://placehold.co/200x200/png"
+            />
+            <!-- Default image we show -->
+            <img
+                src="https://placehold.co/600x200/png"
+                alt=""
+                style="width: 400px"
+            />
+        </picture>
+
+        <div id="data"></div>
+        <script>
+            window.addEventListener("resize", updateText)
+
+            updateText()
+            function updateText() {
+                const data = document.querySelector("#data")
+
+                // Width: 390, Ratio: 2. This means every screen pixel corresponds to 2 css pixels.
+
+                data.textContent = `Width: ${window.innerWidth}, Ratio: ${window.devicePixelRatio}`
+            }
+        </script>
+    </body>
+</html>

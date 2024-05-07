@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+
+        <style>
+            .ex-1 {
+                height: 100vh;
+                margin: 0;
+                background-image: url(https://images.unsplash.com/photo-1578241561880-0a1d5db3cb8a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80);
+                /*
+                - background-position: center; It ensures the image is centered in its container.
+                - background-size: cover; Resizes the image so that it completely fills its container, while cropping as little as possible. Here you noticeable see it 
+                  as this image is a lot larger than it's container, so as a result, to maintain the aspect ratio and make it fill the container, it is cropped as little as possible.
+                */
+                background-position: center;
+                background-size: cover;
+            }
+
+            /*
+            - Default value is object-fit: fill, which stretches the image. Cover, crops the image to the 
+              container. Whilst it seems contain won't crop it and it'll fit the image into the container.
+            */
+            .ex-2 {
+                height: 300px;
+                width: 100%;
+                object-fit: contain;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Example 1: Background position and size</h1>
+        <div class="ex-1"></div>
+
+        <h1>Example 2: Object fit</h1>
+        <img
+            class="ex-2"
+            src="https://images.unsplash.com/photo-1578241561880-0a1d5db3cb8a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80"
+            alt=""
+        />
+    </body>
+</html>
