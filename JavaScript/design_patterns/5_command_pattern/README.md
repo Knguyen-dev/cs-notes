@@ -19,3 +19,4 @@ accepts a specific lightbulb or an array of lightbulbs. The idea is that we pass
 However, what if our remote was universal for all appliances in a certain brand. We want our remote to 
 turn on the thermostat, or a light bulb, etc. Just pass in the objects to the TurnOnCommand class, now we pass that 
 commadn to our invoker (remote), later we'll be able to invoke it to affect the original objects (our receivers).
+
