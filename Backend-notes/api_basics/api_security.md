@@ -51,3 +51,9 @@
    so that we can prevent indefinite access.
    Here we'll make it so refresh tokens can't be used to get new refresh
    tokens.
+
+   
+
+# Credits:
+1. [JWT Explained - Web Dev Simplified](https://www.youtube.com/watch?v=mbsmsi7l3r4)
+2. [Implementing JWT and Protecting API Routes](https://www.youtube.com/watch?v=mbsmsi7l3r4)
