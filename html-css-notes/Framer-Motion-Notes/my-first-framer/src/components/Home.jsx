@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 /*
 
 Basics of Framer Motion:
@@ -14,8 +12,8 @@ Basics of Framer Motion:
 + X and Y positions: You can move elements with the 'x' and 'y' property, which move elements horizontally and vertically respectively.
   1. if x > 0, go right.
   2. if x < 0, go left.
-  3. if y > 0, go up.
-  4. if y < 0, go down.
+  3. if y < 0, go up.
+  4. if y > 0, go down.
 
   Of course x and y aren't css properties, but they are just 'convenience' properties created by the framer motion library
   to achieve certain functionality.
@@ -46,41 +44,83 @@ Intermediate Framer Motion
 2. Allow us to propagate 'variant' changes through the dom, which would result in cleaner code.
 3. Allow us to create relationships between parent and children motions, using 'transition orchestration properties'.
 
++ Keyframes
+Allows us ot havean element transition through several animations.
+
+
++ Animating something that's leaving the DOM:
+When a component leaves the DOM, it kind of just pops out by default. To 
+animate what happens when a component leaves the dom, we will use the AnimatePresence component!
+  
+
++ Animating routes
+Using what we've learned previously let's animate our routes. Currently we're 
+able to animate when a route comes in. It renders and the animation plays. However the 
+previous page just dismounts, with no animation at all. Let's change this with 
+AnimatePresence, and create an animation for pages leaving the DOM.
+
++ Toggling between variant properties:
+Utilize the useCycle hook that allows us to cycle through different values. Allowing us to swap through different animations 
+and even performing multiple animations based on certain interactions.
+So it our loader, we'll be swapping from animationOne to animationTwo, etc.
 
 
 */
+
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import Loader from "./Loader";
+
+
+const buttonVariants = {
+	hover: {
+		scale: 1.1,
+		textShadow: "3px 3px 3px rgb(255,255,255)",
+		boxShadow: "1px 1px 1px rgb(255,255,255)",
+		transition: {
+			duration: 0.5,
+			repeat: Infinity,
+			repeatType: "reverse",
+		},
+	},
+};
+
+const containerVariants = {
+	hidden: {
+		opacity: 0,
+	},
+	visible: {
+		opacity: 1,
+		transition: {
+			delay: 1,
+			duration: 3,
+		},
+	},
+	exit: {
+		x: "-100vw",
+		transition: {
+			ease: "easeInOut",
+		},
+	},
+};
 
 const Home = () => {
 	return (
-		// Simple home page with a link to go to the 'base' page
 		<motion.div
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{
-				// Wait 1 second after the component renders to start our animation
-				delay: 1,
-
-				// Make the entire animation take 3 seconds
-				duration: 3,
-			}}
-			className="home container">
+			variants={containerVariants}
+			initial="hidden"
+			animate="visible"
+			exit="exit"
+			className="home container"
+		>
 			<h2>Welcome to Pizza Joint</h2>
 			<Link to="/base">
-				<motion.button
-					whileHover={{
-						// Make button 1.1 times bigger when hovering over it
-						scale: 1.1,
-
-						// Create a shadow on the text
-						textShadow: "3px 3px 3px rgb(255,255,255)",
-
-						// Create a shadow on the box itself
-						boxShadow: "1px 1px 1px rgb(255,255,255)",
-					}}>
+				<motion.button variants={buttonVariants} whileHover="hover">
 					Create Your Pizza
 				</motion.button>
 			</Link>
+
+			<Loader />
 		</motion.div>
 	);
 };

@@ -5,6 +5,7 @@ import {
 	Route,
 	createRoutesFromElements,
 	RouterProvider,
+
 } from "react-router-dom";
 
 import AppLayout from "./components/AppLayout";
@@ -13,12 +14,16 @@ import Base from "../../my-first-framer/src/components/Base";
 import Toppings from "../../my-first-framer/src/components/Toppings";
 import Order from "../../my-first-framer/src/components/Order";
 
+
 function App() {
+	const [showModal, setShowModal] = useState(false);
+
 	/*
     - Keeps track of the stetings on our pizza as the user goes through our different pages.
       Well pass this pizza object down through our components.
     */
 	const [pizza, setPizza] = useState({ base: "", toppings: [] });
+
 
 	// Sets a base for the pizza
 	const addBase = (base) => {
@@ -43,19 +48,21 @@ function App() {
 
 	const myRouter = createBrowserRouter(
 		createRoutesFromElements(
-			<Route path="/" element={<AppLayout />}>
+			<Route path="/" element={<AppLayout showModal={showModal} setShowModal={setShowModal} />}>
 				<Route index element={<Home />} />
 				<Route path="base" element={<Base addBase={addBase} pizza={pizza} />} />
 				<Route
 					path="toppings"
-					element={<Toppings addBase={addTopping} pizza={pizza} />}
+					element={<Toppings addTopping={addTopping} pizza={pizza} />}
 				/>
-				<Route path="order" element={<Order pizza={pizza} />} />
+				<Route path="order" element={<Order pizza={pizza} setShowModal={ setShowModal} />} />
 			</Route>
 		)
 	);
 
-	return <RouterProvider router={myRouter} />;
+	return (
+		<RouterProvider router={myRouter} />	
+	);
 }
 
 export default App;
