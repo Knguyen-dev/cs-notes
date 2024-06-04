@@ -1,0 +1,48 @@
+{
+  meta: {
+    req: {
+      url: '/400',
+      headers: {
+        'user-agent': 'PostmanRuntime/7.39.0',
+        accept: '*/*',
+        'postman-token': '179c5dbf-0b23-454e-b264-641db7dcdd7b',
+        host: 'localhost:3000',
+        'accept-encoding': 'gzip, deflate, br',
+        connection: 'keep-alive'
+      },
+      method: 'GET',
+      httpVersion: '1.1',
+      originalUrl: '/400',
+      query: {}
+    },
+    res: { statusCode: 400 },
+    responseTime: 2
+  },
+  level: 'warn',
+  message: 'HTTP GET /400',
+  timestamp: '2024-05-28T23:06:14.074Z'
+}
+{
+  meta: {
+    req: {
+      url: '/500',
+      headers: {
+        'user-agent': 'PostmanRuntime/7.39.0',
+        accept: '*/*',
+        'postman-token': '3984d768-6bfe-4c78-8c52-0555ceb2145b',
+        host: 'localhost:3000',
+        'accept-encoding': 'gzip, deflate, br',
+        connection: 'keep-alive'
+      },
+      method: 'GET',
+      httpVersion: '1.1',
+      originalUrl: '/500',
+      query: {}
+    },
+    res: { statusCode: 500 },
+    responseTime: 0
+  },
+  level: 'error',
+  message: 'HTTP GET /500',
+  timestamp: '2024-05-28T23:06:34.473Z'
+}
