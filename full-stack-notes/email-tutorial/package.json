@@ -1,0 +1,12 @@
+{
+  "name": "email-tutorial",
+  "version": "1.0.0",
+  "description": "Today we'll be implementing email verification, password reset, and lastly two factor authentication in NodeJS. \r - email verification: So when a user signs up, we have a field for 'email', which is the email they want their account to be associated with. Then when they confirm their signup, we send a email to the email they signed up with. Here we'll need them to click a link or something to verify that their email is functioning and we can send emails to them.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

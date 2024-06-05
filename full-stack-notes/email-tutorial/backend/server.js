@@ -1,30 +1,24 @@
+require("dotenv").config();
+
 // Require our mongodb file
-require("./config/db");
+require("./src/config/db");
 
 const app = require("express")();
-const { CustomError, createError, jsonifyError } = require("./middleware/errorUtils");
-const port = 3000;
+const AuthRouter = require("./src/routes/AuthRouter");
 
+const port = 3000;
 
 // Bodyparser
 const bodyParser = require("express").json;
 app.use(bodyParser());
 
+app.use("/auth", AuthRouter);
 
 // Error handler
 app.use(function (err, req, res, next) {
-
-    
-    if (err instanceof CustomError) {
-        const errJson = jsonifyError(err);
-        res.status(err.statusCode).json(errJson);
-    } else {
-        const serverErr = createError(500, "Server Error!");
-        const errJson = jsonifyError(serverErr);
-        res.status(serverErr.statusCode).json(errJson);
-    }
+	res.status(500).json({ message: err.message });
 });
 
 app.listen(port, () => {
-    console.log(`Server started on port ${port}`);
-})
+	console.log(`Server started on port ${port}`);
+});
