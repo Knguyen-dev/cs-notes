@@ -2,17 +2,24 @@ require("dotenv").config();
 
 // Require our mongodb file
 require("./src/config/db");
-
-const app = require("express")();
+const express = require("express");
+const app = express();
+const cors = require("cors");
+const logger = require("morgan");
 const AuthRouter = require("./src/routes/AuthRouter");
+
 
 const port = 3000;
 
-// Bodyparser
-const bodyParser = require("express").json;
-app.use(bodyParser());
+app.use(cors());
+app.use(logger("dev"));
+app.use(express.json());  // json from request body
+app.use(express.urlencoded({ extended: true })); // json from forms
+
+
 
 app.use("/auth", AuthRouter);
+
 
 // Error handler
 app.use(function (err, req, res, next) {

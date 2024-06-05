@@ -10,7 +10,6 @@ request to the backend.
 
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import success from "../../images/success.png";
 import styles from "./styles.module.css";
 import { Fragment } from "react";
 import { axiosPublic } from "../../api/axios";
@@ -18,15 +17,18 @@ import { axiosPublic } from "../../api/axios";
 const EmailVerify = () => {
 	const [validUrl, setValidUrl] = useState(true);
 	const { token } = useParams();
+	const [error, setError] = useState("");
 
 	useEffect(() => {
 		const verifyEmailUrl = async () => {
 			try {
-				const url = `/api/auth/verify/${token}`;
+				// Make a request to the backend to verify the user's email, given the token in the route parameter
+				const url = `/auth/verify-email/${token}`;
 				await axiosPublic.get(url);
 				setValidUrl(true);
 			} catch (error) {
 				setValidUrl(false);
+				setError(error.response.data.message);
 			}
 		};
 		verifyEmailUrl();
@@ -36,14 +38,13 @@ const EmailVerify = () => {
 		<Fragment>
 			{validUrl ? (
 				<div className={styles.container}>
-					<img src={success} alt="success_img" className={styles.success_img} />
 					<h1>Email verified successfully</h1>
 					<Link to="/login">
 						<button className={styles.green_btn}>Login</button>
 					</Link>
 				</div>
 			) : (
-				<h1>404 Not Found</h1>
+				<h1>Error {error}</h1>
 			)}
 		</Fragment>
 	);

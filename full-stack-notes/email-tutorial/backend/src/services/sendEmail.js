@@ -101,4 +101,4 @@ transporter.verify((error) => {
 	}
 });
 
-module.exports = sendEmail;
+module.exports = {transporter, sendEmail};

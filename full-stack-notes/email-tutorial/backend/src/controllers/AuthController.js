@@ -1,6 +1,10 @@
 const User = require("../models/User");
 const Token = require("../models/Token");
-const sendEmail = require("../services/sendEmail");
+
+const sendVerifyEmail = require("../services/sendVerifyEmail");
+
+
+
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 
@@ -10,20 +14,23 @@ const generateEmailToken = () => {
 	return crypto.randomBytes(32).toString("hex");
 };
 
+/**
+ * Create a 'verification link'. This link should route the user to the front end route 'VerifyEmail' page
+ * where token is the string
+ */
 const generateVerificationURL = (token) => {
-	return `${process.env.BASE_URL}/auth/verify-email/${token.token}`;
+	return `${process.env.BASE_URL}/verify-email/${token}`;
 };
 
 const signup = async (req, res) => {
-	const { name, email, password, dateOfBirth } = req.body;
+	const { name, email, password } = req.body;
 
 	// Check if email is already in use
 	const existingUser = await User.findOne({ email: email });
 
 	if (existingUser) {
 		res.status(400).json({
-			message:
-				"An account with this email already exists! Please use a different email!",
+			message: "An account with this email already exists! Please use a different email!",
 		});
 		return;
 	}
@@ -34,13 +41,12 @@ const signup = async (req, res) => {
 		name,
 		email,
 		password: passwordHash,
-		dateOfBirth,
 	});
 
 	/*
-  - Create an email verification token in the database. We'll use a JsonWebToken to 
-    act as the token or string, and I'll explain this in the verifyEmail function.
-  */
+	- Create an email verification token in the database. We'll use a JsonWebToken to 
+	act as the token or string, and I'll explain this in the verifyEmail function.
+	*/
 	const token = await Token.create({
 		userId: user._id,
 		token: generateEmailToken(),
@@ -50,12 +56,18 @@ const signup = async (req, res) => {
 	const verificationURL = generateVerificationURL(token.token);
 
 	// Send the user an email with the link to verify the email to their account
-	await sendEmail(user.email, "Verify Your Email Example", verificationURL);
+	await sendVerifyEmail(user.email, user.name, verificationURL);
 
 	res.status(201).json({
 		message: `An email was sent to '${user.email}'. Check your email to verify your account!`,
 	});
 };
+
+
+
+
+
+
 
 const signin = async (req, res) => {
 	const { email, password } = req.body;
@@ -64,6 +76,7 @@ const signin = async (req, res) => {
 
 	// Check if the email correlates to any user; if not, return the error message
 	if (!user) {
+		console.log("Email is bad!");
 		res.status(400).json({ message: "Email or password is incorrect!" });
 		return;
 	}
@@ -71,6 +84,7 @@ const signin = async (req, res) => {
 	// Verify the password; If the password entered is incorrect, then return an error message
 	const isMatch = await bcrypt.compare(password, user.password);
 	if (!isMatch) {
+		console.log("Password is bad!");
 		res.status(400).json({ message: "Email or password is incorrect!" });
 		return;
 	}
@@ -92,8 +106,9 @@ const signin = async (req, res) => {
   and waited too long, so their verification link expired!
   */
 	if (!user.isVerified) {
-		let token = await Token.findOne({ userId: user._id });
+		console.log("User wasn't verified, sending an email!")
 
+		let token = await Token.findOne({ userId: user._id });
 		// If token doesn't exist, create a new one
 		if (!token) {
 			token = await Token.create({
@@ -105,21 +120,22 @@ const signin = async (req, res) => {
 		// Create a URL that the client will make a request to, in order to verify their account
 		const verificationURL = generateVerificationURL(token.token);
 
+		
+
 		// Send the user an email with the link to verify the email to their account
-		await sendEmail(
-			existingUser.email,
-			"Verify Your Email Example",
-			verificationURL
-		);
+		await sendVerifyEmail(user.email, user.name, verificationURL);
 
 		// Stop function execution early
-		return;
+		res.status(400).json({
+			message: "Account email hasn't been verified yet. Check your inbox!"
+		})
+		return ;
 	}
 
 	// At this point the login is successful
 	res.status(200).json({
 		message: "Login successful",
-		user: existingUser,
+		user: user,
 	});
 };
 
@@ -139,11 +155,13 @@ const verifyEmail = async (req, res) => {
 			token: req.params.token,
 		});
 
+		// If no token, stop execution early
 		if (!token) {
 			res.status(400).json({
 				message:
 					"Account doesn't exist, or has been verified already! Please signup or log in!",
 			});
+			return;
 		}
 
 		// Attempt to find user associated with the token; realistically you should be able to find the user
