@@ -1,0 +1,4 @@
+
+
+# Step 1: Exclude node_modules when making our image. We don't want to copy over this stuff
+node_modules

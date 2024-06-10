@@ -11,16 +11,15 @@ For our next layer, we want to include our source code. Here we do "COPY . .". O
 ## Dependencies layer
 For our third layer we want to include dependnecies the app uses. So to do this, we'll define commands that will install those dependencies. We do "RUN npm i". 
 
-- ISSUE: However the issue is the package.json for the will be copied in the '/app' folder, while this is run in the root folder of the image, it won't see that package.json file. So we need to run this command in the same directory as package.json file, which is in /app
+- ISSUE: However the issue is the package.json for the will be copied in the '/app' folder, while this is run in the root folder of the image, it won't see that package.json file. So we need to run this command in the same directory as package.json file, which is in /app 
 
-- SOLUTION: Specify a working directory for the container. So add "WORKDIR" to the Dockerfile. We'll place this at the second line, so all instructions after this will use the working directory. As a result, now when a command is run, it will do it from inside the app directory. Now we should fix "COPY . /app" because since that's a relative directory, that will make our source code get copied into /app/app. So change that to "COPY . ." so our source code is copied into "/app" only.
+- SOLUTION: Specify a working directory for the image. So add "WORKDIR" to the Dockerfile. We'll place this at the second line, so all instructions after this will use the working directory. As a result, now when a command is run, it will do it from inside the app directory. Now we should fix "COPY . /app" because since that's a relative directory, that will make our source code get copied into /app/app. So change that to "COPY . ." so our source code is copied into "/app" only.
 
 
 - Wait we just did "WORKDIR /app" so wouldn't "COPY . ." mean copy all form /app to /app? No, the first dot represents the location of the source files on your host machine, relative to the location of the Dockerfile. While the second dot represents the working directory of the image.
 
 ## Commands layer
 Finally we need a command that will run the node application while it's in the container.
-
 
 ```
 RUN node app.js
@@ -52,6 +51,7 @@ So we'll use a dockerignore file, which will ignore copying over all directories
 To build a docker image, you need to provide the name that you want the image to have and the path to the docker file, from your current directory. So here's the command: 
 ```
 docker build -t <image-name> <path-to-dockerfile>
+
 ```
 
 Applying this, here we tell docker to build an image with tag "my-node-app" and we do '.' to specify that the location of the docker file that's used to create the image is in the current directory. Of course, remember to have docker running in the background.
@@ -81,11 +81,12 @@ docker run -p 4000:4000 my-image-name
 ## Running Docker Image:
 On images tab, click 'run'. Now let's click on optional settings. Decide a name for the container, in this case "myapp1_c" and that c on the end indicates 'container'. 
 
-Inside the container the app is running on port 4000. So the port 4000 is exposed in the container. 
-However we can specify a port that we can use to reach this container on To allow us to communicate with it, let's do port mapping. On docker desktop enter 4000 for the port, which maps port 4000 on localhost to port 4000 on the container. Now when going to localhost:4000, it would hit our app. 
+Inside the container/process, the app is running on port 4000, which means port 4000 is exposed within the container. However, on your local computer (localhost), if you navigate to port 4000, you won't see anything running there because the app is using port 4000 inside the container, not on your computer directly. Docker containers are run in isolated enviornments, and each container can run services on their own port numbers, separate from the port numbers for other containers or the host system.
 
+To access the container's app from your local computer, you need to set up port mapping. This allows communication between your local computer and the container. By mapping a port on your local computer to a port on the container, you create a bridge between the two.
+
+For example, you can specify port 4000 on your local computer to map to port 4000 on the container. In Docker Desktop, you would enter 4000 for both the host port and the container port. Now, when you navigate to localhost:4000 on your local computer, it will forward the traffic to port 4000 on the container, allowing you to access your app.
 ```
-
 <!-- Run image and build container, also runs container  -->
 docker run -p 4000:4000 --name myapp1_c myapp
 ```
@@ -93,18 +94,8 @@ The '-p 4000:4000' does port mapping. The '--name myapp1_c' indicates the contai
 
 Takeaway: We have our application running inside this container, and we're able to access that running application with our computer. And it's all thanks to port mapping.
 
-Commands for starting and stopping the container do this:
-```
-<!-- General commands -->
-docker start <my-container-name>
-docker stop <my-container-name>
-```
-
 - NOTE: You can of course make it so port 3500 on localhost maps to port 4000 on the container. So going to localhost:3000 hits your app, but typically we keep the port numbers the same to avoid confusion.
-
-
 ### Docker CLI Commands
-
 ```
 <!-- Lists out all docker images -->
 docker images
@@ -112,30 +103,23 @@ docker images
 <!-- Lists out all docker containers that are currently running -->
 docker ps
 
-
 <!-- Lists all docker containers -->
 docker ps -a
-```
 
-```
-<!-- Building a docker image. -->
+<!-- Building a docker image; 't' flag names the image -->
 docker build -t <image_name> <path_to_dockerfile>
-```
-- 't': Names the image
-```
-<!-- Running a docker image to create a new container -->
-docker run -p <host_port>:<container_port> --name <container_name> <image_name>
-```
--
-- '-p': Maps a port from host machine to container
-- '--name': Assigns a name to the container
-- '-d': You can add a -d flag (detached) to ensure your terminal won't be occupied by the application.
 
-```
+<!-- Running a docker image to create a new container based off of an image -->
+docker run -p <host_port>:<container_port> --name <container_name> <image_name>
+
 <!-- Starting and stopping existing docker containers -->
 docker start <container_name>
 docker stop <container_name>
 ```
+- '-p': Maps a port from host machine to container
+- '--name': Assigns a name to the container
+- '-d': You can add a -d flag (detached) to ensure your terminal won't be occupied by the application.
+
 
 
 ## Layer Caching
@@ -146,11 +130,11 @@ Now let's say we changed our code in app.js. If you eventually want those change
 
 For example, in our second build, we changed the code layer, which is the third layer up. So 'COPY' and everything would be changed/rebuilt, but we can use the "WORKDIR" layer since it is before the change. So here docker only has to re-build 5 layers, which means less work and less build time. However, in our first example, we changed the parent image, our foundational layer. There are no layers before that we can use for a cache, so docker builds all of the layers again, which is why it took longer. 
 
-- ISSUE: You may be asking, if only the code is changed, why does it rebuild 'dependencies' and others. Well the image cached at the 'dependencies' layer depends on the code before the change. So we can't use it, even though our app dependencies didn't change. So we want to be able to cache layers such as 'dependencies', so that even if our source code layer is the only layer that changes, we don't have to rebuild the dependencies layer.
+- ISSUE: So we want to be able to cache layers such as 'dependencies', so that even if our source code layer is the only layer that changes, we don't have to rebuild the dependencies layer.
 
 - SOLUTION: Simply move 'dependencies' layer lower/before the code layer in dockerfile. By doing this, if source code is the only thing tha changes, we can cache up to 3 layers.
 
-- ISSUE 2: However, we are doing 'npm install', but the package.json is not there yet. package.json is only copied over in 'COPY' layer. So we need to have package.json there before we do npm install.
+- ISSUE 2: However, we are doing 'npm install', but the package.json is not there yet, in the image at least. package.json is only copied over in 'COPY' layer. So we need to have package.json there before we do npm install.
 
 - SOLUTION 2: Copy over the package.json as a layer, before our 'npm install' (dependencies layer). Now our npm install layer should work perfectly. As a result, if our code layer changes, we may be able to cache up to 4 layers.
 
@@ -158,41 +142,47 @@ For example, in our second build, we changed the code layer, which is the third 
 
 
 ## Deleting Docker Images
-Here's the command to delete a docker image. By default you can only delete images that are unused, meaning that aren't any containers created by that image. 
+Here's the command to delete a docker image. By default you can only delete images that are unused, meaning that aren't any containers created/associated by that image. 
 ```
+<!-- Deleting a single docker image -->
 docker image rm <image_name>
 
 <!-- Example of deleting multiple images with one command -->
 docker image rm <image_name_1> <image_name_2>
-```
-However you can force docker to delete an image, even if it's in-use. Use the 'f' flag for this.
-```
-<!-- Either command works -->
+
+<!-- Deleting an image, even if it's in use -->
 docker image rm <image_name> -f
 docker image rm <image_name> --force
 ```
-The other way to solve this is to delete the containers that are connected to the image you want to delete. Then once these containers are deleted, the image should now be marked as 'unused', allowing you to delete the image without forcing it.
-```
-docker container rm <container_name>
-```
+You could also simply delete the containers that are connected to the image you want to delete. Then once these containers are deleted, the image should now be marked as 'unused', allowing you to delete the image without forcing it.
 
 ## How to version our images using tags:
 On dockerhub, the tags for our node image indicate the node version nand linux distribution. For example '17-alpine' and '16-alpine' were some tags that indicated Node.js versions 17 and 16, with the linux 'alpine' distrubtion. Another example is '21-alpine3.18', which is a parent image for Node.js version 21 with alpine version 3.18. These tags are just different versions/variations of the same parent image for node. 
 
 ### How to create a tag
 Create a tag by adding a colon ':' after the image name, and then after that colon you specify some version and linux distribution. As a result you can create multiple versions of your images, that have slight variations.
-
 ```
 <!-- First let's delete all containers, images, and volumes. Don't worry about volumes, it's covered in a later section -->
-docker sysetm prune -a
-```
-Now let's build an image with a version. So here the tag is 'v1', which indicates the version of myapp.
-```
+docker system prune -a
+
+<!-- Build an image with a version; so the tag named here is 'v1', which indicates its the 'v1' version. We put '.' at the end to point to the relative path to the docker file that we're using to build this docker image. -->
 docker build -t myapp:v1 .
-```
-Now if we want to run a container for a certain version of our 'image' or app, we can do that by specifying the tag. 
+
+<!-- Creates and run docker container 'myapp_c' based on the image 'myapp' with tag/version 'v1'. The port mapping indicates that the process runs on port 4000 in the container, and we're linking that to port 4000 on the localhost.-->
+docker run --name myapp_c -p 4000:4000 myapp:v1
 ```
 
-<!-- Creates and runs a docker container 'myapp_c' with port mapping, based on image 'myapp' version 'v1' -->
-docker run --name myapp_c -p 4000:4000 myapp:v1
+### Dangling and unused images:
+First let's review terminology about images and image layers.
+- image layers: Docker images are built with layers. Each layer represents some instructions that build the software for that image. The docker layers are stacked, top layer using the software/tools from the layer below it, and we've created the final image.
+- images: A collection of layers of software stacked together. This then creates a template, called an 'image' that's used to create containers.
+- Dangling Images: Images (complete images not just individual layers) that aren't tagged and aren't referenced by any container. They often result from intermediate build steps when creating a new image.
+- Unused images: Images that aren't referenced by any container, so there aren't any running or stopped containers that are using these images.
+
+When Docker builds an image, it creates several layers. Some of these layers may become untagged and unreferenced (dangling) if the build process updates/replaces them with new versions. 
+```
+<!-- Here the repository name and tag are none, indicating that these images aren't tagged. So these are dangling-->
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+<none>              <none>              4e7c8db2e3f0        2 days ago          1.23GB
+<none>              <none>              b6d7e2d9f12b        2 days ago          1.23GB
 ```
