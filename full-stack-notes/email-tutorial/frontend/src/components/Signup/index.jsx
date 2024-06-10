@@ -1,7 +1,7 @@
 import { useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
+import { axiosPublic } from "../../api/axios";
 
 const Signup = () => {
 	const [data, setData] = useState({
@@ -18,9 +18,12 @@ const Signup = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setMsg(null);
+		setError(null);
+
 		try {
-			const url = "http://localhost:8080/api/users";
-			const { data: res } = await axios.post(url, data);
+			const url = "/auth/signup";
+			const { data: res } = await axiosPublic.post(url, data);
 			setMsg(res.message);
 		} catch (error) {
 			if (
@@ -40,7 +43,7 @@ const Signup = () => {
 					<h1>Welcome Back</h1>
 
 					{/* Link to redirect the user to the login page */}
-					<Link to="/login">
+					<Link to="/">
 						<button type="button" className={styles.white_btn}>
 							Log in
 						</button>
@@ -79,7 +82,7 @@ const Signup = () => {
 						{error && <div className={styles.error_msg}>{error}</div>}
 						{msg && <div className={styles.success_msg}>{msg}</div>}
 						<button type="submit" className={styles.green_btn}>
-							Sing Up
+							Sign Up
 						</button>
 					</form>
 				</div>

@@ -16,8 +16,11 @@ const Login = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setMsg(null);
+		setError(null);
+
 		try {
-			const url = "/api/auth/signup";
+			const url = "/auth/signin";
 
 			// Attempt to hit the login endpoint
 			await axiosPublic.post(url, data);
