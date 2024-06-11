@@ -1,0 +1,18 @@
+# Ignore node_modules directory
+node_modules
+
+# Ignore the Dockerfile itself
+dockerfile
+
+# Ignore the .dockerignore file itself
+.dockerignore
+
+# Ignore Git repository files
+.git
+.gitignore
+
+# Ignore Markdown files
+*.md
+
+# Ignore docker-compose files
+docker-compose*

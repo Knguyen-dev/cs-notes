@@ -1,0 +1,24 @@
+services:
+  node-app:
+    build:
+      # Just the location of the docker file, so '.' since it's in the same directory
+      # as our docker-compose.yaml file'
+      context: .
+
+      # Here you can pass arguments that will be able in the dockerfile
+      # Now the docker file can use the 'NODE_ENV' variable since it's being passed when we run the image
+      args:
+        NODE_ENV: development
+    volumes:
+      # In development we have volumes, so that files that change on our machine will be mirrored in the container
+      - ./:/app
+
+      # We have an anonymous volume that ensures the node_modules folder in the container won't be affected by changes on our host
+      - /app/node_modules
+    environment:
+      # a convention in Node applications, which is used to see if we're running something as 'development', 'production', or 'test'.
+      # developers often use it for conditional code execution. For example, maybe if the environment variable was 'development' we'd use console.log or something
+      - NODE_ENV=development
+
+    # Command that we run when the container starts. Since this docker-compose file is for development, we will run 'npm run dev'
+    command: npm run dev

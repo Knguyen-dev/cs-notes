@@ -1,0 +1,20 @@
+{
+    "name": "docker",
+    "version": "1.0.0",
+    "description": "So here we're going to be going more in depth on outlining how to setup docker when working with node. So we're going to be looking at how to setup in development and production 'workflows'. We're going to be going through everything step by step so that you can use this as a reference in the future",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon -L index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.19.2"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.3"
+    }
+}

@@ -1,0 +1,14 @@
+# For our production and development, let's say both run on the same port. If that's the case we can
+# have the port configurations in ithe parent docker-compose file.
+
+services:
+  node-app:
+    # Dockerfile location is the same regardless of our environment
+    build: .
+
+    # We're saying the port we're running on is the same in both production and development
+    # Of course the 'dev' and 'prod' dockerfiles can overwrite these if they want
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
