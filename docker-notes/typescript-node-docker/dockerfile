@@ -1,0 +1,40 @@
+
+# Doing 'as development' gives the stage a name (development), multistage processs
+FROM node:16-alpine3.17 as development
+
+# Our container's code in the src/app folder
+WORKDIR /usr/src/app
+
+# Copy the package.json and package-lock.json;
+# package.json defines our dependenices and scripts
+# package-lock.json ensures the exact versions of our dependencies are installed
+COPY package*.json . 
+
+RUN npm install
+
+# Copy from current directory to container's directory (usr/src/app)'
+COPY . .
+
+# In the first container we want to build our source code by converting TypeScript into JavaScript
+RUN npm run build 
+
+# Start of our second container; so this is the production container
+FROM node:16-alpine3.17 as production
+
+# Define the variable NODE_ENV, that's made available when building the image (at build time)
+ARG NODE_ENV=production
+
+# Create NODE_ENV environment variable, that will be available for the application running inside the container
+ENV NODE_ENV=${NODE_ENV}
+
+WORKDIR /usr/src/app
+
+# Again copy the package.json from our host computer and install production dependencies
+COPY package*.json .
+RUN npm ci --only=production
+
+# Copy files from the development stage to our production stage. Our javascript files stay in /dist though!
+COPY --from=development /usr/src/app/dist ./dist
+
+# Run the index.s in dist to run your production application; some people recommend to run node directly rather than use npm
+CMD ["node", "dist/index.js"]

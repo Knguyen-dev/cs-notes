@@ -1,0 +1,19 @@
+services:
+  api:
+    # Specify build arguments
+    build:
+      # Path to dockerfile
+      context: .
+
+      # The stage that we'll stop at. Since we're in the development stage we
+      # only want to stop when we finish this stage. We don't want to go on to production stage.
+      target: development
+
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 4000:4000
+
+    # When our container runs, we want to have it run in developer mode
+    command: npm run dev
