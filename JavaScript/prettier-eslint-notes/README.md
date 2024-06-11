@@ -19,7 +19,8 @@ Notes on how to go about using eslint and prettier
    you don't want formatted, such as a gitignore, node_modules, etc.
 6. Then turning on format on save and format on paste would get good to turn on in vscode.
 
--   How to set up prettier using webpack and command line ('prettier-webpack)
+- How to set up prettier using webpack and command line ('prettier-webpack)
+
 
 1. "npm init -y" to set up package.json
 2. "npm install --save-exact prettier" to install the exact version of prettier. This is so

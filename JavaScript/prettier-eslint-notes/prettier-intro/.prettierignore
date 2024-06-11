@@ -1,0 +1,7 @@
+
+# Avoid formatting node_modules
+node_modules
+
+
+# avoid formatting 
+*.md files
