@@ -1,0 +1,16 @@
+services:
+  react-app:
+    build:
+      context: .
+      dockerfile: dockerfile.prod
+
+      # If we pass our environment variables via env_file or environment, then they will just be made to the application
+      # Being ran in the container, which is the Nginx server, not our app. So to make our environment variables available at build time (when the source code files are being set)
+      # we pass those environment variables in as arguments.
+
+      args:
+        - VITE_APP_NAME=Production Awesome App
+    container_name: "react-app-prod-c"
+    ports:
+      # Nginx by default is on port 80, so do port mapping so we can access the react application on port 8080 of local host
+      - 8080:80

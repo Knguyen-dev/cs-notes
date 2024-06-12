@@ -1,0 +1,22 @@
+FROM node:20-alpine as build
+WORKDIR /app
+COPY package*.json .
+
+# Only install the production dependencies!
+RUN npm install --only=production
+COPY . .
+
+# Access the argument that we passed in our docker-compose.prod.yaml file
+ARG VITE_APP_NAME
+
+# Set the environment variable to the argument we got from docker compose
+ENV VITE_APP_NAME=$VITE_APP_NAME
+
+# When building the image we want to build our react files as well;
+RUN npm run build 
+
+# Stage two
+FROM nginx
+
+# Copy from the /app/dist to nginx's default folder it wants to use
+COPY --from=build /app/dist /usr/share/nginx/html
