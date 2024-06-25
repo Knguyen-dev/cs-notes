@@ -1,3 +1,48 @@
 **/__pycache__/
 **/.vs/
 **/node_modules/
+
+# Ignore all files and directories under .idea
+.idea/
+
+# Ignore project-specific IntelliJ files
+*.iml
+*.iws
+
+# Ignore Maven's target directory
+target/
+
+# Ignore Gradle build directory
+build/
+
+# Ignore logs
+*.log
+
+# Ignore compiled Java classes
+*.class
+
+# Ignore IntelliJ IDEA plugin-specific files
+out/
+
+# Ignore user-specific configurations and preferences
+*.swp
+*~
+.idea_modules/
+
+# Ignore IntelliJ-specific files
+*.ipr
+
+# Ignore Java binaries
+*.jar
+*.war
+*.ear
+
+# Ignore Mac OS metadata
+.DS_Store
+
+# Ignore Windows Thumbs.db files
+Thumbs.db
+
+# Ignore temporary files created by IDEs or text editors
+.vscode/
+*.tmp
