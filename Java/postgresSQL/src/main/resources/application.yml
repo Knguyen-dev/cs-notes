@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: postgresSQL
+
+  datasource:
+    url: postgresql://localhost:5432/postgres
+    username: postgres
+    password: changemeinprod!
+    driver-class-name: org.postgresql.Driver
+
+
+  sql:
+    init:
+      # Saying we always want to run these schema.sql and data.sql when app starts.
+      # So you may not want this in production, but for a development environment it may not be such a bad idea.
+      mode: always
+

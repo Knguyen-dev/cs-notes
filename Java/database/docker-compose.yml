@@ -1,0 +1,12 @@
+version: '3.1'
+
+# Additional file for launching a postgres database. In my case I'm not going to use this
+# since I already a postgres server running on my computer
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 07032004

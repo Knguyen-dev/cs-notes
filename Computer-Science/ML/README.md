@@ -21,6 +21,13 @@ Machine learning is this new shiny thing. I'd like to see if I'd enjoy it. Of co
 
 # Credits:
 
+##### Statistics
+1. [Descriptive statistics](https://youtube.com/playlist?list=PLU5aQXLWR3_yYS0ZYRA-5g5YSSYLNZ6Mc&si=WFTSEPe8U1r_LwoR)
+2. [Inferential statistics](https://youtube.com/playlist?list=PLU5aQXLWR3_za0hcdZH2b28MkIXSyHOE2&si=cDgc-Ib88We6no96)
+
+
+
+
 - https://medium.com/bitgrit-data-science-publication/a-roadmap-to-learn-ai-in-2024-cc30c6aa6e16#aed3
 - [British guy's roadmap](https://www.youtube.com/watch?v=KEB-w9DUdCw)
 
