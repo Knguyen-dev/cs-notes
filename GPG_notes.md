@@ -58,6 +58,10 @@
 - Just zip up the directory that stores the files. Literally go to appdata/gnup and 
   zip up that directory in somewhere else.
 
+- If you want to just export some keys onto a new computer here's how you do it.
+1. You need to export both the public and private key out of your older computer. Do this via the 'kleopatra' application. Your keys will be in `.asc` files. So you'll have an `.asc` for your public key and one for your private key. Both are needed to successfully sign commits on your new computer.
+2. Then just share those files to your new computer and download them onto your new computer. Import those keys via 'kleopatra'. Once you import both of them, your gpg key pair should be certified and trusted. And congratulations, you've successfully imported your key pair.
+
 # Signing and Verifying Commits with GPG key pair:
 1. gpg --full-generate-key; create your gpg key and follow said steps
 2. git config --global user.signingkey <key_id>; set the public key id.
