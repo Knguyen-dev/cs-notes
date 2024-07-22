@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- Specifies the version of the object model this pom is using; doesn't change very often, so don't worry-->
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Unique id of the group using/working on this project  -->
+    <groupId>com.knguyen.maven</groupId>
+
+    <!--  The name of the artifact that we'll generate with our project  -->
+    <artifactId>maven-tutorial</artifactId>
+
+    <!--  Version of our project I guess; group id, artifact id, and verison are all needed to create the 'address', which is the id maven uses
+        to reference any artifacts built by this project. -->
+    <version>1.0-SNAPSHOT</version>
+
+
+    <!-- Set up profiles for our different deployment environments  -->
+    <profiles>
+        <profile>
+            <id>production</id>
+            <build>
+                <directory>
+                    ./dist
+                </directory>
+            </build>
+        </profile>
+    </profiles>
+
+    <!-- Setup the different dependencies that our maven project uses  -->
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3;  -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+
+
+
+
+    <!--
+      - name: An informal name to refer to your project. When talking to another developer you may not refer to it as 'maven-tutorial'.
+              You can use this informal name.
+      - description: A description about your project
+      - url: You can provide a url for people who want to learn more about your project.
+      - licenses: You can include license information about your project.
+      - organization: You can specify the organization behind the project.
+      - developers: You can specify who has worked on the project, current and former.
+
+      Now when adding this information you may think, well "no one's really going to read this". Well you can create a
+      website for it: mvn site
+      -->
+    <name>Learning Maven Examples</name>
+    <description>Project used to introduce Java developers to Maven, and help them understand how to use it</description>
+    <url>http://learn-about-project.com</url>
+    <licenses>
+        <license>
+            <name>Apache License</name>
+            <comments>We're fine with sharing</comments>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>Infinite Skills Inc.</name>
+        <url>http://www.infiniteskills.com</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <name>Kevin Nguyen</name>
+            <email>kevin.nguyen@gmail.com</email>
+        </developer>
+    </developers>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+</project>
