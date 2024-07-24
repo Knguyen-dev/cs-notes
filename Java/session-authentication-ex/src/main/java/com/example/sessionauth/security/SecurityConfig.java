@@ -31,8 +31,12 @@ import static org.springframework.security.config.http.SessionCreationPolicy.IF_
  * SecurityConfig: The main place where all of our Security related components come and work together.
  *
  * + Annotations:
- * '@EnableWebSecurity': ?
- * '@EnableMethodSecurity': ?
+ * '@EnableWebSecurity': Enables Spring Security's web security support and provides Spring Security Configurations for the application. 
+ *  It applies security constraints to web requests, allows you to configure security settings if you want to move from the defaults. Commonly used in conjunction
+ *  with the SecurityConfig and when making the app's SecurityFilterChain. More concretely it allows us to customize authentication, authorization, CORS, CSRF,
+ *  and other things!
+ * '@EnableMethodSecurity': Enable method-level security annotations, such as '@PreAuthorize', '@Secured', '@RolesAllowed', and others. Basically it allows us to 
+ *  specify security constraints on methods in your service or controller classes.  
  *
  *
  */
