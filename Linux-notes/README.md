@@ -23,6 +23,9 @@ Now Linux is an open-source Unix-like operating system. Whilst 'Unix' was origin
 To communicate with the operating system (the kernel) users write 'scripts' or commands to automate tasks in a Unix or Linux environment. You input these commands via the shell, which is the CLI for these types of systems. However you can also put these commands into a file, and run those files to quickly launch commands in an easy way. The latter is a lot more powerful, and this is the idea of shell scripting  These scripts are commonly written in a shell  language called 'Bash' (Bourne Again Shell). 
 
 
+## How this will work
+First, study the basics of Linux. Get to know what Linux is, the basic Linux commands, and honestly get comfortable with using Linux. Then learn about Bash scripting once you've gotten down the Linux fundamentals.
+
 # Credits:
 1. [Basics of Unix and Linux](https://www.youtube.com/watch?v=lqYSCSgFefM)
 2. [Bash Scripting Tutorial](https://www.youtube.com/watch?v=2733cRPudvI&list=PLT98CRl2KxKGj-VKtApD8-zCqSaN2mD4w)
