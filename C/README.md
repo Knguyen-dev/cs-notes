@@ -23,7 +23,8 @@ In programming, there are two main ways that code can be executed: compiled and 
 ### Compiling a C file
 Use gcc command on the `.c` file you want to compile. This should generate a `1_HelloWorld.exe` file
 ```
-gcc 1_HelloWorld.c
+<!-- gcc <fileName.c> -o <desired_file_name_for_executable> -->
+gcc 1_HelloWorld.c -o 1_HelloWorld
 ```
 Run the `.exe` file in order to run that version of your code. If you make new changes to your code, you have to recompile the file to get an updated `.exe` file.
 ```
