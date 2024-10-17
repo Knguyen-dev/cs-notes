@@ -185,6 +185,97 @@ void ex7() {
   
 }
 
+/*
++ What is a Void Pointer?
+A void pointer is just a pointer that can point to any data type. So you can have hold the address of any data type. 
+However, you can't dereference a void pointer directly since the compiler doesn't know what type of data it points to.
+
+In order to reference it, cast/convert it to an appropriate pointer type before dereferencing.
+
++ Char Casting Review: 
+Character casting refers to when we convert char to unsigned char. In C, characters are represented using their corresponding 
+integer values according to the ASCII table. For example:
+
+int value = 65; // ASCII value for 'A'
+char ch = (char)value; // ch will now hold 'A'.
+*/
+void ex8() {
+  void* myPtr;
+  int x = 10;
+  myPtr = &x;
+
+  // Cast the void pointer to an integer pointer.
+  int* intPtr = (int*)myPtr;
+
+  // Now we can dereference it since it has a data type
+  printf("%d\n", *intPtr); 
+}
+
+/*
++ Representing a character array in C:
+ In C a character array can be represented in two ways: using an array declaration or a pointer declaration.
+ 
+ In both cases indexing is the same however they have different levels of mutability. So a pointer to a 
+ character array is mutable and you can safely modify its contents (e.g., myString[0] = 'h'), and it will
+ change the first character of the string to 'h'.
+
+ However a pointer to a string literal is a little more restrictive. Since it's typically stored in read-only
+ memory, modifying it can result in undefined behavior. The exception to this rule is when the pointer is 
+ dynamically allocated using malloc. In this case, it is allowed, but of course be careful when working 
+ with pointers.
+*/
+void ex9() {
+  // Character array; Creates an array of 6 characters (5 + '\0')
+  char str1[] = "Hello"; 
+
+  // Character Pointer Declaration; String literals are typically stored in a read-only section of memory
+  char* str2 = "Hello";
+
+  // 5 letters for 'Hello', with the sixth one for the '\0' since it's not automatically added.
+  // You'd manually have to 
+  char* str3 = (char*)malloc(6 * sizeof(char));
+
+  if (str3 == NULL) {
+    printf("Failed to allocate memory for str3 pointer");
+    return;
+  }
+
+  // Copy "Hello" into str3
+  str3[0] = 'H';
+  str3[1] = 'e';
+  str3[2] = 'l';
+  str3[3] = 'l';
+  str3[4] = 'o';
+  str3[5] = '\0';  // Explicitly add the null terminator
+
+  // str3 now contains "Hello" as a valid string; then free memory since we're done with it
+  free(str3);
+}
+
+
+// + Pointers with const 
+void ex10() {
+
+  // Pointer to non-const data (default): 
+  // - Address: Can be modified (you can change what ptr points to)
+  // - Data: Can be modified (you can change the value at the location ptr points to)
+  int* ptr;
+
+  // Pointer to const data (read-only data)
+  // Can modify the address, but not the data.
+  const int* ptr;
+
+  // Const pointer to non-const data (pointer is fixed)
+  // You can't change the address, but you can change the data
+  int* const ptr;
+
+  // Const pointer to Const Data (fully fixed)
+  // Can't change address or data.
+  const int* const ptr;
+
+}
+
+
 int main() {
   ex1();
   ex2();

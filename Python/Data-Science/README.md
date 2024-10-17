@@ -3,6 +3,15 @@ Machine learning is this new shiny thing. I'd like to see if I'd enjoy it. Of co
 
 
 
+## My Path
+1. [AP Statistics Khan Academy](https://www.khanacademy.org/math/ap-statistics)
+2. CoreySchafer Pandas. Also FreeCodeCamp Pandas. 
+3. Numpy, Matplotlib, and Seaborn
+
+
+
+
+
 ## Setup
 1. [Download and get anaconda working](https://opentechschool.github.io/python-data-intro/core/recap.html)
 

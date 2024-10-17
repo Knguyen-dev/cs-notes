@@ -14,7 +14,6 @@
   9. R: Set of all real numbers, which is everything on the number line. Denoted by $\mathbb{R}$.
   10. Power set: The power set of A is a set that has all subsets of A, denoted as P(A). An example is A = {1,2,3} and P(A) = {∅, {1}, {2}, {3}, {1,2}, {1,3}, {2,3}, {1,2,3}}. Also note the 'cardinality of a power set' theorem. A is a finite set with cardinality of n. So the cardinality of P(A) is 2^n.
 
-
 - Elements: Objects or things that are in a set. So a ∈ A means that 'a is a member of the set A' or the idea that 'a' is contained in the set.
 - Cardinality: Number of unique elements in a set. So the cardinality of set A = {1, 2, 3} is denoted by |A|, which is 3.
 - Set builder notation: A set defined by specifying that the set includes all 
@@ -41,12 +40,3 @@ Give an example of a member of A that is not a member of B.
 To prove something is true Usually you'd require to prove it for all answers. Whilst to prove something is false, usually we'd only need to provide one counter example
 
 
-## Existential Claim/Quantifier
-A statement to claims that something exists. It usually starts. Denoted by “∃”. An example, ∃x P(x) claims “there exists an x, such that P(x) which says P(x) is true for at least 1 x value in the domain. This turns it into an existentially quantified statement because the statement is true or false. 
-
-To prove it, provide one example, which is enough. To prove it false, you need to say that all possible answers will result in false and not meet the condition.
-
-## Universal claim/quantifier
-A claim about all things in some category. It’s denoted with symbol “∀”. For example, ∀x P(x) claims “P(x) is true for every x in the domain”; ∀x P(x) is now a universally quantified statement, or proposition since we can now try to prove it true or false. The statement is only due if every x value is true for the condition/predicate “P(x)”. 
-
-To prove it, prove that all values in the domain result it true. To disprove, you provide a single counter example.
