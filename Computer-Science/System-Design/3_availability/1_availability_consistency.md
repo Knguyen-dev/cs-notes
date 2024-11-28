@@ -3,6 +3,16 @@
 ## Intro and premise
 We want to scale out systems as we need our systems to be able to handle more work efficiently. We use this by adding more hardware to increase the load our system can take. However scaling has its downsides, and we need to balance those downsides. This is where the Cap Theorem comes into play.
 
+
+## Latency vs Throughput
+- **Latency:** The time it takes to do something, or get an answer. 
+- **Throughput:** The number of actions we can do or the number of answers we can get per some unit of time.
+
+### Example 1: Car Designer
+An assembly line is making cars. It takes 8 hours to make a car and the factory makes 120 cars a day.
+- **Latency:** 8 hours, because this is the amount of times it takes to yield a result, make a car.
+- **Throughput:** 120 cars per day, or 5 cars an hour. Amount of results in a clear unit of time.
+
 ### What is network partitioning
 The process of separating a computer network into independent areas or 'subnets' either done by design, or due to an uncontrolled network failure. 
 For example, a group chat where some members lose their internet connections. Now you have two separate groups of people who can talk among themselves, but can't message back and forth between the two groups until the internet is restored. This can happen due to hardware failures, network overload, physical damage to cables, or just maintenance and updates that need the network segments to be disconnected temporarily.
@@ -30,7 +40,7 @@ Since you can only achieve two out of three properties simultaneously, we can on
 ## Consistency Patterns
 We want data consistency in a distributed system. We want to not only get fresh data, but also the data must be the same across our cluster. That's what we mean by fresh and consistent, as everyone would get the same data regardless of which database it was outputted from.
 1. **Weak consistency:** After a write, reads may or may not see it. This works well in real time applications such as video chat, VoIP, and multiplayer games. So if you're on the phone and lose reception for a couple of seconds, you won't hear what was spoken during the connection loss. Or like a cache, you may get the data or you may not.
-2. **Eventual consistency:** After a write, reads will eventually see it (typcially within milliseconds). Data is replicated asynchronously. This is often in systems such as email, and it works well in highly available systems.
+2. **Eventual consistency:** After a write, reads will eventually see it (typically within milliseconds). Data is replicated asynchronously. This is often in systems such as email, and it works well in highly available systems.
 3. **Strong consistency:** After a write, reads will see it as data is replicated synchronously. Often seen in relational database management systems, and a common example would be ACID transactions. E.g. if a user's balance is updated, the next reads are guaranteed to see the new amount.
 
 Some context to help you:
@@ -52,7 +62,7 @@ account since you had multiple write databases acting on it.
 
 ### What options are there for transactions across data centers/in a distributed system?
 - **Option 1 (Bunkerize):** Focusing all resources on one data center. This is the most common approach as it's a very simple and trusted way of handling a distributed system. Obviously if a disaster strikes, then that's large scale data loss, downtime, etc. Also, you're sacrificing the ability to spread across the map, and serve data closer to users from different parts of the world.
-- **Option 2 (Primary with failovers):** You have multiple data centers, but the primary data center will handle writes, whilst the other data centers will handle reads. In case the master data center is taken down, a slave data center takes its place. Similar to how we do master-slave database replication. So its geo-located for reads, but not writes.
+- **Option 2 (Primary with failover):** You have multiple data centers, but the primary data center will handle writes, whilst the other data centers will handle reads. In case the master data center is taken down, a slave data center takes its place. Similar to how we do master-slave database replication. So its geo-located for reads, but not writes.
 - **Option 3 (Multi-homing):** Many different data centers serving read and writes (multi-master approach), and they have strong consistency indicated by their good transactions. This is extremely hard, and there still is overhead. Your data centers will communicate with each other, and you'll see drawbacks in general latency.
 
 ### Multi-homing implementations:
@@ -115,8 +125,25 @@ Paxos is a consensus algorithm used in distributed systems to agree on a single 
 
 ---
 
-
 ## Availability Patterns
+When we talk about availability patterns, we are asking, what types of mechanisms do we have in place in order to keep our system up and running. There are two main patterns that support high availability: fail-over and replication.
+
+---
+### Types of fail-over
+1. **Active-passive (Master-slave):**  Active-passive failover is the idea that heartbeats are sent between an active and a passive server that's on standby. If the passive server does not hear that heartbeat anymore, that means the active server has gone offline and so the passive server takes over the active server's IP address and maintains operations. The only thing here is that when your active server goes offline, there could be a noticeable duration where your services aren't working. This depends on whether your passive server is on 'hot' standby, meaning it's ready to go at any moment, or 'cold' standby, which means it'll take a couple of minutes to start up.
+2. **Active-active (master-master):** Both servers are handling traffic. If one stop, then all traffic is going to be handled by the other one. 
+- **Disadvantages:** It adds more hardware and setup complexity and you may lose data if the active system fails before any new 
+
+---
+### Database Replication
+You can obviously have database replication be a failover mechanism for your database layer. You can read more about this in the database section.
+
+
+### Quantifying availability
+Typically quantified by uptime or downtime as a percentage of time the service is availability. If a service was down for only 1 minute and 26.4 seconds a day, that means the service had an availability of about 99.9%. The service was active 99% of the time.
+
+
+
 
 
 
