@@ -1,7 +1,3 @@
-Here’s an improved version of your DNS notes, with added clarity, structure, and essential details:
-
----
-
 # **DNS (Domain Name System)**
 
 ## **What is DNS?**
