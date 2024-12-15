@@ -5,7 +5,9 @@ Machine learning is this new shiny thing. I'd like to see if I'd enjoy it. Of co
 
 ## My Path
 1. [AP Statistics Khan Academy](https://www.khanacademy.org/math/ap-statistics)
-2. CoreySchafer Pandas. Also FreeCodeCamp Pandas. 
+2. [Pandas - Corey Schafer](https://www.youtube.com/watch?v=ZyhVh-qRZPA&list=PL-osiE80TeTsWmV9i9c58mdDCSskIFdDS)
+3. [Numpy](https://www.kaggle.com/legendadnan/numpy-tutorial-for-beginners-data-science)
+4. 
 3. Numpy, Matplotlib, and Seaborn
 
 
