@@ -220,3 +220,7 @@ Partition a 4 KB memory block into 4 equal sections.
 | 2       | `0x0400`         | `0x07FF`       |  
 | 3       | `0x0800`         | `0x0BFF`       |  
 | 4       | `0x0C00`         | `0x0FFF`       |  
+
+
+### Precision
+The number of distinct values/alternatives. So 8-bits can cause $2^{8}=256$ alternatives or different numbers that we can represent.

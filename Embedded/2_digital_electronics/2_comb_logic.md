@@ -43,5 +43,9 @@ that implicit carry-in, which is always zero for the first operation. Then you h
 
 If you wanted a 2-bit adder (adds 2 bit numbers), then that's just 2 1 bit adders. A 4-bit adder is just 4 1 bit adders, and of course you can scale this up to a 64-bit microprocessor which will use a 64-bit adder 
 
+## Images 
+![](https://users.ece.utexas.edu/~valvano/Volume1/E-Book/C4_DigitalLogic_files/image003.gif)
+Here we're using 'complimentary metal oxide semiconductors' or P and N channel MOS transistors. A little different, but you'd get what's happening if I told you that it's representing the binary number `01100111`. Anytime we want 0, don't apply voltage. If you want a 1, apply voltage. For this specific setup, it seems that a high output is anywhere between 2.4 and 3.3 volts.
+
 ## Takeaway and future motivation
 Combinational logic and this metaphor about 'blocks' with binary names is actually the idea of accessing certain places in memory. So if we had a block `1257`, we would call it by its name to access that block. Now accessing it is part of 'combinational logic', then changing its value will come when we learn about 'sequential logic'.

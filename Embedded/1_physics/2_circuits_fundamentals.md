@@ -308,5 +308,9 @@ For P-channel, the current flows through a pathway made of **holes**. Electrons 
 - Applying a **positive voltage** to the gate we attract electrons from the p-region and fill up holes. This prevents current from flowing as free electrons can't just travel through those holes anymore.
 
 
+#### Mosfet Takeaway
+- N Channel: Conducts when gate voltage is high
+- P Channel: Conducts when gate voltage is low
+
 ## Beyond?
 Well there's still more of the basics that could be helpful. Like we totally skipped over AC circuits and whatnot. Like the book Practical Electronics for Inventors is pretty good. But yeah learn as you need, since the goal is to do projects.

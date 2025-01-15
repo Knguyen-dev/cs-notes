@@ -62,8 +62,6 @@ y = x * 2;
 
 **NOTE:** You do not store files or programs in ROM. That is an entirely different thing called storage, hard disk, solid-state, etc. 
 
-
-
 ## Review of what we know so far
 1. Digital Electronics: Switches controlled by voltage rather than controlled manually.
 2. Logic Gates: With switches, we created logic gates.

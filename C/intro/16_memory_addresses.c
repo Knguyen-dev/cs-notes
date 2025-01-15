@@ -127,9 +127,18 @@ int main() {
 
   /*
   + Signed and Unsigned integers:
-  So you may have seen
+  So you may have seen data types like 'uint8_t'. This is an unsigned 8-bit integer type
+  which is part of the C standard library. You're using this when you need a fixed-with integer that's
+  1 byte wide. What I mean is 'uint8_t' will use all 8 bits for the integer (0 255).
 
+  There's also int8_t, which is for an 8-bit signed integer [-128, 127], where it uses 1 bit for the sign whilst
+  the rest are used for the value. You can find them all in this link: https://www.gnu.org/software/libc/manual/html_node/Integers.html
 
+  For a 32-bit machine and a 64-bit machine, they can have different default sizes for standard types for int, long, and short. If you're
+  working with low-level code, it's a good idea to specify the size of something regardless of what platform it's being used on.
+  In a constrained environment this memory optimization is necessary.
 
+  In embedded, data often needs to be in a specific size or format, so fixed-width types help make that happen. Like a register on another machine
+  may expect exactly 16 bits of data, so using uint16_t would be a good idea.
   */
 }

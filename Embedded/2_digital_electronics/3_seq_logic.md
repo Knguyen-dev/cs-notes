@@ -89,6 +89,7 @@ You probably saw in the diagrams either 'E' or 'clock pulse'. These represent di
 ## Application of Sequential Logic
 
 ### 8-bit register/latch
+![](https://users.ece.utexas.edu/~valvano/Volume1/E-Book/C4_DigitalLogic_files/image014.gif)
 Made up of 8 1-bit D flip-flops. So it ranges from $D_{0},...,D_{7}$, and outputs $Q_{0},...,Q_{7}$. However they'll all have logically equivalent enable/control inputs. If we only had 4 d-flip-flops, then it'd just be called a 4-bit latch. 
 
 Let's say we had an 8-bit register. We'll call these our "Sequential Logic" (SL) block. Then we have a 16-bit combinational logic block, so that's a block with a 16-bit binary number associated with it. The hex is '1257' so it's better to remember that. The combinational block correlates with the control on the S.L. block, and then we're feeding `00010101` into the SL block. We're going to input `1257` into that C.L. block, which outputs a 1, and therefore makes the control on S.L. a 1. **NOTICE:** The control on the latch is now 1, that means it can process inputs and we can essentially save a binary value to it! While control `c=1` on the latch, input `00010101` (15) input the S.L. block. This saves those 8-bits into the latch as $Q_{0},...,Q_{7}$. Congratulations, we've updated the value at a memory address. In code, we've done this:
