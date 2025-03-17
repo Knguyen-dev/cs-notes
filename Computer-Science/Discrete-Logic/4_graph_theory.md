@@ -96,4 +96,23 @@ latter is missing the vertex '6' and the edges {0,6} and {6,3}.
 6. Thus, we can conclude that for any graph containing a cycle, there exist two vertices v and w, (in this case, v1 and v2) such that there are two different paths connecting them.
 
 #### Proof example 3 
-- Claim: For any graph G, if there are two vertices v and w with two different and non-intersecting paths from v to w, then there is a cycle in G.
+- Claim: For any graph G, if there are two vertices v and w with two different paths from v to w, then there is a cycle in G.
+1. Let there be two different paths P1 and P2:
+  - **P1:** v, v1, ..., vn, w
+  - **P2:** v, u1, ..., um, w
+- **Case 1: The paths are non-intersecting**
+In this case the only shared vertices are v and w. As a result, you can traverse 
+from v to w using P1, and then from w to v using P2. Thus, there is a cycle in G.
+- **Case 2: The paths are intersecting**
+  1. Since the paths are different, there exist some vertex besides v and w, that P1 and P2 
+  share. Let this be point p, and it can be the first point of divergence.
+  - We can reason that Path 1 passes through p and continues to w. As well
+  path 2 also passes through p, but continues on a different route to w.
+  2. Starting from p, we can follow the rest of Path 1 to w. Then go from w to p using 
+  path 2. This is a closed loop, and is a cycle in G
+In both cases, we have two different paths, which form a cycle in G, therefore proven.
+
+- Claim: For any connected graph G (with at least one edge) that has a Eulerian circuit, G has degree at least 2.
+1. Let e in the Eulerian circuit represented by $e=(x_1,x_2,...,x_n,x_1)$, where $x_14 is the starting and ending vertex.
+2. For a given vertex, $x_i$, we can reason that $\exists$ 2 edges $(x_i-1, x_i)$ and $(x_i, x_{i+1})$. So these vertex must be adjacent to $x_1$ for the Eulerian circuit to exist.
+3. $\therefore$ at minimum, $\exists$ a vertex $x_1$ with degree 2, so by definition the degree of the graph will have degree = 2, $\therefore$ claim is true.  
