@@ -244,6 +244,20 @@ In a real MOSFET:
    - When turning off the MOSFET, a resistor is also used to allow the gate charge to safely flow to ground, fully deactivating the MOSFET.  
 
 ---
+#### Explaining Electrical Ground 
+First it doesn't always mean that your circuit is physically connected to the ground/floor. It's a reference point, a point where we're defining 0 volts. 
+
+![](https://www.allaboutcircuits.com/uploads/thumbnails/Figure_1._Series_circuit_with_a_battery_and_three_resistors__.jpg)
+
+So in a circuit, if I asked "What is the voltage at $R_{1}$?", it's implied that I'm asking about the voltage, relative to the negative terminal, which is where $V=0$ is, where is our ground.
+
+If you wanted to be explicit, you could draw the ground symbol somewhere between the negative terminal and $R_{3}$, and that would mean the same thing.
+
+Now if I said a mountain is 10000 feet high, I can define the ground, as maybe the elevation of my local city park. So compared to my city park, the mountain is 10000 feet high. But if I made my ground a little higher, like 100 ft above, the mountain is 9900 feet high relative to the ground. Okay let's go back to the city park being the ground elevation.
+
+Now if I say that a point in the ocean is 1000 feet deep, it's 1000 feet lower than my ground level. Then the last thing we can say is that regardless of the ground elevation, the difference in elevation between the mountain and sea floor is 11000 feet.
+
+---
 #### **Pulse Width Modulation (PWM)**  
 PWM is a technique where the MOSFET is switched "on" and "off" very rapidly:  
 - The **"on" time vs. "off" time ratio** determines the average power delivered to the load (e.g., a lightbulb).

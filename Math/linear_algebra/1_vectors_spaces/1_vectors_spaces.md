@@ -39,6 +39,9 @@ The scalar product is just the multiplication of respective components, and summ
 
 $u*v=u_{1}+v_{1} + ... + u_{n} + v_{n}$ 
 
+Or: $ABcos(\theta)$
+- $\theta:$ The angle between the two vectors.
+
 It can also be represented as $u*v=|u||v|cos \theta$. Where $|u|, |v|$ the magnitudes of the vectors, and $\theta$ is the angle between the vectors. In physics we used it to find the component of force in the direction of displacement. That's correct, as we're just calculating how much one vector projects onto another.
 
 NOTE: This is also known as the inner product as it's equivalent to $u^{T}v$
@@ -52,7 +55,10 @@ Then do $\vec{u} \times \vec{v} = i*det(\begin{bmatrix}u_{2} & u_{3} \\ v_{2} & 
 
 This is equivalent to $\vec{u} \times \vec{v} = \begin{bmatrix}u_{2}v_{3} - u_{3}v_{2} \\ u_{3}v_{1} - u_{1}v_{3} \\ u_{1}v_{2} - u_{2}v_{1}\end{bmatrix}$
 
-There's also this formula: $u \times v = |a||b|sin(\theta)n$. 
+There's also this formula: $u \times v = |a||b|sin(\theta)n$
+
+- $\theta$: The angle between the two vectors
+- $n$: A unit vector that's orthogonal to u and v. 
 
 Here i, j, and k are the unit vectors along the x-,y-, and z-axes respectively. So $\vec{x} = \begin{bmatrix}3 \\ 1 \\ 2 \end{bmatrix}$, would indicate 3i, 1j, and 2k.
 
@@ -65,6 +71,8 @@ To convert any vector v to a unit vector (known as normalizing the vector), you'
 --- 
 ### Def. (Line)
 Let $\vec{u} \in \mathbb{R^n}$, and $\vec{u} \neq 0$. A line can be defined as $L_{\vec{u}} = {c\mathbb{u} | c \in \mathbb{R}}$. So a line can be seen as a set of vectors, and each vector can be treated as a point. The line $L_{\vec{u}}$ the set of all multiples of $\vec{u}$.
+
+Essentially, think of how the tip of a vector points at something. Now scale that vector for more and more c-values. Soon you'll see that our vectors are drawing a line with all those dots being intersected by the same vector. 
 
 ---
 ### Def. (Linear Combination)

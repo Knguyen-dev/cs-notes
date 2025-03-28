@@ -21,7 +21,7 @@ Any memory in-between would be unused memory. Any access to these memory locatio
 The information I listed was pretty specific. To see this information, use the data-sheet for your microcontroller. Here I'm using the data-sheet for the 'Tm4C123' microcontroller. Here's how: 
 1. Go to the data-sheet's table of contents.
 2. Looked at 'Microcontroller Overview' section. 
-3. We looked for 'flash memory' (ROM) which said '256 KB of single-cycle flash memory'. Then we looked at sysetm ram, which used SRAM, and it said '32 KB single cycle SRAM'. 
+3. We looked for 'flash memory' (ROM) which said '256 KB of single-cycle flash memory'. Then we looked at system ram, which used SRAM, and it said '32 KB single cycle SRAM'. 
 4. Go back to table of contents and look for 'Memory Model'
 5. It says at `0x00000000` and `0x0003FFFF` for 'On-chip flash' which are our boundaries for flash ROM.
 6. Then `0x2000 0000` to `0x2000 7FFF` for 'bit-banded on-chip SRAM' so that's for our RAM.

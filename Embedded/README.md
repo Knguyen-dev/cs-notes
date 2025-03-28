@@ -37,6 +37,8 @@ I think my goal is to try to slip in the most important information. I mean it's
 5. [Embedded Systems Engineer Roadmap](https://blog.umer-farooq.com/embedded-engineering-roadmap-say-no-to-arduino-a0eed8e1bf10)
 6. [Embedded Systems Project Roadmap](https://blog.umer-farooq.com/45-embedded-systems-projects-ideas-for-learning-106ce499a6c3)
 
+[A good short roadmap/direction on getting started with projects in electronics](https://www.quora.com/Can-I-learn-both-AI-and-embedded-system-or-should-I-focus-on-one)
+
 1. Electrical: CodeNMore:
 2. Digital Electronics: 
 https://embedded.fm/blog/ese101
@@ -44,7 +46,5 @@ https://www.youtube.com/watch?v=KfFBEBN5UHU&list=PL643xA3Ie_EuHoNV7AgvJXq-z1hrE8
 https://users.ece.utexas.edu/~valvano/Volume1/E-Book/
 
 
-Etalvis BOOK MARK: https://www.youtube.com/watch?v=mpFLfYpfIm0&list=PLlVl4RjlX2_SXN7LncJQ8IamTBl6nWYgp&index=1
+Etalvis BOOK MARK: https://www.youtube.com/watch?v=wPmKxiBCOC0&list=PLlVl4RjlX2_SSE9dCw_meiJ7m12hwMiIz&index=1
 
-
-[Lab kit instructions if you want to get it](http://edx-org-utaustinx.s3.amazonaws.com/UT601x/index.html)
