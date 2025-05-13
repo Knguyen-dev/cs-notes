@@ -21,6 +21,12 @@ Notes about programming
     but you want to push the branch and have it tracked?
     A: git push --set-upstream origin local_branch_name
 
+```bash
+# If your gpg fails, you can do this to restore the lost commit message.
+cat .git/COMMIT_EDITMSG
+```
+
+
 -   "fatal: A branch named 'gh-pages' already exists."; Getting this when deploying app?
     A: Manually delete the ".cache" directory located in path "node_modules/.cache/gh-pages".
     That is one good solution.
