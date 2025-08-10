@@ -1,0 +1,14 @@
+extends layout 
+
+block content 
+  h1 Genre: #{locals.genre.name}
+  div(style='margin-left:20px;margin-top:20px')
+  h4 Books 
+  if locals.genre_books.length 
+    dl 
+      each book in locals.genre_books 
+        dt 
+          a(href=book.url) #{book.title}
+        dd #{book.summary}
+  else 
+    p This genre has no books.

@@ -1,0 +1,20 @@
+extends layout
+
+block content
+
+  h1 #{locals.title}
+
+  //- If action is empty, it sends a post request to the route it's currently on.
+  //- This works in our case.
+  
+
+  form(method='POST')
+    div.form-group
+      label(for='name') Genre:
+      input#name.form-control(type='text', placeholder='Fantasy, Poetry etc.' name='name' required value=(undefined===locals.genre ? '' : locals.genre.name) )
+    button.btn.btn-primary(type='submit') Submit
+
+  if locals.errors
+    ul
+      for error in locals.errors
+        li!= error.msg
