@@ -28,6 +28,6 @@ Of course there are some important considerations. The pdf processing thread cou
 
 
 ## How does this translate to other languages and programming in general?
-Java has daemon threads that work almost identical how python has it, with JVM only exiting when daemon threads remain. C# has the idea of background and foreground threads, which is similar. Other languages have different appraoches to threading and concurrency of course.
+Java has daemon threads that work almost identical how python has it, with JVM only exiting when daemon threads remain. C# has the idea of background and foreground threads, which is similar. Other languages have different approaches to threading and concurrency of course.
 
 However there is still the common idea of "should this background task prevent the program from shutting down". I mean in process-based systems we have daemon vs regular processes. 

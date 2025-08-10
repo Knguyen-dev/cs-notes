@@ -13,7 +13,7 @@ VALUES ('Deuce'), ('Avenged Sevenfold'), ('Ankor');
 ```
 
 ## Reading/Querying with SELECT:
-Use 'SELECT' and 'FROM' keywords to indicate the columns you're getting, and the table you're targetting. Here I put a '*' to indicate we want all columns. In our second query we get all of the rows, but only get the 'name' column.
+Use 'SELECT' and 'FROM' keywords to indicate the columns you're getting, and the table you're targeting. Here I put a '*' to indicate we want all columns. In our second query we get all of the rows, but only get the 'name' column.
 ```
 SELECT * FROM bands;
 
