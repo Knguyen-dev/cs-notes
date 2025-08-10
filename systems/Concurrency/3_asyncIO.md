@@ -13,7 +13,7 @@ You're going to probably use these packages:
 A central hub that manages and executes tasks. Allowing multiple tasks to be executed, seemingly in parallel. A task goes into the event loop and it's executed immediately or hangs. If it hangs, then it still stays within the event loop, but another task will enter the loop to be worked on. Then once it stop hanging, then the event loop will work on it. Once all tasks are completed, the event loop will close.
 
 Everything runs in the main thread, no thread switching involved. Apparently here's how it works:
-1. Main code runs utnil it yields (returns or awaits something)
+1. Main code runs until it yields (returns or awaits something)
 2. Then the event loop takes control:
   1. Checks if any IO is ready 
   2. Runs the callbacks/coroutines on that data.
@@ -22,13 +22,13 @@ Everything runs in the main thread, no thread switching involved. Apparently her
 This is called cooperative multitasking, where tasks voluntarily give up control.
 
 ### Synchronous vs Asynchronous web servers
-- **WSGI:** It handles requests in a blocking manner, so one request per worker thread/process at a time. To handle multiple requests concurrently, the WSGI server spawns multiple worker threads, each capable of handling one request at a time. So if there were 15 requests made at the same time, it'd spawn 15 threads to handle the situation. Since each request blocks a wokrer, WSGI works best when handling CPU-bound tasks (e.g. database queries or calculations). However it struggles with long-lived connections (e.g. WebSockets, background tasks).
+- **WSGI:** It handles requests in a blocking manner, so one request per worker thread/process at a time. To handle multiple requests concurrently, the WSGI server spawns multiple worker threads, each capable of handling one request at a time. So if there were 15 requests made at the same time, it'd spawn 15 threads to handle the situation. Since each request blocks a worker, WSGI works best when handling CPU-bound tasks (e.g. database queries or calculations). However it struggles with long-lived connections (e.g. WebSockets, background tasks).
 - **ASGI:** It uses an event loop so that a single worker thread/process could handle multiple requests concurrently. If a request involves an async operation (e.g. database IO, external API call), where we'd be waiting, the server will work on another request whilst the former is still idle. This type supports WebSockets, background tasks, and the streaming of data.
 
 #### Relating to threads 
 For CPU-heavy workloads, having dedicated worker processes (not just threads) allows each core to focus on one computation-intensive task at a time, making WSGI a natural fit. You use that one worker to focus on the CPU intensive task, and I mean as a result it won't take as long. I mean it's better than the alternative of trying to context switch wen you have a cpu bound task because well you're probably not going to get that task done in a reasonable amount of time.
 
-Problem with WSGI: Since each worker blocks while waiting, it cannot handle another request during that time. This leads to inefficiency when dealing with many I/O-heavy operations. Because we're waiting ALOT, when we could be using our resources to work on something else whilst that waiting is happening.
+Problem with WSGI: Since each worker blocks while waiting, it cannot handle another request during that time. This leads to inefficiency when dealing with many I/O-heavy operations. Because we're waiting a lot, when we could be using our resources to work on something else whilst that waiting is happening.
 
 
 #### When do I use one over another?
