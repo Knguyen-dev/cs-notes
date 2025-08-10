@@ -1,0 +1,16 @@
+version: "3.8"
+
+networks:
+  cassandra:
+
+services:
+  cassandra:
+    image: cassandra:latest
+    container_name: cassandra
+    hostname: cassandra
+    networks:
+      - cassandra
+    ports:
+      - "9042:9042"
+    environment:
+      - CASSANDRA_START_RPC=true
