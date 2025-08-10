@@ -1,33 +1,66 @@
 # CS-Programming-Notes
 
-Notes about programming
+Acts as a vault of notes, which will be used as reference later. However I found that some topics, mainly topics that span an entire course, are sometimes better suited being in Google Doc format. I'll list these here [online notes](https://drive.google.com/drive/folders/1wpY9lmAtmPu010oqliV8nNVjPq-IEube?usp=sharing)
 
-# Useful git commands and tips
+## General Structure
+### Distributed Systems
+Anything related to distributed systems and large scale system design.
 
--   You created a new remote repo, but you have a local repo to
-    that you want to link it with. So that your local repo
-    can push and pull on the remote.
-    A: First 'git init' on your local to make sure it's a git repo.
-    Then do 'git remote add origin https:Your_Origin_Repo_Name.git.
-    Make sure to pull
+- System design principles
+- Scalability patterns (e.g., sharding, replication, load balancing)
+- Tools (Kafka, RabbitMQ, etc.)
+- CAP theorem, consensus algorithms, leader election
 
--   You have a repo branch that you want to pull down to local, and it isn't on your local yet?
-    A: 1. git fetch origin 2. git checkout -b local_branch_name origin/repo_branch_name
-    NOTE: Though, it's probably best to have your local branch the same name as the repo since
-    the local branch is tracking the repo branch. Make sure to pull down commits or solve any merge
-    conflicts, but now your local should be tracking the origin.
+---
+### Data Structures & Algorithms
+Anything related to DSA theory.
+- Complexity analysis
+- Specific algorithms (sorting, searching, graph, etc.)
+- Specific data structures (hashmap, queues, red-black trees)
 
--   You have a local branch that isn't being tracked on origin repo,
-    but you want to push the branch and have it tracked?
-    A: git push --set-upstream origin local_branch_name
+---
+### Security
+Anything related to security of application
+- Authentication & authorization (OAuth, OIDC, CILogon)
+- Encryption basics (symmetric, asymmetric)
+- Network security (TLS, HTTPS, SSH, etc.)
+- Common vulnerabilities (OWASP)
 
-```bash
-# If your gpg fails, you can do this to restore the lost commit message.
-cat .git/COMMIT_EDITMSG
-```
+---
 
+### Networking
+Basic computer networking concepts.
+- TCP/IP, HTTP, DNS, ICMP
+- SSH, SFTP, VPNs
+- WebSockets, gRPC
+- Protocol deep-dives
 
--   "fatal: A branch named 'gh-pages' already exists."; Getting this when deploying app?
-    A: Manually delete the ".cache" directory located in path "node_modules/.cache/gh-pages".
-    That is one good solution.
+---
+### Programming & Tooling
+Related to notes about a programming or scripting language, or taking notes of a framework or tool that I'm using so that I can reference it later. There would be **subfolders** for each:
+* **Languages**
+  * Python, JavaScript, Java, SQL/Postgres, MongoDB, C, etc.
+* **Frameworks & Libraries**
+  * Django, Spring, React, Express, etc.
+* **Tooling**
+  * Kafka, RabbitMQ, Docker, Git, Makefiles, build tools
+* **Web Development**
+  * HTML, CSS, HTTP basics, REST, GraphQL
+---
 
+### Systems & OS Concepts
+
+* Concurrency (threading, asyncio, WSGI vs ASGI, daemon threads)
+* Processes vs threads
+* Scheduling
+* Memory management
+* Filesystems
+
+---
+###  Miscellaneous / Deep Dives
+Catch-all for quirkly one, off writeups that don't really fit elsewhere.
+- Character encodings (Unicode, UTF-8)
+- CORS
+- Database migrations
+- Connection pools
+- What are web servers?
