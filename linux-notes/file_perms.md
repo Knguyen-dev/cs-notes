@@ -23,7 +23,7 @@ drwxrwxr-x 2 ubuntu ubuntu 4096 Oct 2 11:55 files
 -rw-rw-r-- 1 ubuntu ubuntu 21 Oct 2 11:56 main.py
 ```
 - `-`: This first dash indicates that this is a file. If it was a directory, this dash would be the letter d. The file we're looking at is `main.py`
-- `rw-`: The first set of 3 characters after that inital dash are our own permissions. So the owner of this file can read and write ,but they cannot execute any commands on the python file.
+- `rw-`: The first set of 3 characters after that initial dash are our own permissions. So the owner of this file can read and write ,but they cannot execute any commands on the python file.
 - `rw-`: The group assigned to this file can read and write, but they can't execute commands on the file. They have the same permissions as the user.
 - `r--`: All other users only have permission to read the contents of the file.
 
@@ -40,17 +40,17 @@ To change the user to Kevin and the group to KbizzzyyCorp you run these commands
 # Updates owner only
 chown kevin <filename>
 
-# Updates owner and gorup 
+# Updates owner and group 
 chown kevin:KbizzzyyCorp <filename>
 ```
 
 #### Using Chmod (Change mode)
-First let's understand the linuxing number system:
+First let's understand the linux numbering system:
 - r = 4
 - w = 2
 - x = 1
 
-So a read gets 4, write gets 2, and a execute gets one. Now looking at an exmaple:
+So a read gets 4, write gets 2, and a execute gets one. Now looking at an example:
 
 ```
 -rw-rw-r--
