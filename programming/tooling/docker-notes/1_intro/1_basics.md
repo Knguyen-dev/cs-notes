@@ -83,7 +83,7 @@ With docker-compose, it aims to reduce the number of commands you'll run in orde
 ---
 
 ### Examples:
-Here we're running our docker-compose file to run our services. We named our project "soiltool-dev". We did `--build`. With docker-compose, if you change a service's odckerfile or the contents of its build directory, you need to use `docker compose build` ot rebuild the service. We also ran it in detached mode
+Here we're running our docker-compose file to run our services. We named our project "soiltool-dev". We did `--build`. With docker-compose, if you change a service's dockerfile or the contents of its build directory, you need to use `docker compose build` ot rebuild the service. We also ran it in detached mode
 ```bash
 docker compose -f docker-compose.dev.yml -p soiltool-dev up --build -d
 ```
