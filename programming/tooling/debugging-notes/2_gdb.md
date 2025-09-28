@@ -44,6 +44,31 @@ info registers
 x/10x &my_array
 ```
 
+## Pitfalls 
+```
+Warning:
+Cannot insert breakpoint 1.
+Cannot access memory at address 0x140001876
+```
+This is a common issue when debugging Windows executables (`.exe` files) in a Linux environment (like WSL). The problem above happens because we're trying to use GDB (a Linux debugger) on a Windows PE executable. There are two ways to fix this:
+1. **Use Native Windows Debugging:** 
+```bash
+# Open windows terminal
+gcc -g -o float.exe float.c  # Compile with debug symbols
+gdb float.exe                # Use Windows GDB if available
+```
+2. **Compile for LInux in WSL:**
+```bash
+# Remove the Windows executable first. Here we're working with "float.exe"
+rm float.exe
+
+# Compile for Linux (no .exe extension)
+gcc -g -o float float.c
+
+# Now debug with GDB
+gdb ./float
+```
+
 ## Credits
 - [GDB is easy - Low Level](https://www.youtube.com/watch?v=Dq8l1_-QgAc)
 - [Debugging C code with GDB- Medium](https://medium.com/havingfun/debugging-c-code-with-gdb-90adb2f3da96)
