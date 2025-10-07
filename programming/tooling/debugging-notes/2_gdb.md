@@ -57,7 +57,7 @@ This is a common issue when debugging Windows executables (`.exe` files) in a Li
 gcc -g -o float.exe float.c  # Compile with debug symbols
 gdb float.exe                # Use Windows GDB if available
 ```
-2. **Compile for LInux in WSL:**
+2. **Compile for Linux in WSL:**
 ```bash
 # Remove the Windows executable first. Here we're working with "float.exe"
 rm float.exe
