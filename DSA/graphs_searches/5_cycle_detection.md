@@ -1,43 +1,146 @@
 # Cycle Detection
 
-### What do you mean?
-We're going to talk about how we can detect cycles in a graph. Of course there are other ways, but this is just one way of doing it.
+## Cycle Detection: Directed Graphs
+The idea is that if you visit/encounter a node that's already being processed (visiting state), then that means you have a cycle. You encountered the node, but you're already processing it, you'll never exit out of the node before having to encounter it and push it on the stack again.
 
-In this idea we're going to be focusing on the stack. The idea is that when we visit some node, we're not done visiting it (ongoing) until we've finished visiting its children. WE'll keep track of the nodes that are ongoing by keeping them in a list called **inPath**. So all the nodes in the inPath are nodes that we're still processing because we haven't visited their immediate children yet.
+We'll achieve this with DFS and we'll  split the nodes into three states:
+- **Unvisited:** Has not been discovered yet. We'll color this as white.
+- **Visiting:**  Currently in the recursion stack. Colored as gray.
+- **Visited/Finished:**  All descendants have been fully explored. Colored as black.
 
-We know that we have a cycle when the current node that we are visiting, is also found in the **inPath** list. The idea is that, "Hey we're supposed to be currently processing this node's children, but now we found this node again?". You'll expand the node again, and get its children. You'll never be able to finish processing its children because you'll expand the node again before it. And as a result, you'll never finish processing that node, and therefore we have a cycle.
-
-This technique relies on marking the nodes in a special way:
-- Marked
-- Neighbor
-- Empty
-
-### Example 1:
+### Recursive Variant Pseudocode
 ```
-    A
-   / \
-  B   C <--
-       \ /
-        D
-        |
-        E
+Function DetectCycle_Directed(G):
+  // 1. Initialize all vertices to unvisited
+  Set Status[v] = WHITE for all vertices v in G
+
+  // 2. Iterate through all vertices (handles disconnected components)
+  For each vertex u in G:
+    If Status[u] is WHITE:
+      If DFS_Visit(u) is TRUE:
+        Return TRUE (Cycle Found)
+  Return FALSE (No Cycle Found)
+
+// Recursive Helper Function
+Function DFS_Visit(u):
+  Status[u] = GRAY // Mark as visiting (On recursion stack)
+  For each neighbor v of u:
+
+    // FOUND CYCLE: We're visiting a node that's already in the process of being visited.
+    If Status[v] is GRAY:
+      Return TRUE
+    
+    // Else an unvisited node 
+    If Status[v] is WHITE:
+      If DFS_Visit(v) is TRUE: // Propagating up boolean when cycle exists.
+        Return TRUE
+   
+  Status[u] = BLACK // Mark as finished (leaving recursion stack)
+  Return False
 ```
-- Just assume we have edges going from A to B and C. Then assume that C goes to D, and D loops back to C. Also from D, you can get to E.
+A cycle is detected `Status[v] is GRAY`. This means the DFS has followed a path $p = v, ..., u$, where v is an ancestor of u (i.e. v is already on the callstack). And now we just discovered an edge from (u, v), forming an a cycle.
 
-1. Expand A:
-  - Stack: [A, B, C]
-  - inPath: [A]
-2. Expand C, mark it as marked as we can only pop it off after we're done visiting it. And to be done visiting it we must have visited its children.
-  - Stack: [A, B, C, D] 
-  - inPath: [A, C]
-3. Expand D:
-  - Stack: [A,B,C, D, C, E]
-  - inPath: [A, C, D]
-  - Cycle detection: We're processing node C again even though we are currently processing its children. As a result it's a cycle. In an ideal case, we'd have been after to finish visiting D, which would allow us to pop the marked node C off the stack.
 
+
+### Iterative Variant Pseudocode
+```
+Function DetectCycle_Iterative(G):
+  // 1. Initialization
+  Set Status[V] = WHITE for all vertices in G
+
+  // 2. Iterate through all vertices (to handle disconnected components)
+  For each vertex u in G:
+    If Status[u] is WHITE:
+      If DFS_Check_Iterative(u) is TRUE:
+        Return TRUE (Cycle Found)
+  Return FALSE (No Cycle Found)
+
+// Iterative Helper Function
+Function DFS_Check_Iterative(start_node):
+  Stack = new Stack()
+  Stack.push(start_node)
+  Status[start_node] = GRAY // Mark as visiting
+
+  While Stack is not empty:
+    u = Stack.peek()
+    is_exploring_neighbors = FALSE
+    For each neighbor v of u:
+      If Status[v] is GRAY:
+        // FOUND CYCLE: Back edge to a node currently in the stack.
+        Return TRUE
+      
+      If Status[v] is WHITE:
+        // Mark new node as visiting and 
+        Status[v] = GRAY
+        Stack.push(v)
+        is_exploring_neighbors = TRUE
+        break // go to the inner loop with this new node
+
+    // If no WHITE neighbors were found, we are finished with node u
+    If is_exploring_neighbors is FALSE:
+      Stack.pop()
+      Status[u] = BLACK // Mark node as finished (Black)
+  
+  Return FALSE
+```
+
+
+## Cycle Detection: Undirected Graph
+
+### Direct Parent Algorithm
+In an undirected graph, encountering an already visited node isn't enough to prove a cycle. That visited node could be a direct parent node that we just traversed from.
+```
+Function DetectCycle_Undirected(G):
+  Set Visited[v] = False for all vertices v in G
+  
+  // Iterate through all unvisited vertices (handles disconnected graphs)
+  For each vertex u in G: 
+    If Visited[u] is FALSE:
+      If DFS_Check(u, parent = NULL) is TRUE:
+        Return TRUE // Cycle Found
+  Return FALSE // No Cycle Found
+
+Function DFS_Check(u, parent):
+  Visited[u] = TRUE
+  For each neighbor v of u:
+
+    // Recursively explore unvisited 
+    If Visited[v] is FALSE:
+      If DFS_Check(v, u) is TRUE:
+        Return TRUE 
+
+    // Else the current node has already been visited. The only scenario where this is fine is if 
+    // the neighbor is simply the parent node we came from.
+
+    // Else if the neighbor isn't the parent node we came from, then we just found a new path
+    // to an already visited node.
+    Else if v is NOT equal to parent:
+      // FOUND CYCLE: Encountered an already visited node that isn't the immediate parent of u
+      Return TRUE
+  
+  Return FALSE
+```
+
+### Multiple Paths Algorithm
+**Input:** Graph $G=(V,E)$ and start vertex $s\in V$
+- Initialize empty stack $S$
+- Initialize arrays $visit[1:n]$ and $disc[1:n]$
+- Set $visit[i]=0, \forall i \in {1, 2, ..., n}$ and $disc[i] = 0, \forall i \in {1, 2, ..., n}$
+- $S.push(s)$
+- While $S$ is not empty:
+  - $v = S.pop()$
+  - If $visit[v] = 1$, then skip to the next iteration.
+  - Process v.
+  - For $w \in N_{G}(v)$:
+    - if $visit[w] = 0$:
+      - $S.push(w)$
+      - $disc[w] = disc[w]+1$
+
+
+## Theory
+The idea is that when we visit some node, we're not done visiting it (ongoing) until we've finished visiting its children. We'll keep track of the nodes that are ongoing by marking them as `visiting`. We know that we have a cycle when the neighbor we're exploring is already a node marked as `visiting`. The idea is that, "Hey we're supposed to be currently processing that node's children, but now we found this node again through some other path?". You'll expand the node again, and get its children. You'll never be able to finish processing its children because you'll expand the node again before it. And as a result, you'll never finish processing that node, and therefore we have a cycle. 
+
+Another approach would be realizing that there's a cycle in a graph when G contains two vertices u, v such that there exists 2 or more paths connecting them in the graph.
 
 ## TLDR and Credits
-TLDR: If you expand a node and then find the node again when you're not done processing its children, then we have a cycle. You can use this information to indicate "hey there's a cycle in this graph". Though if you're traversing on paper, then you can just say "Hey I'mma backtrack" so that you can actually traverse your entire graph.
-
-Here I'll link some code for some graphing and cycle detection stuff which is fairly accurate:
-- [Search algorithms, cycle detection, etc.](https://github.iu.edu/CSCI-C343-Spring2025/nguyekev-submission/tree/main/A12)
+TLDR: If you expand a node and then find the node again when you're not done processing its children, then we have a cycle. You can use this information to indicate "hey there's a cycle in this graph". 

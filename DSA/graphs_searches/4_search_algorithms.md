@@ -1,103 +1,141 @@
 # Search Algorithms
 
+## Depth First Search
+- **Input:** Graph `G` and starting vertex `s`
+- Initialize stack and a `visited` set (or array) to keep track of explored node .
+- Push `s` onto the stack.
+- Initialize `array[1:n]` called `parent_tree` (could be a map).
+- While stack is not empty:
+    - Pop `current_node` from the stack.
+    - Process current node (e.g. print it, check if it's the goal).
+    - For all neighbors of `current_node`:
+        - If neighbor is not visited:
+            - Label neighbor as visited.
+            - Push the neighbor onto the stack.
+            - Do `parent_tree[neighbor] = current_node`
 
-### Depth First Search (Stack)
-procedure:
-  1. let S be a stack
-  2. S.push(start)
-  3. while S is not empty:
-    - current = S.pop()
-    - if current is visited, skip it. Else label it as visited.
-    - For all neighbors, add neighbors to stack S.
+**Note:** This is a "visit-on-push" variant of the dfs. This ensures that each node is pushed onto the stack a maximum of one time. Generally the most efficient version of BFS. Regardless though, the runtime of this is $O(|V|+|E|)$.
 
-This is a iterative implementation of DFS. Notice that we skip nodes that have already been visited, which allows us to avoid having to process the same nodes again. With DFS, you go as deep as you can into the graph until you hit a dead end. You've already done something similar to DFS when you traversals. Now BFS is just the same thing as DFS, but we use a queue instead of a stack.
+Another variant is: Pop from stack, check if visited. If not visited, process the node and mark it as visited. Then process all non visited neighbors, for each neighbor we only enqueue it, so we don't mark neighbors as visited. We only mark something as visited when we pop from the stack. This is perfectly valid as well, and we can call it "visit-on-pop".
 
-NOTE: You should probably only add all non-visited neighbors onto the stack. As a result, you avoid wasting time by adding visited neighbors onto the stack. This is the same for Bfs as well
+## Breadth First Search
+Literally the same algorithm, but we use a queue instead. As a result, we're not going deepest into a layer, but rather doing it layer by layer. Below is the algorithm:
 
-### Breadth First Search (Queue)
-Literally the same algorithm, but we use a queue instead. As a result, we're not going deepest into a layer, but rather doing it layer by layer.
+- **Input:** Graph `G` and starting vertex `s`
+- Initialize an empty queue and a `visited` set (or array) to keep track of explored nodes.
+- Initialize an `array[1:n]` called `bfs_tree` that maps a given node to its parent node.
+- Enqueue vertex `s`
+- While the queue is not empty:
+    - Dequeue a node, call it the `current_node`
+    - Process `current_node` (e.g. check if it's the goal)
+    - For each `neighbor` of `current_node`:
+        - If `neighbor` has not been visited:
+            - Mark `neighbor` as visited.
+            - Set `bfs_tree[neighbor] = current_node`
+            - Enqueue `neighbor`
 
-procedure:
-  1. let Q be a queue
-  2. Q.push(start); push starting element to the end of the queue
-  3. while Q is not empty:
-    - current = Q.pop()
-    - if current is visited, skip it. Else label it as visited 
-    - For all unvisited neighbors, add them to the queue. 
+Note: This algorithm works on a undirected connected graph. If we want it to work on a directed/connected graph, it would need to be a little different. Notice that on a unweighted graph, a goal oriented bfs search will find the shortest path from A to B. The runtime of bfs is $O(|V|+|E|)$.
 
-#### Goal Oriented Searching
-With goal oriented searching, instead of traversing the entire tree, you're going to be traversing until you find the goal node. This is commonly implemented by stopping when the current node being expanded is the goal.
+## Dijkstra: Shortest Path Algorithm
+Given a weighted graph, find the cheapest path between two nodes. Dijkstra's algorithm solves this problem by finding the shortest path from the starting node to any other node. 
 
+- **Input:** A weighted graph $G=(V,E)$ and starting vertex $s$.
+- **Output:** The shortest distance $dist[v]$ from $s$ to every other vertex $v \in V$, and a $parent[v]$ array to reconstruct the path.
 
+### Dijkstra Algorithm Pseudocode
+Algorithm:
+- Initialize `dist[1:n]` array, set `dist[s]=0` and `dist[v]= infinity` for all other vertices.
+- Initialize $parent$ array/map to track the shortest path tree.
+- Initialize a min-heap (aka priority queue) `pq`, which stores (distance, vertex).
+- Insert the starting node into the priority queue as `(0, s)`.
+- While the priority queue isn't empty:
+    - **Extract minimum:** `current_dist, u = pq.extract_min()`
+    - **Stale Check:** If `current_dist > dist[u]`, skip to the next iteration.
+        - **Rationale:** This node `u` was pushed onto PQ earlier by some other neighbor, there was some other path to it. However, our current path through our current node `u` seems to yield a higher distance than the previous path. As a result, we don't care about the current path, so skip it. This acts like a visited list, preventing us from visiting the same nodes twice in Dijkstra's.
+    - **Relaxation:** For each neighbor `v` of `u` with edge weight `w`
+        - Calculate the new path distance to `v` from `u`, where `new_dist = dist[u] + w`
+        - If `new_dist < dist[v]` (the new path is shorter):
+            - Update distance: Set `dist[v] = new_dist`
+            - Update parent: Set `parent[v] = u`
+            - Insert into PQ: Insert the updated pair `(new_dist, v)` into `pq`
+- You can return `dist[1:n]`, which can be used to reconstruct the path or get the distances you want.
 
-### Dijkstra: Shortest Path Algorithm
-The motivation behind Dijkstra is that it finds from start to the goal node. It does this by finding the shortest path from the start node to any other node. The idea you're going to have a start node and the cost for that node is zero, whilst the cost to everything else is infinity since it's not known yet. The reason they do this is with the algorithm you want to add the minimum 
+### Theory Behind Dijkstra's Shortest Path Algorithm
+Set a start vertex with the of zero, whilst all other vertices start with a cost of infinity to indicate that they haven't been visited yet, so their costs are unknown. The reason they do this is with the algorithm, you want to pick the node from the queue with the cheapest cost. The cost of a node is the cost to get from the start vertex to the given vertex.
 
-You're going to keep the priority queue of nodes, with the value of a given node in the queue being the cost to get from the start to that given node. 
+The algorithm will expand the vertex with the cheapest cost from the start. As a result once you visit a vertex, we can reason that we've found the cheapest cost from the start to that vertex, eliminating the need to visit it again. Again, the **first time** extract a vertex from the priority queue, you've found the shortest path from the start vertex to that particular vertex. 
 
-The idea with dijkstra is that it will expand the node that has the cheapest cost from the start. As a result, with dijkstra, once you visit a node you will not visit it again. However there's this idea of "finding a cheaper path" in Dijkstra. This happens when you're expanding a node and comparing the costs of unvisited neighbors. You may find that the cost of going to a neighbor, through your current node, is cheaper the previous cost of getting to that neighbor (presumably through another path). As a result, you're going to update the the cost of that neighbor in the cost map.
+However there's this idea of "finding a cheaper path" in Dijkstra. This happens when you're expanding a node and comparing the costs of unvisited neighbors. You may find that the cost of going to a neighbor, through your current node, is cheaper the previous cost of getting to that neighbor (presumably through another path). As a result, you're going to update the the cost of that neighbor in the cost map. The algorithm is $O((V+E)log(V))$ runtime.
 
-Let's start the algorithm:
-- **parentMap:** A map in with the key being a node, and the value being the parent of that node. The parent is the node we had to expand to get the current node. Using this data structure we'd be able to iterate over it to reconstruct the path from start to end.
-- **costMap:** A map with key being the node, and the value being the shortest known cost from the start to a given node. 
-- **visitedList:** Keeps track of visited nodes in order for us to not visit them again
-- **toVisit:** A priority queue (min-heap) containing the nodes that we are planning to visit. The nodes are ordered by the cost it takes from the start to themselves. Initialize this with with the start node, a cost of 0.
-1. While toVisit is not empty:
-  - current = toVisit.getMin(); pop minimum node off stack.
-  - if current == goal:
-    a. Stop the algorithm
-  - Label the current node as visited
-  - For all unvisited neighbors:
-    a. neighbor_cost = cost of start to current + cost of current to neighbor
-    b. If neighbor isn't visited yet OR if neighbor_cost < costMap[neighbor] (if cheaper path):
-      1. parentMap[neighbor] = current 
-      2. costMap[neighbor] = neighbor_cost
-      3. Add the neighbor to the priority queue with its new cheaper cost. Since it's cheaper, it will be placed higher than previous versions of itself that are in the queue. As a result, its visited first, and more expensive versions are ignored.
+**Note:** It should be obvious but Dijkstra only shines when you're in a weighted graph. If you wanted to find the shortest path in an unweighted graph, goal-oriented BFS will work.
 
-- **Note on infinity:** Setting all other nodes to infinity isn't a random choice, but it's an indicator that something hasn't been added to the queue yet. Regardless of the current distance from start to neighbor n, if neighbor n has never even been added to the queue, then having its value be infinity will guarantee that it's added to the queue. And that's what we want with Dijkstra's.
-- **Note on visiting:** It's been mathematically proven, but you can reason that once a node has been visited by Dijkstra's algorithm, we have found the cheapest cost from start to that node n. Furthermore, you don't even need 
+### What is Uniform Cost Search (UCS)?
+In classical AI/Path-finding you'll probably hear of an algorithm called Uniform Cost Search, which is a variant of Dijkstra's that's simply goal oriented:
+- With Dijkstra, we calculate the shortest distance from a start to every other node. 
+- UCS is used when we want to find the shortest path from a start node to a specific goal node. As a result, it stops once it visits the goal node. When putting a node on the min-heap, Dijkstra calculates the distance as $f(n) = g(n)$, where g is the distance from the start to the current node n.
 
-### Beyond: More Path-finding Algorithms 
-There are actually a few other search algorithms:
+**TLDR:** UCS is simply a goal oriented dijkstra. To implement it, you'd just put a conditional check in your main loop to check if the current node is the goal node.
 
-#### Greedy Best First Search
-The general idea of greedy algorithms is that we have a graph that has some type of weight or cost to traverse a node. They're trying to minimize some distance or optimize some value. In common AI search problems, you'll have your edge weight (a known distance from a to b), but then each node also has a value called the "heuristic", which is typically an approximation of how far a node n is away from the goal. This idea of a heuristic gets a lot more important in classical AI, but for this specific algorithm, all you need to know is that it always picks the node with the cheapest heuristic value.
+## Greedy Best First Search (GBFS)
+The general idea of greedy algorithms is that they always choose the cheapest immediate path. The idea is that whilst this is good in the short term, it doesn't guarantee that we get the optimal solution in the long term. In common AI search and graph related problems, you'll have a weighted graph. However alongside your edge weights at each edge, each node is assigned a "heuristic". This heuristic is an approximation is typically an approximation of how far the that node is away from the goal. For our purposes, this algorithm just chooses the neighbor with the smallest heuristic value, ignoring the edge weights.
 
-#### **UCS:** 
-In classical AI/Path-finding you'll probably hear of an algorithm called Uniform Cost Search, which is a variant of Dijkstra's but with one major difference. With Dijkstra, the motivation is to calculate the shortest distance from a start to every other node. On the other hand UCS is rooted in AI/Search problems, and it's used when you want the shortest path from a start node to a specific goal node. TLDR, Dijkstra keeps going until it finds the shortest path from start to any other node n in the graph, whilst UCS will stop once it visits the goal node. When putting a node on the min-heap, Dijkstra calculates the distance as $f(n) = g(n)$, where g is the distance from the start to the current node n. 
+If you were to define a distance function that describes how this algorithm compares the distances between two nodes, it would be $f(n)=h(n)$, where $f(n)$ is the distance and $h(n)$ is the heuristic.
+ 
+**Note:** For future reference, when a search algorithm can use heuristic values, we call that an **informed search algorithm**. This is because it has extra information about the location of the goal.
 
-- **NOTE:** Actually the algorithm we showed for Dijkstra, is also UCS since it's trying to find a goal node.
+### Greedy Search Pseudocode
+- **Input:** Graph G, starting vertex s, goal vertex g,
+- Initialize a min-priority queue `pq` which stores `(heuristic, vertex)` pairs.
+- Initialize a `visited` set to track explored nodes, which is essential to prevent infinite loops in graphs with cycles.
+- Initialize `parent` map/array to reconstruct the path, which is standard by now in path finding.
+- Insert the starting node into the priority queue and mark it as visited.
+- While `pq` is not empty:
+    - Extract minimum: `current_h, u = pq.extract_min()`.
+    - Goal Check: if `u` is the goal node, end the search and return the path.
+    - For each neighbor `v` of `u`:
+        - If `v` hasn't been visited:
+            - Mark `v` as visited.
+            - Set `parent[v] = u`
+            - Calculate heuristic `neighbor_h = h(v)`
+            - Insert into PQ: `pq.insert((neighbor_h, v))`
 
-#### **A-star**
-A path-finding algorithm used to find the shortest path between two points. It's a combination of:
-- Dijkstra's: Finds shortest path from start to node n so far .
-- Greedy Best First Search: Takes advantage of a heuristic, typically the estimated cost from the goal. 
+**Note:** Notice how this only focuses on the heuristic, ignoring the actual cost traveled so far `g(n)`. Since it's purely heuristic, it's generally not optimal (doesn't guarantee shortest path), but it's much faster than BFS or Dijkstra's as it quickly guides the search towards the goal. UCS uses the total path cost `g(n)` whilst GBFS uses `h(n)`, which is the estimated remaining cost.
 
-UCS has a priority heap that orders nodes based on their actual distance from the start to node n. The equation can be represented as $f(n) = g(n)$, where g(n) is the distance from start to node n. However with A*, it uses the equation $f(n) = g(n) + h(n)$, where $h(n)$ is the heuristic value of node in. So instead of ordering them by their actual distances, it's ordering nodes by their estimated distance towards the goal node. The algorithm is pretty simple now as its a copy and paste of UCS:
-- parentMap: A map for path reconstruction.
-- g_score_cost_map: Contains actual costs from start to node n. Set the cost map of the start to 0, and all else to infinity.
-- f_score_cost_map: Contains approximated costs from start to goal, through node n. Initialize with start's heuristic value, all else infinity.
-- visitedList: List of all visited nodes
-- toVisit: Your priority queue that compares nodes based on their f_score values.
-- While toVisit is not empty:
-  - current = toVisit.getMin(); pop minimum node off stack.
-  - If the current node has already been visited: Skip it
-  - if current == goal:
-      a. Stop the algorithm
-  - Label the current node as visited
-  - For all neighbors:
-    a. neighbor_cost = costMap[current] + edge_cost(current, neighbor); 
+## A-star (A*)
+A* is an informed search, path-finding algorithm used to find the shortest path between two points when we not only have edge weights, but also heuristic values. It's a combination of:
+- **UCS:** Finds shortest path from start to vertex n so far.
+- **GBFS:** Takes advantage of a heuristic, typically the estimated cost from the goal. 
 
-    
-    b. If not visited or neighbor_cost < g_score_cost_map[neighbor] (if never added to frontier or cheaper actual path):
-      1. parentMap[neighbor] = current 
-      2. g_score_cost_map[neighbor] = neighbor_cost
-      3. f_score_cost_map[neighbor] = neighbor_cost + heuristic(neighbor)
-      3. Add the neighbor to the priority queue with its new cheaper cost. Since it's cheaper, it will be placed higher than previous versions of itself that are in the queue. As a result, its visited first, and more expensive versions are ignored.
+A* uses a cost function $f(n) = g(n) + h(n)$, where $g(n)$ is the cost of the path so far, and $h(n)$ is the estimated cost to the goal. A* is typically hailed as the king of path finding, being used in the real world constantly in robotics and navigation software. Again, you'll pull out A* when you also have a heuristic value allowing the algorithm to rely on the total distance so far to the neighbor `g(n)` and the estimated distance a given neighbor is to the goal `h(n)`. Without a heuristic value, A* is equivalent to UCS, with both relying on `g(n)`. 
 
-**Note:** In AI we have the idea of an admissible vs a consistent heuristic value:
-  - **Admissible:** The heuristic value from a node underestimates the actual cost to get form the node n to the end. This is required to guarantee that A* will work, and actually return the optimal shortest path. Without this, you're going to get a non-optimal answer, and that ruins the whole part of these shortest path algorithms.
-  - **Consistent:** For every node N and its successor (child) of N, called P, a heuristic is consistent when this condition holds: $h(N) \leq c(N,P) + h(p)$ and $h(G) = 0$. So if the heuristic of N is less than or equal to the cost to get from N to P PLUS the heuristic of P, then it's a consistent heuristic. As well as this, a consistent heuristic is also admissible. The reason this matters is that if your heuristic is consistent, then when expanding a node, it guarantees A* has found the optimal path from start to node n. In the event that your heuristic is not consistent, you may find a cheaper cost to a visited node n, and you'll need to update the cost AND add it to the frontier for re-expansion. Yeah that's about it, with a non-consistent heuristic, it's just less efficient. You can also reason that if your heuristic is consistent, this conditional `neighbor_cost < g_score_cost_map[neighbor]` will always be false. Think about it, if it's consistent, when you're expanding a node, you've found it's optimal path to that node, but you've also kind of found the shortest path to those neighbors as well. So on that first time you see the neighbors, you're going to record their cheapest costs ever.
+### A-star Pseudocode
+- **Input:** Graph `G`, starting vertex `s`, and goal vertex `t`, and heuristic function `h(n)`.
+- Initialize a min-priority queue `pq` to store `(f(n), n)`
+- Initialize a cost-so-far map/array `g`, where `g[s] = 0` and `g[v] = infinity` for all other vertices.
+- Calculate the starting node's f-cost `f[s] = g[s] + h[s]`
+- Initialize a `parent` map/array for path reconstruction
+- Insert the starting node into the priority queue `pq.insert((f[s], s))`
+- While the priority queue isn't empty:
+    - **Extract minimum:** Extract the node `u` with the smallest f-cost. Do `current_f, u = pq.extract_min()`.
+    - **Stale Check:** If `current_f > g[u]`, skip to the next iteration.
+        - **Rationale:** This is the same as the Dijkstra check. It means a shorter path to `u` has been already processed.
+    - **Goal Check:** If `u` is the goal node `t`, end the search, return a reconstructed path, etc.
+    - **Relaxation:** For each neighbor `v` of `u`:
+        - Calculate the new path cost to `v` through `u` as `new_g = g[u] + w(u,v)`.
+        - If `new_g < g[v]` (The new path is shorter):
+            - **Update Distance:** Set `g[v] = new_g`.
+            - **Update Parent:** Set `parent[v] = u`
+            - **Calculate f-cost:** `new_f = new_g + h(v)`
+            - **Insert into PQ:** `pq.insert((new_f, v))`
 
+### A-Star Heuristics and Theory
+In AI we have the idea of an admissible vs a consistent heuristic value:
 
-
+- **Admissible Heuristic:** An admissible heuristic is the minimum requirement for A* to be effective.
+  - **Formal Condition:** The estimated cost to the goal, $h(n)$, must never overestimate the true cost to the goal.
+  - **Formal Effect:** This condition guarantees that A* is optimal (it always returns the globally shortest path). If the heuristic overestimates, the algorithm can prematurely ignore the optimal path.
+  - **Practical Takeaway:** When using an admissible heuristic without consistency, you must allow a node to be re-inserted into the priority queue or have its cost updated. The check, if `new_g < g[v]`, is necessary because a longer path found earlier might need to be replaced by a shorter path discovered later. TLDR: Extracting the node on the first time doesn't guarantee that we found the shortest path to that particular node. We may find a shorter path through path relaxation.
+- **Consistent Heuristic:** A stronger and more efficient form of admissibility.
+  - **Formal Condition:** The heuristic adheres to the triangle inequality: $h(n) \leq w(n,p) + h(p)$ for all nodes, where $w(n,p)$ is the actual weight of the edge between n and neighbor p. A consistent heuristic is always admissible.
+  - **Formal Effect:** Consistency guarantees distance finalization: The first time a node is extracted from the priority queue, A* has found the shortest path from the start node to that extracted node.
+  - **Practical Takeaway:** Since consistency is so powerful, the A* algorithm behaves like Dijkstra's. So on the first time a node is extracted, the stale check will be false because that's the optimal entry. Then any subsequent entries for that node will be caught in that stale check. We'll never run into a scenario where we need to update a node's g-cost after it's already been extracted once.
