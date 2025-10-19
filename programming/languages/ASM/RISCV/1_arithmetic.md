@@ -134,7 +134,7 @@ lui t2, 0x100 # t2 = 0x100 << 12 = 0x100000 = 1048576,
 ```
 
 ```s
-lui t0, 0x100000 # t0 = 0x100000 << 12, bruh that's 21+12 = 33 bits, out of range
+lui t0, 0x100000 # t0 = 0x100000 << 12, that's 21+12 = 33 bits, out of range
 lui t1, -1       # negative value is out of range.
 ```
 
@@ -143,7 +143,7 @@ The load immediate operator can load a 32 bit number into a register:
 ```s
 li rd, imm32 # rd = imm32
 ```
-We can go more indepth on how this works.
+We can go more in-depth on how this works.
 
 We know `addi` (affects lower 12 bits) and `lui` (affects upper 20 bits), and working together they can be used to store 32 bit immediates into a register.
 

@@ -7,7 +7,7 @@ slli rd, rs1, imm # rd = rs1 << imm
 ```
 `sll` stands for shift left logical. When you left shift an integer `n` by `k` positions, you are multiplying it by $2^{k}$. As a result, $n << k = n\cdot 2^{k}$.
 
-### Example: Basic casees
+### Example: Basic cases
 ```s
 li t0, 42      # t0 = 0000 ... 0010 1010
 li t2, 2       # t2 = 0000 ... 0010

@@ -4,7 +4,7 @@
 RISC-V is a load-store architecture, the instructions "load" and "store" will access memory whilst other instructions work with CPU registers. A load reads a value from memory into a register whilst a store writes a value from a register into memory.
 
 ## Data Sizes 
-RV32 is a 32-bit architecture, so all arithmetic is performed on 32-bit words. For example we can "byte add" to add information represented by a single byte. However, load and store work support 8 and 16 bit data as programmers common work with 8 and 16-bit data, such as text. RISC-V uses consistent names and one-letter abbrevations for data sizes:
+RV32 is a 32-bit architecture, so all arithmetic is performed on 32-bit words. For example we can "byte add" to add information represented by a single byte. However, load and store work support 8 and 16 bit data as programmers common work with 8 and 16-bit data, such as text. RISC-V uses consistent names and one-letter abbreviations for data sizes:
 - b: byte 8 bits
 - h: halfword 16 bits
 - w: word 32 bits
@@ -19,9 +19,9 @@ lb   # rd = mem[rs1+imm][0:7]  ; load byte
 lbu  # rd = mem[rs1+imm][0:7]  ; load byte unsigned
 ```
 
-For exmaple, `lw rd, imm(rs1)`. Here `rs1` is the source which holds a memory address, and `imm` is a constant representing an address offset. The offset is a 12-bit signed immediate, allowing us to reach -2048 to +2047 bytes from the base address in `rs1`. For example, we want to load the word at address `0x140` into register t0:
+For example, `lw rd, imm(rs1)`. Here `rs1` is the source which holds a memory address, and `imm` is a constant representing an address offset. The offset is a 12-bit signed immediate, allowing us to reach -2048 to +2047 bytes from the base address in `rs1`. For example, we want to load the word at address `0x140` into register t0:
 ```s
-li t6, 0x140 # load the immage 0x140 (our address) into register t6
+li t6, 0x140 # load the image 0x140 (our address) into register t6
 lw t0, 0(t6) # load word from memory address in t6 with 0 byte offset, put data in t0
 ```
 We just read information from addresses `0x140-143`, again 1 byte at each of the 4 addresses to compose a word of data. To read the next word of data (`0x144-0x147`), we can the address by 4 (positive offset of 4 bytes):
@@ -107,7 +107,7 @@ greeting:
 ```
 We can also reference a "symbol". Above we have a string in our data section with the **.ascii** assembler directive. Imagine a function that called `print_string` and displayed that string. We need to pass the address of our greeting string from the data section, into the function I presume? 
 
-To find the addresss of our greeting string, we'll use `la` (load address) pseudoinstruction:
+To find the address of our greeting string, we'll use `la` (load address) pseudoinstruction:
 ```s
 # General syntax
 la rd, symbol
@@ -124,7 +124,7 @@ Imagine if the CPU wants to load a word:
 - Address: 0x1000
 - Bytes: [0x1000][0x1001][0x1002][0x1003]
 
-All 4 bytes belong to a single algined 4-byte chunk in-memory. This is called aligned access, when we access memory aligned addresses. This is just how things are naturally partitioned. Below we have an example of misaligned access:
+All 4 bytes belong to a single aligned 4-byte chunk in-memory. This is called aligned access, when we access memory aligned addresses. This is just how things are naturally partitioned. Below we have an example of misaligned access:
 - Address: 0x1001
 - Bytes: [0x1001][0x1002][0x1003][0x1004]
 
@@ -143,7 +143,7 @@ In RISC-V (and other assembly languages) you can force alignment with the assemb
   .data
 foo:
   .balign 4        # Align the next data to a 4-byte boundary
-  .wrod 0x12345678 # This word will start on an address divisible by 4.
+  .word 0x12345678 # This word will start on an address divisible by 4.
 ```
 In C/C++, the compiler usually align things automatically, but you can still influence it:
 ```c
@@ -159,7 +159,7 @@ printf("%zu\n", sizeof(struct Foo)); // Prints 8
 ```
 The struct will typically be 8 bytes instead of 5 because of padding. The compiler may add 3 byte sof padding so that `b` starts at an address divisible by 4. You can override this, but generally that's not recommended as it'll cause memory to be misaligned, which can lead to suboptimal performance or even crashes.
 
-TLDR: Always aling your data naturally in memory according to its size.
+TLDR: Always align your data naturally in memory according to its size.
 
 ## Addressing Modes 
 An addressing mode is how the CPU calculates a memory address of an operand in an instruction. For example:
@@ -167,7 +167,7 @@ An addressing mode is how the CPU calculates a memory address of an operand in a
 - In other instructions, the binary inside a register should be interpreted as a memory address, and it's the data inside that memory address we want. 
 
 Different CPUs may have different ways to address. RISC-V intentionally keeps things simple but here they are:
-- **Register:** Operands come fro mregisters only e.g. `add x1, x2, x3`.
+- **Register:** Operands come from registers only e.g. `add x1, x2, x3`.
 - **Immediate:** One operand is an immediate constant e.g. `addi x1, x2, 10`.
 - **Displacement:** We do base address + offset to calculate the new address.
 - **PC-Relative:** The `address = PC + offset` (used for branches/jumps). 
