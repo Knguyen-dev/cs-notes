@@ -26,19 +26,18 @@ layout next
 
 ## Workflow
 
-1. Compile Program Using Debug Info: `gcc -g my_program.c -o my_program`
-2. Do `gdb <path_to_executable>`
-3. Set Breakpoints: Use `break <line_number>` or `break <function_name>` to set breakpoints where the program will pause.
-4. Run the program with `run`; this runs your program until it hits a breakpoint. You can add command line args here.
-5. Step through code:
-  a. `next` (next): Execute the current line nad move to the next one. This steps over function calls. You can also do `next i` to move to the next ASM instruction.
-  b. `step` (step): Executes the current line and move to the next, stepping into function calls.
-  c. `print <variable_name>` to print the value of a variable.
-  d. `continue` to continue execution until the next breakpoint.
-  e. `ptype <variable_name>` to print the datatype of a variable name.
-  f. Do `finish` if you're in a finish and just want to finish it to see the return value and keep going forward.
+- Compile Program Using Debug Info: `gcc -g my_program.c -o my_program` Do `gdb <path_to_executable>`
+- Set Breakpoints: Use `break <line_number>` or `break <function_name>` to set breakpoints where the program will pause.
+- Run the program with `run`; this runs your program until it hits a breakpoint. You can add command-line args here.
+- Step through code:
+  - `next` (next): Execute the current line and move to the next one. This will step over function calls. You can also do `next i` to move to the next ASM instruction.
+  - `step` (step): Executes the current line and moves to the next, stepping into function calls.
+  - `print <variable_name>` to print the value of a variable.
+  - `continue` to continue execution until the next breakpoint.
+  - `ptype <variable_name>` to print the datatype of a variable name.
+  - Do `finish` if you're in a finish and want to finish it to see the return value, and keep going forward.
 
-You can view registers and other memory as well.
+You can view registers and other memory also.
 ```bash
 info registers
 x/10x &my_array
