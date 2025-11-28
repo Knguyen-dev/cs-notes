@@ -4,7 +4,7 @@
 ## Docker Socket Vulnerability
 Let's assume we have a `docker-compose.yaml` file with some services. This file also loads a `.env` file into the context of one of those services. The risk comes in when one of your services has your machine's docker daemon socket mounted (as a bind mount). An attacker could get access to the `.env` file through the docker socket.
 
-There are many ways an attacker can get access to the container running our application. An attacker can exploit a flaw in input validation to do RCE that causes the server to execute a command on your server e.g. `cat /etc/passwd`. If they can get your server to execute a command that start a reverse shell back to their machien, they'll have persistent terminal access inside our container. Here's how the attack workflow would happen:
+There are many ways an attacker can get access to the container running our application. An attacker can exploit a flaw in input validation to do RCE that causes the server to execute a command on your server e.g. `cat /etc/passwd`. If they can get your server to execute a command that start a reverse shell back to their machine, they'll have persistent terminal access inside our container. Here's how the attack workflow would happen:
 - **Initial Compromise:** Attacker exploits RCE vulnerability in our application (e.g. a web service) and gets shell access to a vulnerable container.
 - **Privilege Escalation:** The attacker realizes the container has the host machine's the docker socket mounted. They'll run the commands below:
 ```bash
@@ -35,7 +35,7 @@ When we run a standard Docker container, Docker drops risky Linux capabilities f
 When an attacker tries to run that command in an unprivileged container, they'll often get a permission denied error because the process lacks the necessary capabilities. However, if we set privileged mode things become a risk.
 
 ### Privileged Mode
-When a container is started with `odcker run --privileged ...`, Docker does two critical things:
+When a container is started with `docker run --privileged ...`, Docker does two critical things:
 - **Grants all capabilities:** It grants hte container all available Linux capabilities, including the powerful `CAP_SYS_ADMIN`. This allows the container to perform system administrative tasks, including using the mount command to remount filesystems.
 - **Allows Device Access:** It gives the container access to all host devices (like disks, network interfaces, etc.)
 
