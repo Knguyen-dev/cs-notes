@@ -17,12 +17,10 @@ gcc -g my_program.c -o my_program
 gdb ./my_program
 
 # Changes the GDB editor layout
-# One of the layouts allows you to see the C code
-# and the ASM code side by side. Obviously a single 
-# line of C can represent multiple lines of Assembly
-# so you'll see a difference there.
 layout next
 ```
+
+
 
 ## Workflow
 
@@ -67,6 +65,31 @@ gcc -g -o float float.c
 # Now debug with GDB
 gdb ./float
 ```
+
+## Explaining `.gdbinit`
+A configuration file that GDB automatically runs every time it starts. There are some benefits:
+- **Automation:** We can always tell gdb to set certain breakpoints or environment variables.
+- **Pretty Printing:** It can make complex C `structs` readable instead of just showing their hex addresses.
+
+```bash
+# Don't prompt for confirmation on quit
+set confirm off
+
+# Print arrays nad structs in a pretty/readable format
+set print pretty on
+
+# Show the local variables automatically when the program stops
+set print address on
+
+# custom command to start the server with specific args
+# 1. Indicate the path of the executable
+# 2. Indicate clargs after 'run'
+define start_server
+	file bin/server
+	run 8080
+echo \n--- .gdbinit loaded ---\n
+```
+
 
 ## Credits
 - [GDB is easy - Low Level](https://www.youtube.com/watch?v=Dq8l1_-QgAc)

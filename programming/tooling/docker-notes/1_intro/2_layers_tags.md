@@ -37,8 +37,9 @@ A **Dockerfile** is a script containing a series of instructions to automate the
 - Example: `CMD ["node", "server.js"]`
 
 ### 7. `ENTRYPOINT`
-- Similar to `CMD`, but used to define an executable. This is basically defining the default executable or command that will run when the container starts. It's essentially defining the main process of the container. This is different from CMD and they often work together. CMD sets default parameters that can be override nwith the docker CLI when a container is running. On the other hand, entrypoint defines default parameters that can't be overridden you run a docker container and use different CLI commands.
+- Similar to `CMD`, but used to define an executable. This is basically defining the default executable or command that will run when the container starts. It's essentially defining the main process of the container. This is different from CMD and they often work together. CMD sets default parameters that can be override nwith the docker CLI when a container is running. On the other hand, entrypoint defines defaultparameters that can't be overridden you run a docker container and use different CLI commands.
 - Example: `ENTRYPOINT ["python", "app.py"]`
+
 
 ### 8. `ENV`
 - Defines environment variables.
@@ -85,8 +86,7 @@ These are the core keywords used in Dockerfiles to define and configure containe
 
 
 ### Layer Caching
-In our image, every line in our docker file represents a layer. We got the parent layer, the layer for setting the working directory of the container, layer for source code/dependencies, etc. 
-When building the image, adding each of those layers take time. When we simply changed the parent layer, when we ran the command to create the image, it downloaded the new parent iamge, but it also redid the work for all of those unchanged layers as well.
+In our image, every line in our docker file represents a layer. We got the parent layer, the layer for setting the working directory of the container, layer for source code/dependencies, etc. When building the image, adding each of those layers take time. When we simply changed the parent layer, when we ran the command to create the image, it downloaded the new parent iamge, but it also redid the work for all of those unchanged layers as well.
 
 Now let's say we changed our code in app.js. If you eventually want those changes to be available in a created container, you'll create a new image that has the new changes in your code. When changing the parent layer it took around 8 seconds to build a new image. Now when we changed our code it only took 3 seconds? When docker builds our image, it stores a cache of the image at each stage for every layer. So when before it builds images, it looks for the highest cached layer it can use
 
@@ -109,15 +109,23 @@ On dockerhub, the tags for our node image indicate the node version nand linux d
 
 ### How to create a tag
 Create a tag by adding a colon ':' after the image name, and then after that colon you specify some version and linux distribution. As a result you can create multiple versions of your images, that have slight variations.
-```
-<!-- First let's delete all containers, images, and volumes. Don't worry about volumes, it's covered in a later section -->
+```bash
+
+# Delete all containers/images/volumes
 docker system prune -a
 
-<!-- Build an image with a version; so the tag named here is 'v1', which indicates its the 'v1' version. We put '.' at the end to point to the relative path to the docker file that we're using to build this docker image. -->
+# Build an image 
+# -t: Tag named 'v1' to indicate this is the v1 image.
+# .: The '.' is the relative path of the dockerfile used to build the image.
 docker build -t myapp:v1 .
 
-<!-- Creates and run docker container 'myapp_c' based on the image 'myapp' with tag/version 'v1'. The port mapping indicates that the process runs on port 4000 in the container, and we're linking that to port 4000 on the localhost.-->
+# Create and run container
+# 'myapp:v1': Based on image 'myapp' with tag 'v1'.
+# --name: Create container named 'myapp_c'.
+# -p: Indicates port mapping <host:container>. 
 docker run --name myapp_c -p 4000:4000 myapp:v1
+
+
 ```
 
 ---
