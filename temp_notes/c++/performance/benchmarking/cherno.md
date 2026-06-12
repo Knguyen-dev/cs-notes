@@ -1,7 +1,0 @@
-# Benchmarking in C++
-
-```cpp
-
-
-
-```
