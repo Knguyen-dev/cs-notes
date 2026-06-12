@@ -20,23 +20,15 @@ Assume you want to remote SSH into a server:
 
 ---
 ### Security
-Let's talk about Public Key Cryptography (PKC) and authentication. SSH uses PKC to encrypt data, and also for authentication. 
+Let's talk about Public Key Cryptography (PKC) and authentication. SSH uses PKC to encrypt data, and also for authentication. In an SSH connection, both sides will have their own public/private key pair, and they're going to authenticate each other by using these keys. 
 
-In an SSH connection, both sides will have their own public/private key pair, and they're going to authenticate each other by using these keys.
-
-This is probably different to how you're familiar with PKC, as with HTTPS, you'd use PKC to verify the identity of the web server. 
-
-PKC authenticates connected devices, meaning your client is going to verify the server's public key to see if you're connecting to the correct machine. And the server may also check your public key (if using SSH key-based auth) to confirm that your device is allowed to connect.
+This is probably different to how you're familiar with PKC, as with HTTPS, you'd use PKC to verify the identity of the web server. PKC authenticates connected devices, meaning your client is going to verify the server's public key to see if you're connecting to the correct machine. And the server may also check your public key (if using SSH key-based auth) to confirm that your device is allowed to connect.
  
-However, even though the computers trust each other, the server still needs to know who's trying to login. So you'll typically need to input a username and password. 
-
-On successful login, the user would be able to execute commands on the remote machine as if they were using their local machine.
+However, even though the computers trust each other, the server still needs to know who's trying to login. So you'll typically need to input a username and password. On successful login, the user would be able to execute commands on the remote machine as if they were using their local machine.
 
 ---
 ### SSH port forwarding (tunneling) explained
-For Bob to send a message to Dave, he first sends the message to Alice, and then Alice sends it to Dave.
-
-You're using in-between computers to send data. Imagine you want to remotely make changes to a server B, which is in a private network.
+For Bob to send a message to Dave, he first sends the message to Alice, and then Alice sends it to Dave. You're using in-between computers to send data. Imagine you want to remotely make changes to a server B, which is in a private network.
 
 However server B only receives network packets from other computer within the private network. You're not going to be able to directly remote SSH connect to server B. However, you notice that server A is in the private network, and you're able to remotely connect to A. So if you remote SSH to A, using A you can then do remote SSH again to connect to server B. Now you have access to server B since you did it through server A.
 
@@ -52,7 +44,6 @@ ssh-keygen -t ed25519 -C "your_email@example.com"
 ```
 2. **Add your public key to GitHub:** Log in to your GitHub account, go to ***Settings > SSH and GPG keys***, and click ***New SSH key***. Copy the entire contents of your `id_ed25519.pub` file and paste it into the key field. Give it a descriptive title, like "Personal Laptop".
 ```bash
-
 # Optional: Install xclip and install like this
 sudo apt install xclip
 xclip -selection clipboard < personal_asus_vivobook.pub
@@ -61,7 +52,6 @@ xclip -selection clipboard < personal_asus_vivobook.pub
 3. **Configure Git to use SSH:** Once the public key is on GitHub, you can now clone repositories via SSH instead of HTTPS.
 
 ```bash
-
 # Edit (or create) your SSH config file
 vim ~/.ssh/config
 
@@ -79,11 +69,20 @@ Host github.com
 ssh -T git@github.com
 ```
 
+### Aside: Adding Keys and Permissions
+In some environments (e.g., WSL2 or systems with auto-starting SSH agents), simply placing your SSH keys in `~/.ssh/` and referencing them in `~/.ssh/config` is enough for SSH to use them automatically.
+
+In other environments (e.g., Linux Mint or most Linux distributions), you must ensure correct file permissions:
+```bash
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/<private-key>
+chmod 644 ~/.ssh/<public-key>
+```
+If your private key does not use a default name (`id_rsa`, `id_ed25519`, etc.), you may also need to explicitly register it with the SSH agent using `ssh-add <keypath>` or reference it directly in your SSH config.
+
 ### Setting Up SSH Key with remote servers
 Imagine you have permission to SSH into a remote server. You want other people to access the same server remotely through SSH. Here's what you do:
-
 1. **Add their public ssh key:** On the server, each user has a `.ssh` directory in their home folder. The file `authorized_keys` will contain all public keys that are allowed to log in as that user. 
-
 ```bash
 # In the ~/.ssh/config:
 # Original Setup

@@ -5,7 +5,7 @@ typedef struct {
   char name[25];
   char password[12];
   int id;
-} User; // 
+} User; // Struct used to be anom, now it has datatype User 
 
 int main() {
   // typedef: A reserved keyword that gives an existing datatype a 'nickname'.

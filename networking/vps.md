@@ -1,0 +1,6 @@
+# Virtual Private Server (VPS)
+
+A VPS is an isolated, virtual environment that runs on a single physical server. it uses virtualization technology (a piece of software called the hypervisor) to split a powerful machined into multiple independent virtual servers. So whilst we don't actually have multiple separate computers, through a hypervisor, we allocate resources as if we did have multiple smaller computers.
+- **Isolation:** Even though we're sharing the physical server's hardware (CPU, RAM, disk space) with other users, hte hypervisor allocates a dedicated, guaranteed amount of resources to our specific VPS.
+- **Control:** Our VPS acts like a smaller self-contained dedicated server. We get root access (full administrative control), allowing us to install our own OS and custom software without being restricted by other users.
+- **Middle Ground:** VPS hosting sits between **Shared Hosting** (where all users share all resources without guarantees) and **Dedicated Hosting** (where we rent an entire physical machine). It just gives us dedicated resources in an affordable manner.
