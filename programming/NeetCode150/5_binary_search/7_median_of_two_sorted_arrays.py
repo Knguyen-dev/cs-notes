@@ -4,11 +4,7 @@ are going to be equal in size. Or the partition that we labeled 'A', will
 be the smaller one.
 
 """
-
-
-
 from typing import List
-
 class Solution:
     def findMedianSortedArrays_optimal(self, nums1: List[int], nums2: List[int]) -> float:
         A, B = nums1, nums2
