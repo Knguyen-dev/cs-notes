@@ -165,7 +165,6 @@ In `main.cpp` the consumer can write `#include "simple_cv.hpp"` and the compiler
 ### Interface: Header-only 
 In this case, `simple_cv.hpp` contains all templates, inline codes, and necessary definitions. There's no `simple_cv.cpp` as the api and implementation are all in the header files, hence a header-only setup.
 ```CMake
-
 # 1. Create a target that produces NO binary file (.lib/.so)
 # A "fictional" target since it doesn't produce anything.
 add_library(cvlib INTERFACE)
@@ -196,3 +195,59 @@ It results in smaller executable sizes, as multiple programs share the same libr
 add_library(one two.cpp three.hpp)
 ```
 CMake defaults to making `one` a `STATIC` library. However, if a developer sets `-DBUILD_SHARED_LIBS=ON` when configuring CMake, CMake automatically converts all untyped `add_library()` calls in the project to `SHARED` libraries.  Essentially, this setting can be messed with by consumers using our library, giving them the flexibility to choose how they want to build our code.
+
+# Finding Libraries
+When our project depends on external code pre-installed on the system (like OpenSSL, zlib, or PNG support), CMake needs a way t ofind where the binary library files and header files are. CMake offers two main levels for discovering extenral dependencies: `find_library` (low-level) and `find_package` (high-level)
+
+## `find_library` (Low-Level Discovery)
+`find_library` is a simple low level command that tells CMake to search the standard system directories (or custom paths) for a specific raw binary file by name. It'll return a single absolute path to that library binary on success. We'll typically use this when locating single simple binar yfiles (like C's math library `libm`) that has no extra dependency chain or header search requirements.
+```CMake
+# find_library(<VAR_NAME> <library_name>)
+
+# Search system paths for "libm.so" or "libm.a" 
+# and save the path in the MATH_LIB variable
+find_library(MATH_LIB m)
+
+if(MATH_LIB)
+    target_link_libraries(my_app PRIVATE ${MATH_LIB})
+else()
+    message(FATAL_ERROR "Math library (libm) not found!")
+endif()
+```
+
+## `find_package` (High-Level Discovery, Preferred)
+```CMake
+cmake_minimum_required(VERSION 3.20)
+project(ImageApp LANGUAGES CXX)
+add_executable(image_processor src/main.cpp)
+
+# Search for the system PNG library. 
+# REQUIRED means stop with an error if missing.
+# find_package(<PackageName> [version] [REQUIRED] [QUIET])
+find_package(PNG REQUIRED)
+
+# Link using the modern Imported Target provided by PNG
+```CMake
+# Automatically handles library AND header paths!
+target_link_libraries(image_processor PRIVATE PNG::PNG)
+```
+`find_package` is a high-level wrapper used in Modern CMake. Instead of searching for one library file, it searches for a bundle of configuration logic that handles everything the library needs (e.g.,headers, binaries, compiler flags, etc.). It works in two primary ways internally:
+1. **Module Mode:** CMake looks for a script named `Find<PackageName>.cmake` (either built into CMake or provided in our project's `cmake/` folder). 
+2. **Config Mode:** CMake looks for a `<PackageName>Config.cmake` file installed directly by the third party library itself.
+
+The call usually exports an "Imported Target" (e.g., `ZLIB::ZLIB` or `OpenSSL::Crypto`). 
+
+### Imported Targets?
+Once it finds the library files and header path, `find_package` creates an **Imported Target**. A normal CMake target created via `add_executable/library()` tells CMake "Here's source code, we want you to compile it into a file". An **Imported Target** tells CMake: "This library ALREADY exists on the user's disk as a completed binary. Don't compile it, rather treat it as a CMake target object that holds properties". When `find_package(OpenSSL REQUIRED)` runs, it creates an imported target called `OpenSSL::SSL`. The target object wraps up the following items:The
+- The location of the `.so/.lib` binary files.
+- The location of the header files.
+- Any required compiler flags or macro definitions.
+
+When we write `target_link_libraries(my_app PRIVATE OpenSSL::SSL)`, CMake automatically attaches those headers and flags to `my_app`.
+
+**Idea Behind Exporting an Imported Target**
+Exporting matters when we write a C++ library that we want others to use. Suppose we build a library called `MyCoolMathLib`:
+- **Without Exporting:** Anyone using the library has to manually find our headers, locate our library binary, figure out the compiler flags we used, and configure their CMake scripts by hand.
+- **With Exporting:** CMake generates a `<MyCoolMathLib>Config.cmake` file and exports our target specs into it, when we run `cmake --install`.
+
+When another developer installs our library and writes `find_package(MyCoolMathLib REQUIRED)` in their project, CMake reads that exported file and recreates `MyCoolMathLib::MyCoolMathLib` as an imported target on their machine.

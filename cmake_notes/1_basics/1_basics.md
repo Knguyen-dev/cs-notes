@@ -42,14 +42,11 @@ In Modern CMake, everything revolves around targets. Once a target is created, w
 add_library(another STATIC another.cpp another.h)
 target_link_libraries(another PUBLIC one)
 ```
-
-
 `target_link_libraries` links a target (`another`) to a dependency (`one`).
 - **If `one` is a CMake Target:** CMake automatically resolves its binary files and transitively attaches any `PUBLIC` or `INTERFACE` include paths, compile flags, or definitions to `another`.
 - **If `one` is NOT a CMake target:** CMake assumes `one` is a system library and passes it directly to the native linker (e.g., `-lone`).
 
 It's best practice to always use explicit visibility keywords (PRIVATE, PUBLIC, INTERFACE) on every larget. Legacy CMake allowed skipping keywords but modern CMake requires them to avoid broken dependency graphs.
-
 
 ## Example 1: Simple CMakeLists.txt
 ```CMake
@@ -79,4 +76,16 @@ Creates an executable binary target `calc`. Links `calclib` into `calc`. The `ca
 -  `calc` can include the `.hpp` files that `calclib` included when `calclib` was compiled.
 - `calc` searches for the corresponding implementations in `calclib`.
 
-This link is finally marked private because an executable sits at teh end of a build graph and has no downstream consumers.
+This link is finally marked private because an executable sits at the end of a build graph and has no downstream consumers.
+
+
+# CMake Modules
+Setting up build configurations often involves repetitive boilerplate code. CMake Modules are reusable scripts written in CMake's language (`.cmake`) that run at configure time. They automate some configurations os that we don't have to rewrite commmon build logic. Where does CMake search for modules?
+- First, in the directories specified by `CMAKE_MODULE_PATH`.
+- Second, Default built-in modules bundled with your system installation of CMake.
+
+There are two main types of CMake modules:
+- **Find Modules (`Find<PackageName>.cmake`):** Loaded via `find_package(PackageName)`. These modules contain logic to detect installed third-party libraries on the host system and create Imported Targtes (or legacy result variables like `FOO_INCLUDE_DIRS`) so you can link against them easily.
+- **Utility Modules (`<ModuleName>.cmake`):** Loaded via `include(ModuleName)`. These contain reusable CMake functions, macros, or system checks to streamline build configuration.
+
+Older Find Modules populate legacy global variables (like `FOO_INCLUDE_DIRS` and `FOO_LIBRARIES`). Modern Find Modules wraps these outputs into imported Targets (like `Foo::Foo`), letting us use `target_link_libraries()` directly.
