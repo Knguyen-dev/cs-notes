@@ -115,9 +115,7 @@ target_link_libraries(internal_math PRIVATE mathlib)
 add_executable(new_math main.cpp)
 target_link_libraries(new_math PUBLIC internal_math)
 ```
-internal_math needs `include/` to locate `"secret_helpers.hpp"` while compiling `internal_math.cpp`. Then later, `internal_math` needs `mathlib` at link time to resolve implementation symbols form `secret_helpers.cpp`. If another target were to link against `internal_math`, that consumer wouldn't inherit access to `include/` or `mathlib`.
-
-For example, say `new_math` links against `internal_math`, since `internal_math` contains symbols (implementations) that `new_math` needs.
+internal_math needs `include/` to locate `"secret_helpers.hpp"` while compiling `internal_math.cpp`. Then later, `internal_math` needs `mathlib` at link time to resolve implementation symbols from `secret_helpers.hpp`. If another target were to link against `internal_math`, that consumer wouldn't inherit access to `include/` or `mathlib`. For example, say `new_math` links against `internal_math`, since `internal_math` contains symbols (implementations) that `new_math` needs.
 - **Compilation:** When new_math compiles, it won't look at the same `"include/"` directory that `internal_math` looked into when it got compiled. Therefore if new_math.cpp tries to do `#include "secret_helpers.hpp"`, the compiler immediately fails because the header was not found. 
 - **Linking:** When `new_math` links to `internal_math`, it won't be able to resolve symbols using `mathlib`. It can only link against `internal_math`.
 
