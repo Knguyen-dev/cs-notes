@@ -71,3 +71,4 @@ ros2 run more_interfaces publish_address_book
 . install/setup.bash
 ros2 topic echo /address_book
 ```
+Note that the `--packages-up-to` ensures that we not only build the target package itself, but we also build all dependencies that it relies on.
