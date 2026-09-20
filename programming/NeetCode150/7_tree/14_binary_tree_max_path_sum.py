@@ -29,5 +29,3 @@ class Solution:
   def maxPathSum(self, root: Optional[TreeNode]) -> int:
     self.helper(root)
     return self.max_path_sum
-  
-  

@@ -1,28 +1,27 @@
 from typing import List
 import heapq
 
-class Solution:
+class Solution:    
     def lastStoneWeight(self, stones: List[int]) -> int:
         max_heap = []
         for s in stones:
             max_heap.append(-s)
         heapq.heapify(max_heap)
+
         while len(max_heap) > 1:
+            # Reason that a < b or a == b is an invariant
             a = heapq.heappop(max_heap)
             b = heapq.heappop(max_heap)
+            # If a is bigger than b, take the difference
+            # Otherwise, a == b so discard them.
+            if a < b: 
+                heapq.heappush(max_heap, a - b)
 
-            # Remember that both a and b are negative.
-            # Therefore a difference between them would 
-            # still result in a negative number.
-            if (a < b):
-                heapq.heappush(max_heap, a-b)
-            elif (a > b):
-                heapq.heappush(max_heap, b-a)
-
-        if len(max_heap) > 0:
-            return -heapq.heappop(max_heap)
+        if len(max_heap) == 1:
+            # Stone weight is still negative, so we'll
+            # have to negate it again to make it positive
+            return -max_heap[0]
         return 0
-
 
 
         

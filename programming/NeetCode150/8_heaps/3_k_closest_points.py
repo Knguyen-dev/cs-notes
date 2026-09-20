@@ -12,7 +12,7 @@ class Solution:
             dist = math.sqrt((p[0] ** 2) + (p[1] ** 2))
             minHeap.append((dist, i))
 
-        heapq.heapify(minHeap) # TODO: I think this is correct?
+        heapq.heapify(minHeap)
 
         res = []
         for i in range(k):
