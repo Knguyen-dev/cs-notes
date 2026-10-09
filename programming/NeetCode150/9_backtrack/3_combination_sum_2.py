@@ -28,7 +28,7 @@ class Solution:
                 i += 1
             dfs(i+1, cur, total)
 
-        dfs(0, candidates, 0)
+        dfs(0, [], 0)
         return res
 
 
