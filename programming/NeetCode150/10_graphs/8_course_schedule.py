@@ -4,8 +4,6 @@ class Solution:
     adjacency_list: dict[int, List[int]] = {}
     states: List[int] = [0 for x in range(numCourses)]
 
-
-
     # NOTE: If a node has no outgoing edges, it 
     # won't have an entry in this 'adjacency_list'
     for edge in prerequisites:
