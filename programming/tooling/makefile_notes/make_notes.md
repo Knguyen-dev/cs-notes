@@ -1,11 +1,11 @@
 # Makefile
 
-**Build Systems** organize the steps to build your code. Automate the linking and compilation of your source code in order to get those final executables. You shouldn't really be typing out the commands every time. In a team of many developers, everyone needs to be able to build the code in the same way. 
+Build Systems organize the steps to build your code. Automate the linking and compilation of your source code in order to get those final executables. You shouldn't really be typing out the commands every time. In a team of many developers, everyone needs to be able to build the code in the same way. 
 - **Organize/Automate:** Automate the compilation and linking of source files into executables
 - **Rebuild necessary files:** Recompile only the changed portion of the source code, and the portions dependent on the changed code.
 - **Make maintenance better:** The build sysetm should be a programming language that allows us to avoid redundant code.
 
-**Note:** You can run any shell script in your Makefile. Docker commands, git commands, etc. When running commands, the command you run will echo in the terminal alongside the result of that command. You can prepend `@` in front of you command to prevent echoing and reduce terminal clutter.
+You can run any shell script in your Makefile. Docker commands, git commands, etc. When running commands, the command you run will echo in the terminal alongside the result of that command. You can prepend `@` in front of you command to prevent echoing and reduce terminal clutter.
 
 ## Types of Variable Assignment
 
@@ -77,6 +77,47 @@ The pattern matcher is typically used to create factory for similar tasks. It's 
 3. Then `$@` becomes `assets/webp/hero.webp` and `$<` becomes `assets/images/hero.jpg`.
 
 You write one rule instead of writing a separate block for every single image in your project.
+
+## Include Directive (TODO)
+The `include` directive tells Make to pause reading the current Mkaefile, read and porcess one of more external files, and then resume execution of the current file. Analogous to `#include` in C++ or `import` in Python, it effectively merges external Makefile snippets directly into the build process at that exact position.
+
+### Example 1
+A common, professional use case for `include` is separating environment-specific configuration variables or handling auto-generated header dependencies in C/C++ projects. Imagine we have a project split into two files:
+- `config.mk`: Stores compiler flags and environment settings.
+- `Makefile`: Contains the core build rules.
+
+
+**Configuration File (`config.mk`)**
+```Makefile
+# Define compiler and compilation flags
+CC = gcc
+CFLAGS = -Wall -Wextra -O2
+```
+**Main Build File (`Makefile`)**
+```Makefile
+# Include external configuration settings
+include config.mk
+
+# Target Executable
+TARGET = my_program
+SRC = main.c utils.c
+OBJ = $(SRC:.c=.o)
+
+
+all: $(TARGET)
+
+# NOTE: Notice that we're using CC and CFLAG variables
+# which were defined in the config.mk Makefile that we included.
+$(TARGET): $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $^
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(TARGET) $(OBJ)
+```
+By splitting configurations (like `config.mk`) from rules (`Makefile`), we can easily adapt projects for different platforms or users wihtout touching the core build logic. 
 
 ## Credits
 - [Learn make in 60 seconds - Jacob Sorber](https://www.youtube.com/watch?v=a8mPKBxQ9No)
