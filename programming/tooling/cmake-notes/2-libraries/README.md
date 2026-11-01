@@ -1,80 +1,109 @@
-# 2. Libraries
+# Libraries in C/C++ & CMake
 
-## Reviewing CMake Workflow, Creating Custom CLI Programs.
-Again the workflow is:
-1. Create `build` directory
-2. Do `cmake -S . -B build` to create your build files in that folder. This doesn't compile your code, but creates the files needed to compile your code. Do this every time you change the `CMakeLists.txt`
+How do we build a C/C++ library from scratch? While we often consume third-party libraries, creating one requires distinct patterns and practices. 
+1. Libraries don't have a `main()` entry point. 
+2. They often group their code inside namespaces to prevent global namespace pollution. This avoids name collisions with other libraries or user code.
 
-```bash
-# This CMake line makes it so that when you run "make install", we copy
-# the executable to the "bin" directory 
-install(TARGETS ${PROJECT_NAME} DESTINATION bin)
-```
-- `Target ${PROJECT_NAME}`: The target you want ot install. Usually this ia an executable or library that you created with `add_executable()` or `add_library()`.
-- `DESTINATION bin`: The folder where it will be installed, relative to the installation prefix. By default it prefixes all installs to `/usr/local` on Linux. This just allows you to copy libraries or executables to your own personal collection.
-- The command we'd use is `cmake --install build`, but if you get permission issues then use `sudo cmake --install build` or `sudo make install`. Now what's the motivation of installing that fun little program into our `usr/local/bin` path? We'll now we can do `my_first_cmake` in our command line, and it runs that CPP program, as if it's a regular linux command.
 
-## Handling Libraries
-In C++ how do we make a library? We'll make a library before doing the build system. Libraries don't have a main entrypoint, so you wouldn't have a `main.cpp` in your library. At some point in C++, you'll call a function and you'll get an error saying that there are multiple versions of it, or multiple functions with the same name. This happens when you have functions or variables with the same name, so our compiler doesn't know which function or variable we're talking about it. A conventional solution would be putting those functions in their own namespace. As a result, when people want to call your functions specifically, they'll use the namespace plus the name of your function.
-1. Create `adder.h` header file that exposes the headers of the library functions that you want others to use. Also declares the namespace.
-2. Create the corresponding `adder.c` file that contains the implementations of those functions.
-3. Create `CMakeLists.txt` with `touch CMakeLists.txt`.
-Usually you do `add_executable`, but're building out a library here. We do `add_library()`. We only kind of need to compile our `adder.cpp` file. Remember that header files aren't really something that others will directly compile, but rather something others will include. The `.h` file provides function definitions during pre-processing, but that `.cpp` file will show what the implementations of those functions are when we get to the linking phase.
+## Example 1: Making and Using a Library
+```CMake
+cmake_minimum_required(VERSION 3.10)
+project(nearlymath CXX)
 
-```bash
-mkdir build 
-cmake -S . -B build
-
-# Traditional way:
-# cd build
-# make
-
-# Shortcut modern way
-cmake --build build
-
-# Output:
-# [100%] Linking CXX static library libnearlymath.a
-```
-Since this is a `.a` file, this is a static library, as opposed to a dynamic library. 
-
-Then we created a separate `main.cpp` that uses this library.
-1. Create `main.cpp` that includes the path to the `adder.h`. But now we need to link the actual library file containing the implementation of the functions in that header file.
-2. Create `CMakeLists.txt` to link your project with the library? Let me explain the CMake file:
-```bash
-
-cmake_minimum_required(VERSION 2.8)
-project(mytest)
-add_executable(mytest ./cpp/main.cpp)
+# Compiles adder.cpp into a library named "nearlymath"
+add_library(nearlymath adder.cpp)
 
 # Tells CMake, which directory to use when looking for the library
-# (.a, .so, etc). The CMAKE_SOURCE_DIR contains the absolute path of
-# the top-level source directory where our top CMakeLists.txt
-# lives.
-# NOTE: target_link_directories came in CMake 3.13, so we need 
-# to update our CMake version
+# (.a, .so, etc). 
 # target_link_directories(<target> [BEFORE] <INTERFACE|PUBLIC|PRIVATE> [items...])
-target_link_directories(mytest PRIVATE ${CMAKE_SOURCE_DIR}/../SomeLibDemo/build/)
+target_include_directories(nearlymath PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-# Tell CMake about the name of the library file. This handles 
-# nearlymath.so and all the different combinations.
-target_link_libraries(mytest nearlymath)
+# Mark adder.hpp as a public header file for installation
+set_target_properties(nearlymath PROPERTIES PUBLIC_HEADER adder.hpp)
 ```
-With the `target_link_directories()` function you need to choose a visibility keyword. This affects how CMake searches for the library folders:
-- `PRIVATE`: Only this target (project) uses this library directory.
-- `PUBLIC`: This target and anything that links against it uses this directory.
-- `INTERFACE`: Only consumers (targets that link to our target/project) will use the directory.
+Create a directory `/nearlymath` to house our library source files. Then create a `adder.hpp` for our public API, and `adder.cpp`. Instead of `add_executable()`, use `add_library()` to tell CMake to create a static/shared library file. CMake outputs `libnearlymath.a`, where the `lib` prefix means it's a library file. The `.a` indicates that it's a static library file. 
+- **Handling Header Files? (`target_include_directories`)**: When compiling a C++ file that contains `#include "adder.hpp"`, the compiler needs to know where the header files are located. Otherwise the compiler searches the immediate folder of the `.cpp` file being compiled, or system paths. If our code grows and headers are stored in different folders (e.g., `include/`, `src/`), the compilation will fail. Typically you can do this with `-I <path-to-headers>`, but what's the equivalent in CMake? The solution is **`target_include_directories`**, which attaches a list of folder paths to a specific "target" (`nearlymath` library), so the compiler knows where to look for the header files.
+  - **`nearlymath`:** The build target being configured.
+  - **`PUBLIC`:** Controls the visibility/inheritance (how the directory path propagates to other projects that use our library). It indicates the current target AND anything that links to it (other apps linking to `nearlymath`), will use this directory in order to find `nearlymath`'s header files.
+  - **`${CMAKE_CURRENT_SOURCE_DIR}`:** A built-in CMake variable that points to the folder where this `CMakeLists.txt` file lives. In this case, we tell CMake that the header files are in the same folder as the directory containing `CMakeLists.txt`. In many other cases though, you'll probably see "include/", indicating that the header files are in their own directory rather than simply living in the same folder as `CMakeLists.txt`.
+- **Handling Library Files (Bad) (`target_link_directories`):** When including a header file, we need to tell the linker where it can find the corresponding library files that implement the API that the headers expose. Typically you can do this with `-L <path-to-libs>`, but what's the CMake equivalent? A rarely used solution is `target_link_directories`, which specifies extra directories that the linker can look for your library files in. However specifying raw library search paths can cause unpredictable link behavior e.g., when multiple libraries with the same name exist on the system. 
+- **Handling Library Files (Good) (`target_link_libraries`):** Lets us link via search paths or directly to specific files/managed build artifacts (targets), the latter has no risks for collisions. 
 
-Now run everything:
+### Visibility Keywords
+In CMake, visibility keywords (`PRIVATE`, `PUBLIC`, `INTERFACE`) control how properties (like include paths or compile flags) propagate through the dependency graph. When a directory or library is marked with a visbility keyword, there are two reasons why:
+- **Internal Use:** The target's own source files need the header to compile. E.g., I created a header file for my project to separate code, and need to use the API exposed in that header file.
+- **Transitive/Interface Use:** Any target that links against this library also needs that header directory automatically added to its own compiler search path to compile successfully.
+
+**Private Scope**
+```cpp
+// internal_math.cpp (inside target 'nearlymath)
+// PRIVATE: only needed to compile internal_math.cpp
+#include "secret_helpers.hpp" 
+```
+Only this target (project) uses this library directory. Suppose we have internal implementation details that shouldn't appear in any header files exposed to outside users of our project (e.g., internal helper functions, private `.hpp` files, or third party dependencies that only our `.cpp` files use). The effect is that consumers of our project won't inherit these directories. Target B links A with PRIVATE. Then Targt C links B. C receives nothing from A.
+
+**Public Scope**
+```cpp
+// nearlymath.hpp (Public header exposed to users)
+// PUBLIC: Users of nearlymath.hpp need Eigen's include path
+#include <Eigen/Dense> 
+```
+For dependencies that are needed to compile the project itself and needed by anyone that uses our project. This is typically necessary when a dependency or header appears in one of your project's public header files (the ones that your users will include). In that case, if a consumer includes your public header, and that header includes a secondary header, the consumer needs access to that secondary header too. Therefore we'll need to tell their compiler where those header files and corresponding library files are located. In terms of CMake behavior, target B links A with `PUBLIC`. Target C links B, and C automatically inherits A's include paths.
+
+**Interface Scope**
+For headers and libraries not needed to compile the project itself, but required by people who want to use the project. Target B links A with `INTERFACE`. B's source code doeesn't gt the include path, but C does. 
+
+## Consuming the Library in Another Project
+There are two primary ways a consumer can use your compiled library: Local Linking and System Installation. 
+
+### Method A: Direct Linking (`target_link_directories`)
+```CMake
+cmake_minimum_required(VERSION 3.10)
+project(MathApp CXX)
+add_executable(MathApp main.cpp)
+
+# 1. Tell CMake where to find nearlymath's header files.
+# 2. Tell CMake where to find nearlymath's corresponding library files.
+# 3. Link the nearlymath library to one of our target (executable).
+target_include_directories(MathApp PRIVATE /path/to/nearlymath)
+target_link_directories(MathApp PRIVATE /path/to/nearlymath/build)
+target_link_libraries(MathApp PRIVATE nearlymath)
+```
+If we've build libnearlymath.a` in a specific build folder, an external app (like `MathApp`) can link to the library directly without having the user install the library globally. 
+
+### Method B: Installing to System Paths (`cmake --install`)
 ```bash
-mkdir build && cmake -S . -B build
-cmake --build build
-./build/mytest
+cmake_minimum_required(VERSION 3.10)
+project(nearlymath CXX)
+
+add_library(nearlymath adder.cpp)
+set_target_properties(nearlymath PROPERTIES PUBLIC_HEADER adder.hpp)
+
+# Specify installation paths:
+# - Library binary (.a/.so) -> /usr/local/lib
+# - Headers (.hpp)          -> /usr/local/include
+install(TARGETS nearlymath
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    PUBLIC_HEADER DESTINATION include
+)
 ```
 
-### Code Sample and Compilation
+The `set_target_properties` specifies file paths to the target's PUBLIC_HEADER` property. Essentially we're registering `adder.hpp` as the official public interface for the `nearlymath` library target.
 
-```CPP
-// Path to the SomeLibDemo adder.h
+When we call `install`, instead of manually typing out every header path insdie the `install()` command, CMake will track which headers belong to the public interface. When we pass `PUBLIC_HEADER DESTINATION include`, CMake automatically grabs all files listed with that property and copies them into the target installation directory (e.g., `/usr/local/include`).
+
+
+
+
+Linux places our files a couple of standard locations:
+- **`/usr/local/include/`:** Holds public header files (`adder.hpp`). The compiler automatically searches this directory when we use `#include <adder.hpp>`.
+- **`/usr/local/lib`:** Holds compiled library binaries (`libnearlymath.a` or `libnearlymath.so`). The linker automatically searches here when linking with `-lnearlymath`.
+
+`Target ${PROJECT_NAME}` refers to the target you want to install user-globally. Typically, it's the executable or library that you created with `add_executable()` or `add_library()`. The `DESTINATION bin` refers to the folder where it will be installed, relative to the installation prefix. By default, it prefixes all installs to `/usr/local` on Linux. Then do `cmake --install build` (likely with `sudo`) in the command line. Now the program is installed into our `usr/local/bin`, and we can now type `my_first_cmake` into the command line and it runs that CPP program as if it's a regular linux command.
+
+## Example 2: Bare Bones
+```cpp
 #include "../../SomeLibDemo/cpp/adder.h"
 #include <iostream>
 int main() {
@@ -82,9 +111,7 @@ int main() {
   return 0;
 }
 ```
-The header is already included, let's compile this source file and link it to the library files. You've already done this with `cmake` and the `CMakeLists.txt`, which gives us a straightforward build and compilation workflow.
-
-How about doing this all via command line?
+The header is already included, let's compile this source file and link it to the library files. You've already done this with `cmake` and the `CMakeLists.txt`, which gives us a straightforward build and compilation workflow. How about doing this all via command line?
 ```bash
 # Library directory is at ../SomeLibDemo/build/libnearlymath.a
 g++ -o main ./cpp/main.cpp ../SomeLibDemo/build/libnearlymath.a
@@ -96,85 +123,5 @@ g++ -o main ./cpp/main.cpp ../SomeLibDemo/build/libnearlymath.a
 g++ -o main ./cpp/main.cpp -L../SomeLibDemo/build -lnearlymath
 ```
 
-## Importing Libraries
-
-### Building From Source vs Installing Pre-Builts
+**NOTE: Building From Source vs Installing Pre-Builts**
 On Linux you're building from source. Meaning you're doing exactly what we have here, we pull down the source code of the library, we include the library header files, and link the compiled library files that implement the code in those header files. However, on Windows you'll see prebuilt executables/installers and the header files. This is because a lot of libraries are closed source so they don't want you to see the implementation, but open source libraries allow you to see the implementations of their header files.
-
-### Setting up Library Installation
-In our `SomeLibDemo`'s `CMakeLists.txt` we'll add 2 new lines:
-```bash
-set_target_properties(nearlymath PROPERTIES PUBLIC HEADER "adder.h")
-install(TARGETS nearlymath LIBRARY DESTINATION lib PUBLIC_HEADER DESTINATION include)
-```
-This relates to how CMake associates header files with their corresponding library so that a command like `make install` or `cmake --install` knows where to put things. Here we're saying "This library's public headers (the ones users of the library should include) are: `adder.h`. Then later when we call `install()`, CMake knows to:
-- Copy the built library file into `/usr/local/lib`
-- Copy the public headers (`adder.h`) into `/usr/local/include`
-
-After our install, our system looks like:
-```bash
-/usr/local/lib/nearlymath.so
-/usr/local/include/adder.h
-```
-The convention for Unix-style libraries is that we put compiled objects in `lib/` and header files in `include/`. As a result another project can do:
-```cpp
-#include <adder.h>
-```
-and link against `-l nearlymath` without needing weird relative paths.
-
-Let's test this out with :
-```bash
-
-# Creates build files, e.g. updates your Makefile and any other script related stuff
-cmake -S . -B build # Create build files
-
-# Recompiles your code; used when your code changed
-# If you see: [100%] Built target nearlymath, that means that it checked
-# the dependencies and determined that nothing needed recompiling. This 
-# is because source code and headers haven't changed since the last build.
-cmake --build build 
-
-# Assuming that you have compiled library files and header files, 
-# we're going to install those files into our local directory. 
-# NOTE: Need to use sudo here to bypass permission issues.
-sudo cmake --install build 
-```
-
-### Motivation For Library Installation
-When you build a library like `nearlymath`, compiling it produces a `.a` or `.so` file in your build directory. But other projects, or your users, may not know where your build directory is. It could be under a different name, in some complex nested structure, etc. Here are some solutions:
-- Copy the library manually to some folder, and for every project we'd probably have a couple different custom paths to that library's header and compiled files. This is kind of messy and makes things harder to maintain.
-- Install it into the standard system directories so that the compiler and linker can find it automatically.
-
-**File Convention in Unix-like Systems**
-- `/usr/include`: System provided headers.
-- `/usr/lib`: System provided libraries.
-- `/usr/local/include`: Locally installed headers, so these are the headers for the libraries that you've installed.
-- `/usr/local/lib`: Locally installed library files, the compiled files for the libraries you've installed.
-
-Now when using the library, we can do this instead:
-
-```CPP
-// No need to include exact path relative to the source 
-// file anymore because we installed the adder library.
-// #include "../../SomeLibDemo/cpp/adder.h"
-
-#include "adder.h"
-#include <iostream>
-int main() {
-  std::cout << "2+3=" << nearlymath::add(2,3) << std::endl;
-  return 0;
-}
-```
-You can now remove the line `target_link_directories(mytest PRIVATE ${CMAKE_SOURCE_DIR}/../SomeLibDemo/build/)` in your `CMakeLists.txt`. Then rebuild build files and recompile, and your executable should run.
-
-Lesser used but you can now finally compile
-```bash
-g++ -o main ./cpp/main.cpp -L /usr/local/lib -lnearlymath
-```
-
-### Explaining Public and Private Headers?
-There are two types of headers:
-- **Public Headers:** This exposes the API that your users are supposed to use. 
-- **Private Headers:** Private apis that your system usually internally. These are internal implementation details that aren't installed. 
-
-The `PUBLIC_HEADER` property tells CMake exactly which ones to ship to consumers of the library. 
