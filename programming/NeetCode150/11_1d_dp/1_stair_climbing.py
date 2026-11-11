@@ -1,5 +1,5 @@
 class Solution:
-    def climbStairs(self, n: int) -> int:
+    def climbStairs_topdown(self, n: int) -> int:
         if n <= 0:
             return 0
 
@@ -20,3 +20,15 @@ class Solution:
 
         num_ways: int = recursion_helper(n)
         return num_ways
+
+    def climbStairs_bottomUp(self, n: int) -> int:
+        dp = []
+
+        # initializes dp[0] = dp[1] = 1
+        dp.append(1)
+        dp.append(1)
+
+        # From i=[2, n]
+        for i in range(2, n+1):
+            dp.append(dp[i-1] + dp[i-2])
+        return dp[n]
