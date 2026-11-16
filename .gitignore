@@ -46,3 +46,8 @@ Thumbs.db
 # Ignore temporary files created by IDEs or text editors
 .vscode/
 *.tmp
+
+# ROS2 ignores
+build/
+install/
+log/
